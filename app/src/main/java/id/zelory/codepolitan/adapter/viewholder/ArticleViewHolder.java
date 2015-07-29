@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import id.zelory.benih.adapters.BenihRecyclerAdapter.OnItemClickListener;
 import id.zelory.benih.adapters.BenihRecyclerAdapter.OnLongItemClickListener;
-import id.zelory.benih.adapters.BenihViewHolder;
+import id.zelory.benih.adapters.viewholder.BenihViewHolder;
 import id.zelory.benih.views.BenihImageView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.model.Article;
@@ -13,7 +13,7 @@ import id.zelory.codepolitan.model.Article;
 /**
  * Created by zetbaitsu on 7/28/15.
  */
-public class ArticleViewHolder extends BenihViewHolder
+public class ArticleViewHolder extends BenihViewHolder<Article>
 {
     private final TextView title;
     private final TextView date;
@@ -27,7 +27,8 @@ public class ArticleViewHolder extends BenihViewHolder
         thumbnail = (BenihImageView) itemView.findViewById(R.id.thumbnail);
     }
 
-    public void load(Article article)
+    @Override
+    public void bind(Article article)
     {
         title.setText(article.getTitle());
         date.setText(article.getDate());

@@ -21,15 +21,14 @@ public class ArticleAdapter extends BenihRecyclerAdapter<Article, ArticleViewHol
     }
 
     @Override
-    public ArticleViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    protected int getItemView(int i)
     {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_article, viewGroup, false);
-        return new ArticleViewHolder(view, itemClickListener, longItemClickListener);
+        return R.layout.item_article;
     }
 
     @Override
-    public void onBindViewHolder(ArticleViewHolder holder, int i)
+    public ArticleViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
-        holder.load(data.get(i));
+        return new ArticleViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
     }
 }

@@ -9,13 +9,13 @@ import java.util.ArrayList;
 
 import id.zelory.benih.fragments.BenihFragment;
 import id.zelory.benih.utils.BenihScheduler;
+import id.zelory.benih.views.BenihRecyclerListener;
 import id.zelory.benih.views.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.ReadActivity;
 import id.zelory.codepolitan.adapter.ArticleAdapter;
 import id.zelory.codepolitan.model.Article;
 import id.zelory.codepolitan.network.CodePolitanService;
-import id.zelory.codepolitan.view.BenihRecyclerListener;
 import rx.Subscription;
 
 /**

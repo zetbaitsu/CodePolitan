@@ -39,5 +39,5 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'id.zelory.benih:benih:0.0.8'
+    compile 'id.zelory.benih:benih:0.0.9'
 }
