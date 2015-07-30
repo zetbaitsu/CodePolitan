@@ -6,26 +6,26 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import id.zelory.benih.fragments.BenihFragment;
-import id.zelory.benih.utils.BenihScheduler;
-import id.zelory.benih.views.BenihRecyclerListener;
-import id.zelory.benih.views.BenihRecyclerView;
+import id.zelory.benih.controller.Controller;
+import id.zelory.benih.fragment.BenihFragment;
+import id.zelory.benih.view.BenihRecyclerListener;
+import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.ReadActivity;
 import id.zelory.codepolitan.adapter.ArticleAdapter;
+import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.model.Article;
-import id.zelory.codepolitan.network.CodePolitanService;
-import rx.Subscription;
 
 /**
  * Created by zetbaitsu on 7/28/15.
  */
-public class MainFragment extends BenihFragment
+public class MainFragment extends BenihFragment implements ArticleController.Presenter
 {
+    private ArticleController articleController;
     private ArticleAdapter articleAdapter;
     private BenihRecyclerView recyclerView;
-    private Subscription subscription;
 
     @Override
     protected int getFragmentView()
@@ -36,11 +36,23 @@ public class MainFragment extends BenihFragment
     @Override
     protected void onViewReady(Bundle bundle, View view)
     {
+        if (articleController == null)
+        {
+            log("controller is null");
+            articleController = new ArticleController(this);
+        }
+
         recyclerView = (BenihRecyclerView) view.findViewById(R.id.recycler_view);
 
         setUpAdapter();
         setUpRecyclerView();
-        getArticles(1);
+        if (bundle != null)
+        {
+            articleController.loadState(bundle);
+        } else
+        {
+            articleController.loadArticles(1);
+        }
     }
 
     private void setUpAdapter()
@@ -58,25 +70,9 @@ public class MainFragment extends BenihFragment
             @Override
             public void onLoadMore(int currentPage)
             {
-                getArticles(currentPage + 1);
+                articleController.loadArticles(currentPage + 1);
             }
         });
-    }
-
-    private void getArticles(int page)
-    {
-        subscription = CodePolitanService.getApi()
-                .getLatestArticles(page)
-                .compose(BenihScheduler.applySchedulers(BenihScheduler.Type.IO))
-                .subscribe(articleResponse -> {
-                    if (articleResponse.getCode())
-                    {
-                        articleAdapter.add(articleResponse.getResult());
-                    }
-                }, throwable -> {
-                    log(throwable.getMessage());
-                    getArticles(page);
-                });
     }
 
     private void onItemClick(View view, int position)
@@ -88,19 +84,27 @@ public class MainFragment extends BenihFragment
     }
 
     @Override
-    public void onDestroy()
+    public void onSaveInstanceState(Bundle outState)
     {
-        if (articleAdapter != null)
-        {
-            articleAdapter.clear();
-            articleAdapter = null;
-        }
-        if (subscription != null)
-        {
-            subscription.unsubscribe();
-            subscription = null;
-        }
-        recyclerView = null;
-        super.onDestroy();
+        articleController.saveState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void showArticle(Article article)
+    {
+
+    }
+
+    @Override
+    public void showArticles(List<Article> articles)
+    {
+        articleAdapter.add(articles);
+    }
+
+    @Override
+    public void showError(Controller.Presenter presenter, Throwable throwable)
+    {
+
     }
 }

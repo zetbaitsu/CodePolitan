@@ -6,25 +6,25 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import id.zelory.benih.fragments.BenihFragment;
-import id.zelory.benih.utils.BenihScheduler;
-import id.zelory.benih.views.BenihImageView;
+import java.util.List;
+
+import id.zelory.benih.controller.Controller;
+import id.zelory.benih.fragment.BenihFragment;
+import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.model.Article;
-import id.zelory.codepolitan.network.CodePolitanService;
-import rx.Subscription;
 
 /**
  * Created by zetbaitsu on 7/28/15.
  */
-public class ReadFragment extends BenihFragment<Article>
+public class ReadFragment extends BenihFragment<Article> implements ArticleController.Presenter
 {
+    private ArticleController articleController;
     private BenihImageView image;
     private TextView date;
     private TextView title;
     private WebView content;
-    private Article article;
-    private Subscription subscription;
 
     @Override
     protected int getFragmentView()
@@ -35,6 +35,7 @@ public class ReadFragment extends BenihFragment<Article>
     @Override
     protected void onViewReady(Bundle bundle, View view)
     {
+        articleController = new ArticleController(this);
         image = (BenihImageView) view.findViewById(R.id.image);
         date = (TextView) view.findViewById(R.id.date);
         title = (TextView) view.findViewById(R.id.title);
@@ -46,29 +47,22 @@ public class ReadFragment extends BenihFragment<Article>
 
         if (bundle != null)
         {
-            article = bundle.getParcelable("article");
-            bind(article);
+            articleController.loadState(bundle);
         } else
         {
-            getDetailArticle(data);
+            articleController.loadArticle(data.getId());
         }
     }
 
-    private void getDetailArticle(Article data)
+    @Override
+    public void onSaveInstanceState(Bundle outState)
     {
-        subscription = CodePolitanService.getApi()
-                .getDetailArticle(data.getId())
-                .compose(BenihScheduler.applySchedulers(BenihScheduler.Type.IO))
-                .subscribe(articleResponse -> {
-                    if (articleResponse.getCode())
-                    {
-                        article = articleResponse.getResult();
-                        bind(article);
-                    }
-                }, throwable -> log(throwable.getMessage()));
+        articleController.saveState(outState);
+        super.onSaveInstanceState(outState);
     }
 
-    private void bind(Article article)
+    @Override
+    public void showArticle(Article article)
     {
         image.setImageUrl(article.getThumbnail());
         date.setText(article.getDate());
@@ -76,22 +70,15 @@ public class ReadFragment extends BenihFragment<Article>
         content.loadData(article.getContent(), "text/html", "UTF-8");
     }
 
-
     @Override
-    public void onSaveInstanceState(Bundle outState)
+    public void showArticles(List<Article> articles)
     {
-        outState.putParcelable("article", article);
-        super.onSaveInstanceState(outState);
+
     }
 
     @Override
-    public void onDestroy()
+    public void showError(Controller.Presenter presenter, Throwable throwable)
     {
-        if (subscription != null)
-        {
-            subscription.unsubscribe();
-            subscription = null;
-        }
-        super.onDestroy();
+
     }
 }

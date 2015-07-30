@@ -1,6 +1,6 @@
 package id.zelory.codepolitan.network;
 
-import id.zelory.benih.networks.ServiceGenerator;
+import id.zelory.benih.network.ServiceGenerator;
 import id.zelory.codepolitan.model.Article;
 import id.zelory.codepolitan.model.Category;
 import id.zelory.codepolitan.model.Tag;
@@ -13,11 +13,22 @@ import rx.Observable;
 /**
  * Created by zetbaitsu on 7/28/15.
  */
-public class CodePolitanService
+public enum CodePolitanService
 {
-    private static final API api = ServiceGenerator.createService(API.class, API.ENDPOINT);
+    HARVEST;
+    private final API api;
 
-    public static API getApi()
+    CodePolitanService()
+    {
+        api = ServiceGenerator.createService(API.class, API.ENDPOINT);
+    }
+
+    public static CodePolitanService pluck()
+    {
+        return HARVEST;
+    }
+
+    public API getApi()
     {
         return api;
     }

@@ -4,7 +4,7 @@ import android.support.v4.app.FragmentManager;
 
 import java.util.List;
 
-import id.zelory.benih.adapters.BenihPagerAdapter;
+import id.zelory.benih.adapter.BenihPagerAdapter;
 import id.zelory.codepolitan.fragment.ReadFragment;
 
 /**

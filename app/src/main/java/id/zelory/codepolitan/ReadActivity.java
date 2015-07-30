@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.zelory.benih.BenihActivity;
-import id.zelory.benih.utils.BenihWorker;
+import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.adapter.ReadPagerAdapter;
 import id.zelory.codepolitan.fragment.ReadFragment;
 import id.zelory.codepolitan.model.Article;
@@ -38,7 +38,8 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         articles = bundle != null ? bundle.getParcelableArrayList("data") : getIntent().getParcelableArrayListExtra("data");
         position = bundle != null ? bundle.getInt("position", 0) : getIntent().getIntExtra("position", 0);
 
-        BenihWorker.doThis(this::generateFragments)
+        BenihWorker.pluck()
+                .doThis(this::generateFragments)
                 .subscribe(o -> {
                     setUpAdapter();
                     setUpViewPager();

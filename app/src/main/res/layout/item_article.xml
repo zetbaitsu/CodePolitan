@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <id.zelory.benih.views.BenihImageView
+        <id.zelory.benih.view.BenihImageView
             android:id="@+id/thumbnail"
             android:layout_width="120dp"
             android:layout_height="match_parent"

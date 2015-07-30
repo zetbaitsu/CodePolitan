@@ -3,8 +3,6 @@ package id.zelory.codepolitan.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 /**
  * Created by zetbaitsu on 7/28/15.
  */

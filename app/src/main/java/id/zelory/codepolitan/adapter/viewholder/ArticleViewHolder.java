@@ -3,10 +3,10 @@ package id.zelory.codepolitan.adapter.viewholder;
 import android.view.View;
 import android.widget.TextView;
 
-import id.zelory.benih.adapters.BenihRecyclerAdapter.OnItemClickListener;
-import id.zelory.benih.adapters.BenihRecyclerAdapter.OnLongItemClickListener;
-import id.zelory.benih.adapters.viewholder.BenihViewHolder;
-import id.zelory.benih.views.BenihImageView;
+import id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
+import id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
+import id.zelory.benih.adapter.viewholder.BenihViewHolder;
+import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.model.Article;
 
