@@ -24,7 +24,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     private BenihImageView image;
     private TextView date;
     private TextView title;
-    private WebView content;
+    //private WebView content;
 
     @Override
     protected int getFragmentView()
@@ -35,15 +35,24 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     @Override
     protected void onViewReady(Bundle bundle, View view)
     {
-        articleController = new ArticleController(this);
         image = (BenihImageView) view.findViewById(R.id.image);
         date = (TextView) view.findViewById(R.id.date);
         title = (TextView) view.findViewById(R.id.title);
-        content = (WebView) view.findViewById(R.id.content);
+        /*content = (WebView) view.findViewById(R.id.content);
         content.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         content.setVerticalScrollBarEnabled(false);
         content.setHorizontalScrollBarEnabled(false);
-        content.setWebChromeClient(new WebChromeClient());
+        content.setWebChromeClient(new WebChromeClient());*/
+
+        setupController(bundle);
+    }
+
+    private void setupController(Bundle bundle)
+    {
+        if (articleController == null)
+        {
+            articleController = new ArticleController(this);
+        }
 
         if (bundle != null)
         {
@@ -64,10 +73,11 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     @Override
     public void showArticle(Article article)
     {
+        log(article.getThumbnail());
         image.setImageUrl(article.getThumbnail());
         date.setText(article.getDate());
         title.setText(article.getTitle());
-        content.loadData(article.getContent(), "text/html", "UTF-8");
+        //content.loadData(article.getContent(), "text/html", "UTF-8");
     }
 
     @Override

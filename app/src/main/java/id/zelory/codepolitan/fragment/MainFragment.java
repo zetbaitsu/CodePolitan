@@ -36,16 +36,20 @@ public class MainFragment extends BenihFragment implements ArticleController.Pre
     @Override
     protected void onViewReady(Bundle bundle, View view)
     {
-        if (articleController == null)
-        {
-            log("controller is null");
-            articleController = new ArticleController(this);
-        }
-
         recyclerView = (BenihRecyclerView) view.findViewById(R.id.recycler_view);
 
         setUpAdapter();
         setUpRecyclerView();
+        setupController(bundle);
+    }
+
+    private void setupController(Bundle bundle)
+    {
+        if (articleController == null)
+        {
+            articleController = new ArticleController(this);
+        }
+
         if (bundle != null)
         {
             articleController.loadState(bundle);
