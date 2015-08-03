@@ -25,6 +25,8 @@ import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
 import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.model.Article;
+import id.zelory.codepolitan.model.Category;
+import id.zelory.codepolitan.model.Tag;
 import id.zelory.codepolitan.network.CodePolitanService;
 import rx.Observable;
 import timber.log.Timber;
@@ -44,6 +46,7 @@ public class ArticleController extends BenihController<ArticleController.Present
 
     public void loadArticle(int id)
     {
+        presenter.showLoading();
         CodePolitanService.pluck()
                 .getApi()
                 .getDetailArticle(id)
@@ -54,14 +57,17 @@ public class ArticleController extends BenihController<ArticleController.Present
                         article = articleResponse.getResult();
                         presenter.showArticle(article);
                     }
+                    presenter.dismissLoading();
                 }, throwable -> {
                     Timber.d(throwable.getMessage());
                     presenter.showError(throwable);
+                    presenter.dismissLoading();
                 });
     }
 
     public void loadArticles(int page)
     {
+        presenter.showLoading();
         CodePolitanService.pluck()
                 .getApi()
                 .getLatestArticles(page)
@@ -80,10 +86,102 @@ public class ArticleController extends BenihController<ArticleController.Present
                                     }
                                 }).subscribe(o -> presenter.showArticles(articleResponse.getResult()));
                     }
+                    presenter.dismissLoading();
                 }, throwable -> {
                     Timber.d(throwable.getMessage());
                     loadArticles(page);
                     presenter.showError(throwable);
+                    presenter.dismissLoading();
+                });
+    }
+
+    public void loadArticles(String postType, int page)
+    {
+        presenter.showLoading();
+        CodePolitanService.pluck()
+                .getApi()
+                .getLatestArticles(postType, page)
+                .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
+                .subscribe(articleResponse -> {
+                    if (articleResponse.getCode())
+                    {
+                        BenihWorker.pluck()
+                                .doInNewThread(() -> {
+                                    if (page == 1)
+                                    {
+                                        articles = articleResponse.getResult();
+                                    } else
+                                    {
+                                        articles.addAll(articleResponse.getResult());
+                                    }
+                                }).subscribe(o -> presenter.showArticles(articleResponse.getResult()));
+                    }
+                    presenter.dismissLoading();
+                }, throwable -> {
+                    Timber.d(throwable.getMessage());
+                    loadArticles(page);
+                    presenter.showError(throwable);
+                    presenter.dismissLoading();
+                });
+    }
+
+    public void loadArticles(Category category, int page)
+    {
+        presenter.showLoading();
+        CodePolitanService.pluck()
+                .getApi()
+                .getArticles(category, page)
+                .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
+                .subscribe(articleResponse -> {
+                    if (articleResponse.getCode())
+                    {
+                        BenihWorker.pluck()
+                                .doInNewThread(() -> {
+                                    if (page == 1)
+                                    {
+                                        articles = articleResponse.getResult();
+                                    } else
+                                    {
+                                        articles.addAll(articleResponse.getResult());
+                                    }
+                                }).subscribe(o -> presenter.showArticles(articleResponse.getResult()));
+                    }
+                    presenter.dismissLoading();
+                }, throwable -> {
+                    Timber.d(throwable.getMessage());
+                    loadArticles(page);
+                    presenter.showError(throwable);
+                    presenter.dismissLoading();
+                });
+    }
+
+    public void loadArticles(Tag tag, int page)
+    {
+        presenter.showLoading();
+        CodePolitanService.pluck()
+                .getApi()
+                .getArticles(tag, page)
+                .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
+                .subscribe(articleResponse -> {
+                    if (articleResponse.getCode())
+                    {
+                        BenihWorker.pluck()
+                                .doInNewThread(() -> {
+                                    if (page == 1)
+                                    {
+                                        articles = articleResponse.getResult();
+                                    } else
+                                    {
+                                        articles.addAll(articleResponse.getResult());
+                                    }
+                                }).subscribe(o -> presenter.showArticles(articleResponse.getResult()));
+                    }
+                    presenter.dismissLoading();
+                }, throwable -> {
+                    Timber.d(throwable.getMessage());
+                    loadArticles(page);
+                    presenter.showError(throwable);
+                    presenter.dismissLoading();
                 });
     }
 
@@ -134,5 +232,9 @@ public class ArticleController extends BenihController<ArticleController.Present
         void showArticles(List<Article> articles);
 
         void showFilteredArticles(List<Article> articles);
+
+        void showLoading();
+
+        void dismissLoading();
     }
 }
