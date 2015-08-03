@@ -1,9 +1,30 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context=".MainActivity">
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
-          android:orderInCategory="100"
-          app:showAsAction="never"/>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_news"
+        android:title="@string/news"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_komik"
+        android:title="@string/nyan_komik"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_meme"
+        android:title="@string/meme"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_grid"
+        android:checkable="true"
+        android:title="@string/grid"
+        app:showAsAction="never"/>
 </menu>

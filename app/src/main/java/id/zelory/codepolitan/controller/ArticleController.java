@@ -2,17 +2,19 @@ package id.zelory.codepolitan.controller;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import id.zelory.benih.controller.Controller;
+import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
+import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.model.Article;
 import id.zelory.codepolitan.network.CodePolitanService;
 
 /**
  * Created by zetbaitsu on 7/29/15.
  */
-public class ArticleController extends Controller<ArticleController.Presenter>
+public class ArticleController extends BenihController<ArticleController.Presenter>
 {
     private Article article;
     private List<Article> articles;
@@ -49,8 +51,16 @@ public class ArticleController extends Controller<ArticleController.Presenter>
                 .subscribe(articleResponse -> {
                     if (articleResponse.getCode())
                     {
-                        articles = articleResponse.getResult();
-                        presenter.showArticles(articles);
+                        BenihWorker.pluck()
+                                .doThis(() -> {
+                                    if (page == 1)
+                                    {
+                                        articles = articleResponse.getResult();
+                                    } else
+                                    {
+                                        articles.addAll(articleResponse.getResult());
+                                    }
+                                }).subscribe(o -> presenter.showArticles(articleResponse.getResult()));
                     }
                 }, throwable -> {
                     log(throwable.getMessage());
@@ -68,7 +78,7 @@ public class ArticleController extends Controller<ArticleController.Presenter>
             presenter.showArticle(article);
         } else
         {
-            presenter.showError(presenter, new Throwable("Error"));
+            presenter.showError(presenter, new Throwable("Article is null"));
         }
 
         articles = bundle.getParcelableArrayList("articles");
@@ -77,7 +87,7 @@ public class ArticleController extends Controller<ArticleController.Presenter>
             presenter.showArticles(articles);
         } else
         {
-            presenter.showError(presenter, new Throwable("Error"));
+            presenter.showError(presenter, new Throwable("List article is null"));
         }
     }
 
@@ -86,9 +96,10 @@ public class ArticleController extends Controller<ArticleController.Presenter>
     {
         log("saveState");
         bundle.putParcelable("article", article);
+        bundle.putParcelableArrayList("articles", (ArrayList<Article>) articles);
     }
 
-    public interface Presenter extends Controller.Presenter
+    public interface Presenter extends BenihController.Presenter
     {
         void showArticle(Article article);
 

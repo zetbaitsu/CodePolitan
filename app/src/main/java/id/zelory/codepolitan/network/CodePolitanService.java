@@ -1,6 +1,6 @@
 package id.zelory.codepolitan.network;
 
-import id.zelory.benih.network.ServiceGenerator;
+import id.zelory.benih.network.BenihServiceGenerator;
 import id.zelory.codepolitan.model.Article;
 import id.zelory.codepolitan.model.Category;
 import id.zelory.codepolitan.model.Tag;
@@ -20,7 +20,7 @@ public enum CodePolitanService
 
     CodePolitanService()
     {
-        api = ServiceGenerator.createService(API.class, API.ENDPOINT);
+        api = BenihServiceGenerator.createService(API.class, API.ENDPOINT);
     }
 
     public static CodePolitanService pluck()

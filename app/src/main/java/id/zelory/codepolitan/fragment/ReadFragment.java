@@ -1,14 +1,12 @@
 package id.zelory.codepolitan.fragment;
 
 import android.os.Bundle;
-import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 import java.util.List;
 
-import id.zelory.benih.controller.Controller;
+import butterknife.Bind;
+import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
@@ -21,10 +19,10 @@ import id.zelory.codepolitan.model.Article;
 public class ReadFragment extends BenihFragment<Article> implements ArticleController.Presenter
 {
     private ArticleController articleController;
-    private BenihImageView image;
-    private TextView date;
-    private TextView title;
-    //private WebView content;
+    @Bind(R.id.image) BenihImageView image;
+    @Bind(R.id.date) TextView date;
+    @Bind(R.id.title) TextView title;
+    //@Bind(R.id.content) WebView content;
 
     @Override
     protected int getFragmentView()
@@ -33,13 +31,9 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     }
 
     @Override
-    protected void onViewReady(Bundle bundle, View view)
+    protected void onViewReady(Bundle bundle)
     {
-        image = (BenihImageView) view.findViewById(R.id.image);
-        date = (TextView) view.findViewById(R.id.date);
-        title = (TextView) view.findViewById(R.id.title);
-        /*content = (WebView) view.findViewById(R.id.content);
-        content.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        /*content.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         content.setVerticalScrollBarEnabled(false);
         content.setHorizontalScrollBarEnabled(false);
         content.setWebChromeClient(new WebChromeClient());*/
@@ -87,7 +81,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     }
 
     @Override
-    public void showError(Controller.Presenter presenter, Throwable throwable)
+    public void showError(BenihController.Presenter presenter, Throwable throwable)
     {
 
     }

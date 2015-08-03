@@ -3,6 +3,7 @@ package id.zelory.codepolitan.adapter.viewholder;
 import android.view.View;
 import android.widget.TextView;
 
+import butterknife.Bind;
 import id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
 import id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
 import id.zelory.benih.adapter.viewholder.BenihViewHolder;
@@ -15,16 +16,13 @@ import id.zelory.codepolitan.model.Article;
  */
 public class ArticleViewHolder extends BenihViewHolder<Article>
 {
-    private final TextView title;
-    private final TextView date;
-    private final BenihImageView thumbnail;
+    @Bind(R.id.title) TextView title;
+    @Bind(R.id.date) TextView date;
+    @Bind(R.id.thumbnail) BenihImageView thumbnail;
 
     public ArticleViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
         super(itemView, itemClickListener, longItemClickListener);
-        title = (TextView) itemView.findViewById(R.id.title);
-        date = (TextView) itemView.findViewById(R.id.date);
-        thumbnail = (BenihImageView) itemView.findViewById(R.id.thumbnail);
     }
 
     @Override

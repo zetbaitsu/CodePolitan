@@ -1,7 +1,5 @@
 package id.zelory.codepolitan;
 
-import com.squareup.leakcanary.LeakCanary;
-
 import id.zelory.benih.BenihApplication;
 
 /**
@@ -9,10 +7,17 @@ import id.zelory.benih.BenihApplication;
  */
 public class CodePolitanApplication extends BenihApplication
 {
+    private static CodePolitanApplication codePolitanApplication;
+
     @Override
     public void onCreate()
     {
         super.onCreate();
-        LeakCanary.install(this);
+        codePolitanApplication = this;
+    }
+
+    public static CodePolitanApplication pluck()
+    {
+        return codePolitanApplication;
     }
 }
