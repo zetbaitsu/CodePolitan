@@ -6,12 +6,12 @@ import android.widget.TextView;
 import java.util.List;
 
 import butterknife.Bind;
-import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.model.Article;
+import timber.log.Timber;
 
 /**
  * Created by zetbaitsu on 7/28/15.
@@ -67,7 +67,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     @Override
     public void showArticle(Article article)
     {
-        log(article.getThumbnail());
+        Timber.d(article.getThumbnail());
         image.setImageUrl(article.getThumbnail());
         date.setText(article.getDate());
         title.setText(article.getTitle());
@@ -81,7 +81,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     }
 
     @Override
-    public void showError(BenihController.Presenter presenter, Throwable throwable)
+    public void showError(Throwable throwable)
     {
 
     }

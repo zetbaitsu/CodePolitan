@@ -10,6 +10,7 @@ import id.zelory.benih.util.BenihScheduler;
 import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.model.Article;
 import id.zelory.codepolitan.network.CodePolitanService;
+import timber.log.Timber;
 
 /**
  * Created by zetbaitsu on 7/29/15.
@@ -37,8 +38,8 @@ public class ArticleController extends BenihController<ArticleController.Present
                         presenter.showArticle(article);
                     }
                 }, throwable -> {
-                    log(throwable.getMessage());
-                    presenter.showError(presenter, throwable);
+                    Timber.d(throwable.getMessage());
+                    presenter.showError(throwable);
                 });
     }
 
@@ -52,7 +53,7 @@ public class ArticleController extends BenihController<ArticleController.Present
                     if (articleResponse.getCode())
                     {
                         BenihWorker.pluck()
-                                .doThis(() -> {
+                                .doInNewThread(() -> {
                                     if (page == 1)
                                     {
                                         articles = articleResponse.getResult();
@@ -63,9 +64,9 @@ public class ArticleController extends BenihController<ArticleController.Present
                                 }).subscribe(o -> presenter.showArticles(articleResponse.getResult()));
                     }
                 }, throwable -> {
-                    log(throwable.getMessage());
+                    Timber.d(throwable.getMessage());
                     loadArticles(page);
-                    presenter.showError(presenter, throwable);
+                    presenter.showError(throwable);
                 });
     }
 
@@ -78,7 +79,7 @@ public class ArticleController extends BenihController<ArticleController.Present
             presenter.showArticle(article);
         } else
         {
-            presenter.showError(presenter, new Throwable("Article is null"));
+            presenter.showError(new Throwable("Article is null"));
         }
 
         articles = bundle.getParcelableArrayList("articles");
@@ -87,14 +88,14 @@ public class ArticleController extends BenihController<ArticleController.Present
             presenter.showArticles(articles);
         } else
         {
-            presenter.showError(presenter, new Throwable("List article is null"));
+            presenter.showError(new Throwable("List article is null"));
         }
     }
 
     @Override
     public void saveState(Bundle bundle)
     {
-        log("saveState");
+        Timber.d("saveState");
         bundle.putParcelable("article", article);
         bundle.putParcelableArrayList("articles", (ArrayList<Article>) articles);
     }

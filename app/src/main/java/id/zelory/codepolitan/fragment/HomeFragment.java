@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.util.BenihWorker;
 import id.zelory.benih.view.BenihRecyclerListener;
@@ -24,6 +23,7 @@ import id.zelory.codepolitan.ReadActivity;
 import id.zelory.codepolitan.adapter.ArticleAdapter;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.model.Article;
+import timber.log.Timber;
 
 /**
  * Created by zetbaitsu on 7/28/15.
@@ -130,7 +130,7 @@ public class HomeFragment extends BenihFragment implements ArticleController.Pre
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed())
         {
-            log("Home is visible");
+            Timber.d("Home is visible");
             getSupportActionBar().setTitle("Home");
         }
     }
@@ -183,9 +183,9 @@ public class HomeFragment extends BenihFragment implements ArticleController.Pre
     }
 
     @Override
-    public void showError(BenihController.Presenter presenter, Throwable throwable)
+    public void showError(Throwable throwable)
     {
-        log(throwable.getMessage());
+        Timber.d(throwable.getMessage());
     }
 
     @Override
@@ -205,7 +205,7 @@ public class HomeFragment extends BenihFragment implements ArticleController.Pre
             recyclerView = null;
         }
         BenihWorker.pluck()
-                .doThis(System::gc)
+                .doInNewThread(System::gc)
                 .subscribe();
     }
 
@@ -218,7 +218,7 @@ public class HomeFragment extends BenihFragment implements ArticleController.Pre
     @Override
     public boolean onQueryTextChange(String newText)
     {
-        log(newText);
+        Timber.d(newText);
         return true;
     }
 }

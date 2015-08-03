@@ -39,7 +39,7 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         position = bundle != null ? bundle.getInt("position", 0) : getIntent().getIntExtra("position", 0);
 
         BenihWorker.pluck()
-                .doThis(this::generateFragments)
+                .doInNewThread(this::generateFragments)
                 .subscribe(o -> {
                     setUpAdapter();
                     setUpViewPager();
