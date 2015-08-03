@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2015 Zelory.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 package id.zelory.codepolitan.fragment;
 
 import android.content.Intent;
@@ -9,11 +25,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.util.BenihWorker;
 import id.zelory.benih.view.BenihRecyclerListener;
@@ -23,6 +42,7 @@ import id.zelory.codepolitan.ReadActivity;
 import id.zelory.codepolitan.adapter.ArticleAdapter;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.model.Article;
+import rx.android.widget.WidgetObservable;
 import timber.log.Timber;
 
 /**
@@ -138,10 +158,15 @@ public class HomeFragment extends BenihFragment implements ArticleController.Pre
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
+        super.onCreateOptionsMenu(menu, inflater);
         menu.getItem(1).setEnabled(false);
         SearchView searchView = (SearchView) menu.getItem(0).getActionView();
         searchView.setOnQueryTextListener(this);
-        super.onCreateOptionsMenu(menu, inflater);
+        TextView textView = ButterKnife.findById(searchView, android.support.v7.appcompat.R.id.search_src_text);
+        subscription = WidgetObservable.text(textView)
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .subscribe(onTextChangeEvent -> articleController.filter(onTextChangeEvent.text().toString()));
+        subscriptionCollector.add(subscription);
     }
 
     @Override
@@ -183,6 +208,15 @@ public class HomeFragment extends BenihFragment implements ArticleController.Pre
     }
 
     @Override
+    public void showFilteredArticles(List<Article> articles)
+    {
+        Article tmp = articleAdapter.getData().get(0);
+        articleAdapter.clear();
+        articleAdapter.add(tmp);
+        articleAdapter.add(articles);
+    }
+
+    @Override
     public void showError(Throwable throwable)
     {
         Timber.d(throwable.getMessage());
@@ -212,13 +246,13 @@ public class HomeFragment extends BenihFragment implements ArticleController.Pre
     @Override
     public boolean onQueryTextSubmit(String query)
     {
-        return false;
+        articleController.filter(query);
+        return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText)
     {
-        Timber.d(newText);
         return true;
     }
 }
