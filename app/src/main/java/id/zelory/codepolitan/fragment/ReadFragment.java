@@ -103,6 +103,18 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     }
 
     @Override
+    public void showLoading()
+    {
+
+    }
+
+    @Override
+    public void dismissLoading()
+    {
+
+    }
+
+    @Override
     public void showError(Throwable throwable)
     {
 

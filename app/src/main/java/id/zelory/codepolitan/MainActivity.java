@@ -31,6 +31,7 @@ import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.adapter.MainPagerAdapter;
 import id.zelory.codepolitan.fragment.HomeFragment;
+import id.zelory.codepolitan.fragment.NewsFragment;
 
 public class MainActivity extends BenihActivity
 {
@@ -57,9 +58,10 @@ public class MainActivity extends BenihActivity
     private void setUpViewPager()
     {
         List<BenihFragment> fragments = new ArrayList<>();
-        for (int i = 0; i < 5; i++)
+        fragments.add(new HomeFragment());
+        for (int i = 0; i < 4; i++)
         {
-            fragments.add(new HomeFragment());
+            fragments.add(new NewsFragment());
         }
 
         MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager(), fragments);
