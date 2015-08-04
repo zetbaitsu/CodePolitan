@@ -19,10 +19,8 @@ package id.zelory.codepolitan.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -35,23 +33,38 @@ import id.zelory.codepolitan.adapter.ArticleAdapter;
 import id.zelory.codepolitan.model.Article;
 
 /**
- * Created by zetbaitsu on 7/28/15.
+ * Created by zetbaitsu on 8/4/15.
  */
-public class NewsFragment extends AbstractHomeFragment
+public class QuotesFragment extends AbstractHomeFragment
 {
     private ArticleAdapter articleAdapter;
 
     @Override
     protected int getFragmentView()
     {
-        return R.layout.fragment_news;
+        return R.layout.fragment_quotes;
     }
 
     @Override
     protected void onViewReady(Bundle bundle)
     {
         super.onViewReady(bundle);
-        setUpRecyclerView(false);
+        setUpRecyclerView();
+    }
+
+    private void setUpRecyclerView()
+    {
+        recyclerView.clearOnScrollListeners();
+        recyclerView.setUpAsGrid(2);
+        recyclerView.addOnScrollListener(new BenihRecyclerListener((GridLayoutManager) recyclerView.getLayoutManager(), 5)
+        {
+            @Override
+            public void onLoadMore(int i)
+            {
+                currentPage++;
+                articleController.loadArticles("quotes", currentPage);
+            }
+        });
     }
 
     @Override
@@ -62,36 +75,6 @@ public class NewsFragment extends AbstractHomeFragment
             articleAdapter = new ArticleAdapter(getActivity());
             articleAdapter.setOnItemClickListener(this::onItemClick);
             recyclerView.setAdapter(articleAdapter);
-        }
-    }
-
-    private void setUpRecyclerView(boolean isGrid)
-    {
-        recyclerView.clearOnScrollListeners();
-        if (isGrid)
-        {
-            recyclerView.setUpAsGrid(2);
-            recyclerView.addOnScrollListener(new BenihRecyclerListener((GridLayoutManager) recyclerView.getLayoutManager(), 5)
-            {
-                @Override
-                public void onLoadMore(int i)
-                {
-                    currentPage++;
-                    articleController.loadArticles(currentPage);
-                }
-            });
-        } else
-        {
-            recyclerView.setUpAsList();
-            recyclerView.addOnScrollListener(new BenihRecyclerListener((LinearLayoutManager) recyclerView.getLayoutManager(), 5)
-            {
-                @Override
-                public void onLoadMore(int i)
-                {
-                    currentPage++;
-                    articleController.loadArticles(currentPage);
-                }
-            });
         }
     }
 
@@ -110,20 +93,7 @@ public class NewsFragment extends AbstractHomeFragment
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.getItem(5).setEnabled(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.action_grid:
-                setUpRecyclerView(!item.isChecked());
-                item.setChecked(!item.isChecked());
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+        menu.getItem(5).setEnabled(false);
     }
 
     @Override
@@ -135,9 +105,7 @@ public class NewsFragment extends AbstractHomeFragment
     @Override
     public void showFilteredArticles(List<Article> articles)
     {
-        Article tmp = articleAdapter.getData().get(0);
         articleAdapter.clear();
-        articleAdapter.add(tmp);
         articleAdapter.add(articles);
     }
 
@@ -157,7 +125,7 @@ public class NewsFragment extends AbstractHomeFragment
     {
         super.onRefresh();
         articleAdapter.clear();
-        setUpRecyclerView(false);
-        articleController.loadArticles(currentPage);
+        setUpRecyclerView();
+        articleController.loadArticles("quotes", currentPage);
     }
 }

@@ -30,6 +30,8 @@ import timber.log.Timber;
  */
 public class HomeFragment extends BenihFragment
 {
+    private int position = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -47,6 +49,7 @@ public class HomeFragment extends BenihFragment
     protected void onViewReady(Bundle bundle)
     {
         replace(R.id.fragment_home_container, new NewsFragment(), false);
+        position = 0;
     }
 
     @Override
@@ -63,6 +66,7 @@ public class HomeFragment extends BenihFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
+        inflater.inflate(R.menu.menu_main, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -72,13 +76,32 @@ public class HomeFragment extends BenihFragment
         switch (item.getItemId())
         {
             case R.id.action_news:
-                replace(R.id.fragment_home_container, new NewsFragment(), false);
+                if (position != 0)
+                {
+                    replace(R.id.fragment_home_container, new NewsFragment(), false);
+                    position = 0;
+                }
                 break;
             case R.id.action_komik:
-                replace(R.id.fragment_home_container, new KomikFragment(), false);
+                if (position != 1)
+                {
+                    replace(R.id.fragment_home_container, new KomikFragment(), false);
+                    position = 1;
+                }
                 break;
             case R.id.action_meme:
-                replace(R.id.fragment_home_container, new MemeFragment(), false);
+                if (position != 2)
+                {
+                    replace(R.id.fragment_home_container, new MemeFragment(), false);
+                    position = 2;
+                }
+                break;
+            case R.id.action_quotes:
+                if (position != 3)
+                {
+                    replace(R.id.fragment_home_container, new QuotesFragment(), false);
+                    position = 3;
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

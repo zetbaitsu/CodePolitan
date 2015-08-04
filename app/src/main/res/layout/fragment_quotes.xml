@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2015 Zelory.
   ~
@@ -14,15 +15,14 @@
   ~  limitations under the License.
   -->
 
-<resources>
-    <string name="app_name">CodePolitan</string>
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="search">Search</string>
-    <string name="news">News</string>
-    <string name="nyan_komik">NyanKomik</string>
-    <string name="meme">Meme</string>
-    <string name="grid">Grid</string>
-    <string name="quotes">Quotes</string>
-</resources>
+    <id.zelory.benih.view.BenihRecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</android.support.v4.widget.SwipeRefreshLayout>

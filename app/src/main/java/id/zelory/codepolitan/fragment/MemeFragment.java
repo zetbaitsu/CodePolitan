@@ -56,7 +56,7 @@ public class MemeFragment extends AbstractHomeFragment
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.getItem(4).setEnabled(false);
+        menu.getItem(5).setEnabled(false);
     }
 
     @Override
@@ -123,6 +123,7 @@ public class MemeFragment extends AbstractHomeFragment
     @Override
     public void onRefresh()
     {
+        super.onRefresh();
         articleAdapter.clear();
         setUpRecyclerView();
         articleController.loadArticles("meme", currentPage);

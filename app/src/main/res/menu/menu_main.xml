@@ -39,6 +39,10 @@
         android:title="@string/meme"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_quotes"
+        android:title="@string/quotes"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_grid"
         android:checkable="true"
         android:title="@string/grid"
