@@ -30,8 +30,12 @@ import butterknife.Bind;
 import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.adapter.MainPagerAdapter;
+import id.zelory.codepolitan.fragment.CategoryFragment;
 import id.zelory.codepolitan.fragment.HomeFragment;
 import id.zelory.codepolitan.fragment.NewsFragment;
+import id.zelory.codepolitan.fragment.SettingFragment;
+import id.zelory.codepolitan.fragment.TagFragment;
+import id.zelory.codepolitan.fragment.UserFragment;
 
 public class MainActivity extends BenihActivity
 {
@@ -59,10 +63,10 @@ public class MainActivity extends BenihActivity
     {
         List<BenihFragment> fragments = new ArrayList<>();
         fragments.add(new HomeFragment());
-        for (int i = 0; i < 4; i++)
-        {
-            fragments.add(new NewsFragment());
-        }
+        fragments.add(new CategoryFragment());
+        fragments.add(new TagFragment());
+        fragments.add(new UserFragment());
+        fragments.add(new SettingFragment());
 
         MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -81,7 +85,7 @@ public class MainActivity extends BenihActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-       // getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

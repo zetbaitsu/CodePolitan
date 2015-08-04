@@ -31,6 +31,7 @@ import timber.log.Timber;
 public class HomeFragment extends BenihFragment
 {
     private int position = 0;
+    private BenihFragment benihFragment = new NewsFragment();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -48,14 +49,16 @@ public class HomeFragment extends BenihFragment
     @Override
     protected void onViewReady(Bundle bundle)
     {
-        replace(R.id.fragment_home_container, new NewsFragment(), false);
-        position = 0;
+        if (bundle == null)
+        {
+            replace(R.id.fragment_home_container, benihFragment, false);
+            position = 0;
+        }
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser)
     {
-        super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed())
         {
             Timber.d("Home is visible");
@@ -66,7 +69,6 @@ public class HomeFragment extends BenihFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        inflater.inflate(R.menu.menu_main, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -105,5 +107,28 @@ public class HomeFragment extends BenihFragment
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void replace(int containerId, BenihFragment fragment, boolean addToBackStack)
+    {
+        if (addToBackStack)
+        {
+            getChildFragmentManager().beginTransaction()
+                    .replace(containerId, fragment, fragment.getClass().getSimpleName())
+                    .addToBackStack(null)
+                    .commit();
+        } else
+        {
+            getChildFragmentManager().beginTransaction()
+                    .replace(containerId, fragment, fragment.getClass().getSimpleName())
+                    .commit();
+        }
     }
 }
