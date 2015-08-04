@@ -17,13 +17,10 @@
 package id.zelory.codepolitan.fragment;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.R;
-import timber.log.Timber;
 
 /**
  * Created by zetbaitsu on 8/3/15.
@@ -31,7 +28,6 @@ import timber.log.Timber;
 public class HomeFragment extends BenihFragment
 {
     private int position = 0;
-    private BenihFragment benihFragment = new NewsFragment();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -51,15 +47,9 @@ public class HomeFragment extends BenihFragment
     {
         if (bundle == null)
         {
-            replace(R.id.fragment_home_container, benihFragment, false);
+            replace(R.id.fragment_home_container, new NewsFragment(), false);
             position = 0;
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -97,12 +87,6 @@ public class HomeFragment extends BenihFragment
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
     }
 
     @Override
