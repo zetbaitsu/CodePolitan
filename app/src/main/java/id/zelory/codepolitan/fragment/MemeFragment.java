@@ -62,12 +62,9 @@ public class MemeFragment extends AbstractHomeFragment
     @Override
     protected void setUpAdapter()
     {
-        if (memeAdapter == null)
-        {
-            memeAdapter = new MemeAdapter(getActivity());
-            memeAdapter.setOnItemClickListener(this::onItemClick);
-            recyclerView.setAdapter(memeAdapter);
-        }
+        memeAdapter = new MemeAdapter(getActivity());
+        memeAdapter.setOnItemClickListener(this::onItemClick);
+        recyclerView.setAdapter(memeAdapter);
     }
 
     private void setUpRecyclerView()

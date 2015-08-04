@@ -31,7 +31,6 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.ReadActivity;
 import id.zelory.codepolitan.adapter.KomikAdapter;
 import id.zelory.codepolitan.model.Article;
-import timber.log.Timber;
 
 /**
  * Created by zetbaitsu on 8/3/15.
@@ -90,7 +89,8 @@ public class KomikFragment extends AbstractHomeFragment
     private GridLayoutManager getLayoutManager()
     {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup()
+        {
             @Override
             public int getSpanSize(int position)
             {
@@ -103,13 +103,10 @@ public class KomikFragment extends AbstractHomeFragment
 
     private void onItemClick(View view, int position)
     {
-        if (position != 0)
-        {
-            Intent intent = new Intent(getActivity(), ReadActivity.class);
-            intent.putParcelableArrayListExtra("data", (ArrayList<Article>) komikAdapter.getData());
-            intent.putExtra("position", position);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(getActivity(), ReadActivity.class);
+        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) komikAdapter.getData());
+        intent.putExtra("position", position);
+        startActivity(intent);
     }
 
     @Override
