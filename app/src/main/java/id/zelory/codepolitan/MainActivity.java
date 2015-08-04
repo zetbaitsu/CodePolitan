@@ -32,11 +32,9 @@ import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.adapter.MainPagerAdapter;
 import id.zelory.codepolitan.fragment.CategoryFragment;
 import id.zelory.codepolitan.fragment.HomeFragment;
-import id.zelory.codepolitan.fragment.NewsFragment;
 import id.zelory.codepolitan.fragment.SettingFragment;
 import id.zelory.codepolitan.fragment.TagFragment;
 import id.zelory.codepolitan.fragment.UserFragment;
-import timber.log.Timber;
 
 public class MainActivity extends BenihActivity implements TabLayout.OnTabSelectedListener
 {
@@ -118,6 +116,7 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
                 getSupportActionBar().setTitle("Settings");
                 break;
         }
+        viewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override
