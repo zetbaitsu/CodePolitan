@@ -18,7 +18,8 @@ package id.zelory.codepolitan.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ import java.util.List;
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.ReadActivity;
-import id.zelory.codepolitan.adapter.ArticleAdapter;
+import id.zelory.codepolitan.adapter.QuoteAdapter;
 import id.zelory.codepolitan.model.Article;
 
 /**
@@ -37,7 +38,7 @@ import id.zelory.codepolitan.model.Article;
  */
 public class QuotesFragment extends AbstractHomeFragment
 {
-    private ArticleAdapter articleAdapter;
+    private QuoteAdapter quoteAdapter;
 
     @Override
     protected int getFragmentView()
@@ -55,8 +56,11 @@ public class QuotesFragment extends AbstractHomeFragment
     private void setUpRecyclerView()
     {
         recyclerView.clearOnScrollListeners();
-        recyclerView.setUpAsGrid(2);
-        recyclerView.addOnScrollListener(new BenihRecyclerListener((GridLayoutManager) recyclerView.getLayoutManager(), 5)
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addOnScrollListener(new BenihRecyclerListener((StaggeredGridLayoutManager) recyclerView.getLayoutManager(), 5)
         {
             @Override
             public void onLoadMore(int i)
@@ -70,11 +74,11 @@ public class QuotesFragment extends AbstractHomeFragment
     @Override
     protected void setUpAdapter()
     {
-        if (articleAdapter == null)
+        if (quoteAdapter == null)
         {
-            articleAdapter = new ArticleAdapter(getActivity());
-            articleAdapter.setOnItemClickListener(this::onItemClick);
-            recyclerView.setAdapter(articleAdapter);
+            quoteAdapter = new QuoteAdapter(getActivity());
+            quoteAdapter.setOnItemClickListener(this::onItemClick);
+            recyclerView.setAdapter(quoteAdapter);
         }
     }
 
@@ -83,7 +87,7 @@ public class QuotesFragment extends AbstractHomeFragment
         if (position != 0)
         {
             Intent intent = new Intent(getActivity(), ReadActivity.class);
-            intent.putParcelableArrayListExtra("data", (ArrayList<Article>) articleAdapter.getData());
+            intent.putParcelableArrayListExtra("data", (ArrayList<Article>) quoteAdapter.getData());
             intent.putExtra("position", position);
             startActivity(intent);
         }
@@ -99,23 +103,23 @@ public class QuotesFragment extends AbstractHomeFragment
     @Override
     public void showArticles(List<Article> articles)
     {
-        articleAdapter.add(articles);
+        quoteAdapter.add(articles);
     }
 
     @Override
     public void showFilteredArticles(List<Article> articles)
     {
-        articleAdapter.clear();
-        articleAdapter.add(articles);
+        quoteAdapter.clear();
+        quoteAdapter.add(articles);
     }
 
     @Override
     public void onDestroy()
     {
-        if (articleAdapter != null)
+        if (quoteAdapter != null)
         {
-            articleAdapter.clear();
-            articleAdapter = null;
+            quoteAdapter.clear();
+            quoteAdapter = null;
         }
         super.onDestroy();
     }
@@ -124,7 +128,7 @@ public class QuotesFragment extends AbstractHomeFragment
     public void onRefresh()
     {
         super.onRefresh();
-        articleAdapter.clear();
+        quoteAdapter.clear();
         setUpRecyclerView();
         articleController.loadArticles("quotes", currentPage);
     }
