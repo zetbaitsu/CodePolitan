@@ -29,15 +29,16 @@ import java.util.List;
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.ReadActivity;
-import id.zelory.codepolitan.adapter.ArticleAdapter;
+import id.zelory.codepolitan.adapter.KomikAdapter;
 import id.zelory.codepolitan.model.Article;
+import timber.log.Timber;
 
 /**
  * Created by zetbaitsu on 8/3/15.
  */
 public class KomikFragment extends AbstractHomeFragment
 {
-    private ArticleAdapter articleAdapter;
+    private KomikAdapter komikAdapter;
 
     @Override
     protected int getFragmentView()
@@ -62,18 +63,19 @@ public class KomikFragment extends AbstractHomeFragment
     @Override
     protected void setUpAdapter()
     {
-        if (articleAdapter == null)
+        if (komikAdapter == null)
         {
-            articleAdapter = new ArticleAdapter(getActivity());
-            articleAdapter.setOnItemClickListener(this::onItemClick);
-            recyclerView.setAdapter(articleAdapter);
+            komikAdapter = new KomikAdapter(getActivity());
+            komikAdapter.setOnItemClickListener(this::onItemClick);
+            recyclerView.setAdapter(komikAdapter);
         }
     }
 
     private void setUpRecyclerView()
     {
         recyclerView.clearOnScrollListeners();
-        recyclerView.setUpAsGrid(2);
+        recyclerView.setLayoutManager(getLayoutManager());
+        recyclerView.setHasFixedSize(true);
         recyclerView.addOnScrollListener(new BenihRecyclerListener((GridLayoutManager) recyclerView.getLayoutManager(), 5)
         {
             @Override
@@ -85,12 +87,26 @@ public class KomikFragment extends AbstractHomeFragment
         });
     }
 
+    private GridLayoutManager getLayoutManager()
+    {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position)
+            {
+                return position % 5 == 0 ? 2 : 1;
+            }
+        });
+
+        return gridLayoutManager;
+    }
+
     private void onItemClick(View view, int position)
     {
         if (position != 0)
         {
             Intent intent = new Intent(getActivity(), ReadActivity.class);
-            intent.putParcelableArrayListExtra("data", (ArrayList<Article>) articleAdapter.getData());
+            intent.putParcelableArrayListExtra("data", (ArrayList<Article>) komikAdapter.getData());
             intent.putExtra("position", position);
             startActivity(intent);
         }
@@ -99,23 +115,23 @@ public class KomikFragment extends AbstractHomeFragment
     @Override
     public void showArticles(List<Article> articles)
     {
-        articleAdapter.add(articles);
+        komikAdapter.add(articles);
     }
 
     @Override
     public void showFilteredArticles(List<Article> articles)
     {
-        articleAdapter.clear();
-        articleAdapter.add(articles);
+        komikAdapter.clear();
+        komikAdapter.add(articles);
     }
 
     @Override
     public void onDestroy()
     {
-        if (articleAdapter != null)
+        if (komikAdapter != null)
         {
-            articleAdapter.clear();
-            articleAdapter = null;
+            komikAdapter.clear();
+            komikAdapter = null;
         }
         super.onDestroy();
     }
@@ -124,7 +140,7 @@ public class KomikFragment extends AbstractHomeFragment
     public void onRefresh()
     {
         super.onRefresh();
-        articleAdapter.clear();
+        komikAdapter.clear();
         setUpRecyclerView();
         articleController.loadArticles("nyankomik", currentPage);
     }

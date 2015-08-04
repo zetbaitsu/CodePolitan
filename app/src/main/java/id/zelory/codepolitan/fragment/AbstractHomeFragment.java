@@ -40,7 +40,8 @@ import timber.log.Timber;
 /**
  * Created by zetbaitsu on 8/3/15.
  */
-public abstract class AbstractHomeFragment extends BenihFragment implements ArticleController.Presenter,
+public abstract class AbstractHomeFragment extends BenihFragment implements
+        ArticleController.Presenter,
         SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener
 {
     protected ArticleController articleController;
@@ -58,6 +59,7 @@ public abstract class AbstractHomeFragment extends BenihFragment implements Arti
     @Override
     protected void onViewReady(Bundle bundle)
     {
+        currentPage = bundle != null ? bundle.getInt("currentPage") : 1;
         setUpSwipeLayout();
         setUpAdapter();
         setupController(bundle);
@@ -175,6 +177,7 @@ public abstract class AbstractHomeFragment extends BenihFragment implements Arti
     public void onSaveInstanceState(Bundle outState)
     {
         articleController.saveState(outState);
+        outState.putInt("currentPage", currentPage);
         super.onSaveInstanceState(outState);
     }
 }
