@@ -29,7 +29,7 @@ import java.util.List;
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.ReadActivity;
-import id.zelory.codepolitan.adapter.ArticleAdapter;
+import id.zelory.codepolitan.adapter.MemeAdapter;
 import id.zelory.codepolitan.model.Article;
 
 /**
@@ -37,7 +37,7 @@ import id.zelory.codepolitan.model.Article;
  */
 public class MemeFragment extends AbstractHomeFragment
 {
-    private ArticleAdapter articleAdapter;
+    private MemeAdapter memeAdapter;
 
     @Override
     protected int getFragmentView()
@@ -62,11 +62,11 @@ public class MemeFragment extends AbstractHomeFragment
     @Override
     protected void setUpAdapter()
     {
-        if (articleAdapter == null)
+        if (memeAdapter == null)
         {
-            articleAdapter = new ArticleAdapter(getActivity());
-            articleAdapter.setOnItemClickListener(this::onItemClick);
-            recyclerView.setAdapter(articleAdapter);
+            memeAdapter = new MemeAdapter(getActivity());
+            memeAdapter.setOnItemClickListener(this::onItemClick);
+            recyclerView.setAdapter(memeAdapter);
         }
     }
 
@@ -90,7 +90,7 @@ public class MemeFragment extends AbstractHomeFragment
         if (position != 0)
         {
             Intent intent = new Intent(getActivity(), ReadActivity.class);
-            intent.putParcelableArrayListExtra("data", (ArrayList<Article>) articleAdapter.getData());
+            intent.putParcelableArrayListExtra("data", (ArrayList<Article>) memeAdapter.getData());
             intent.putExtra("position", position);
             startActivity(intent);
         }
@@ -99,23 +99,23 @@ public class MemeFragment extends AbstractHomeFragment
     @Override
     public void showArticles(List<Article> articles)
     {
-        articleAdapter.add(articles);
+        memeAdapter.add(articles);
     }
 
     @Override
     public void showFilteredArticles(List<Article> articles)
     {
-        articleAdapter.clear();
-        articleAdapter.add(articles);
+        memeAdapter.clear();
+        memeAdapter.add(articles);
     }
 
     @Override
     public void onDestroy()
     {
-        if (articleAdapter != null)
+        if (memeAdapter != null)
         {
-            articleAdapter.clear();
-            articleAdapter = null;
+            memeAdapter.clear();
+            memeAdapter = null;
         }
         super.onDestroy();
     }
@@ -124,7 +124,7 @@ public class MemeFragment extends AbstractHomeFragment
     public void onRefresh()
     {
         super.onRefresh();
-        articleAdapter.clear();
+        memeAdapter.clear();
         setUpRecyclerView();
         articleController.loadArticles("meme", currentPage);
     }
