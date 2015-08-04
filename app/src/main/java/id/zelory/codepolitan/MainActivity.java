@@ -36,8 +36,9 @@ import id.zelory.codepolitan.fragment.NewsFragment;
 import id.zelory.codepolitan.fragment.SettingFragment;
 import id.zelory.codepolitan.fragment.TagFragment;
 import id.zelory.codepolitan.fragment.UserFragment;
+import timber.log.Timber;
 
-public class MainActivity extends BenihActivity
+public class MainActivity extends BenihActivity implements TabLayout.OnTabSelectedListener
 {
     @Bind(R.id.view_pager) ViewPager viewPager;
     @Bind(R.id.tab_layout) TabLayout tabLayout;
@@ -80,6 +81,7 @@ public class MainActivity extends BenihActivity
         tabLayout.getTabAt(2).setIcon(R.drawable.tag);
         tabLayout.getTabAt(3).setIcon(R.drawable.user);
         tabLayout.getTabAt(4).setIcon(R.drawable.setting);
+        tabLayout.setOnTabSelectedListener(this);
     }
 
     @Override
@@ -93,5 +95,40 @@ public class MainActivity extends BenihActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab)
+    {
+        switch (tab.getPosition())
+        {
+            case 0:
+                getSupportActionBar().setTitle("Home");
+                break;
+            case 1:
+                getSupportActionBar().setTitle("Category");
+                break;
+            case 2:
+                getSupportActionBar().setTitle("Tag");
+                break;
+            case 3:
+                getSupportActionBar().setTitle("Yours");
+                break;
+            case 4:
+                getSupportActionBar().setTitle("Settings");
+                break;
+        }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab)
+    {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab)
+    {
+
     }
 }

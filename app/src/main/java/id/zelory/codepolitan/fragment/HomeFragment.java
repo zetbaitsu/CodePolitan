@@ -57,16 +57,6 @@ public class HomeFragment extends BenihFragment
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser)
-    {
-        if (isVisibleToUser && isResumed())
-        {
-            Timber.d("Home is visible");
-            getSupportActionBar().setTitle("Home");
-        }
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);

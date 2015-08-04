@@ -37,13 +37,4 @@ public class TagFragment extends BenihFragment
     {
 
     }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser)
-    {
-        if (isVisibleToUser && isResumed())
-        {
-            getSupportActionBar().setTitle("Tag");
-        }
-    }
 }

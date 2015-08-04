@@ -37,13 +37,4 @@ public class UserFragment extends BenihFragment
     {
 
     }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser)
-    {
-        if (isVisibleToUser && isResumed())
-        {
-            getSupportActionBar().setTitle("Yours");
-        }
-    }
 }
