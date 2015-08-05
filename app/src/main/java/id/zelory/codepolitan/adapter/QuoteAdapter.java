@@ -24,6 +24,7 @@ import id.zelory.benih.util.BenihUtils;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.adapter.viewholder.QuoteViewHolder;
 import id.zelory.codepolitan.model.Article;
+import id.zelory.codepolitan.util.ArticleUtils;
 
 /**
  * Created by zetbaitsu on 8/4/15.
@@ -38,12 +39,26 @@ public class QuoteAdapter extends BenihRecyclerAdapter<Article, QuoteViewHolder>
     @Override
     protected int getItemView(int i)
     {
-        return BenihUtils.randInt(0, 3) == 2 ? R.layout.item_grid_quotes : R.layout.item_grid_quotes_mini;
+
+        if (BenihUtils.randInt(0, 3) == 2)
+        {
+            data.get(i).setThumbnail(ArticleUtils.getBigImage(data.get(i).getThumbnail()));
+            return R.layout.item_grid_quotes;
+        } else
+        {
+            return R.layout.item_grid_quotes_mini;
+        }
     }
 
     @Override
     public QuoteViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
         return new QuoteViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+    }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        return position;
     }
 }

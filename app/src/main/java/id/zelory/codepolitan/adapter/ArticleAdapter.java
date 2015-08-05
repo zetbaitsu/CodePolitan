@@ -24,6 +24,7 @@ import id.zelory.benih.util.BenihUtils;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.adapter.viewholder.ArticleViewHolder;
 import id.zelory.codepolitan.model.Article;
+import id.zelory.codepolitan.util.ArticleUtils;
 
 /**
  * Created by zetbaitsu on 7/28/15.
@@ -43,6 +44,7 @@ public class ArticleAdapter extends BenihRecyclerAdapter<Article, ArticleViewHol
             return R.layout.header_list_article;
         } else if (i == 1 || BenihUtils.randInt(0, 5) == 3)
         {
+            data.get(i).setThumbnail(ArticleUtils.getBigImage(data.get(i).getThumbnail()));
             return R.layout.item_list_big_article;
         } else
         {

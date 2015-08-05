@@ -28,6 +28,7 @@ import id.zelory.codepolitan.model.Article;
 import id.zelory.codepolitan.model.Category;
 import id.zelory.codepolitan.model.Tag;
 import id.zelory.codepolitan.network.CodePolitanService;
+import id.zelory.codepolitan.util.ArticleUtils;
 import rx.Observable;
 import timber.log.Timber;
 
@@ -51,13 +52,18 @@ public class ArticleController extends BenihController<ArticleController.Present
                 .getApi()
                 .getDetailArticle(id)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .subscribe(articleResponse -> {
-                    if (articleResponse.getCode())
+                .flatMap(articleObjectResponse -> Observable.just(articleObjectResponse.getResult()))
+                .map(article -> {
+                    article.setThumbnail(ArticleUtils.getBigImage(article.getThumbnail()));
+                    return article;
+                })
+                .subscribe(article -> {
+                    this.article = article;
+                    if (presenter != null)
                     {
-                        article = articleResponse.getResult();
                         presenter.showArticle(article);
+                        presenter.dismissLoading();
                     }
-                    presenter.dismissLoading();
                 }, throwable -> {
                     Timber.d(throwable.getMessage());
                     presenter.showError(throwable);

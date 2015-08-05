@@ -23,6 +23,8 @@ import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.adapter.viewholder.MemeViewHolder;
 import id.zelory.codepolitan.model.Article;
+import id.zelory.codepolitan.util.ArticleUtils;
+import timber.log.Timber;
 
 /**
  * Created by zetbaitsu on 8/4/15.
@@ -37,6 +39,7 @@ public class MemeAdapter extends BenihRecyclerAdapter<Article, MemeViewHolder>
     @Override
     protected int getItemView(int i)
     {
+        data.get(i).setThumbnail(ArticleUtils.getBigImage(data.get(i).getThumbnail()));
         return R.layout.item_grid_meme;
     }
 
@@ -44,5 +47,11 @@ public class MemeAdapter extends BenihRecyclerAdapter<Article, MemeViewHolder>
     public MemeViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
         return new MemeViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+    }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        return position;
     }
 }

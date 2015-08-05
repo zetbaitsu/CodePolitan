@@ -23,6 +23,7 @@ import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.adapter.viewholder.KomikViewHolder;
 import id.zelory.codepolitan.model.Article;
+import id.zelory.codepolitan.util.ArticleUtils;
 
 /**
  * Created by zetbaitsu on 8/4/15.
@@ -37,7 +38,14 @@ public class KomikAdapter extends BenihRecyclerAdapter<Article, KomikViewHolder>
     @Override
     protected int getItemView(int i)
     {
-        return i % 5 == 0 ? R.layout.item_list_big_article : R.layout.item_grid_komik;
+        if (i % 5 == 0)
+        {
+            data.get(i).setThumbnail(ArticleUtils.getBigImage(data.get(i).getThumbnail()));
+            return R.layout.item_list_big_article;
+        } else
+        {
+            return R.layout.item_grid_komik;
+        }
     }
 
     @Override
