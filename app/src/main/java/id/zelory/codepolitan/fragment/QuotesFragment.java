@@ -94,7 +94,8 @@ public class QuotesFragment extends AbstractHomeFragment
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.getItem(5).setEnabled(false);
+        menu.getItem(1).setEnabled(false);
+        menu.getItem(1).setChecked(true);
     }
 
     @Override

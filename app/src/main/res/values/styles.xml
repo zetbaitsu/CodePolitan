@@ -26,7 +26,7 @@
         <item name="android:divider">@color/divider</item>
     </style>
 
-    <style name="Appbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="Appbar" parent="ThemeOverlay.AppCompat.Dark">
     </style>
 
     <style name="Popup" parent="ThemeOverlay.AppCompat.Light">

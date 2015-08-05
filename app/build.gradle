@@ -53,6 +53,10 @@ repositories {
     mavenCentral()
 }
 
+retrolambda {
+    incremental false
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.0.5'

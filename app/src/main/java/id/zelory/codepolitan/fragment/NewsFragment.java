@@ -70,7 +70,8 @@ public class NewsFragment extends AbstractHomeFragment
         recyclerView.clearOnScrollListeners();
         if (isGrid)
         {
-            recyclerView.setUpAsGrid(2);
+            recyclerView.setLayoutManager(getLayoutManager());
+            recyclerView.setHasFixedSize(true);
             recyclerView.addOnScrollListener(new BenihRecyclerListener((GridLayoutManager) recyclerView.getLayoutManager(), 5)
             {
                 @Override
@@ -95,6 +96,21 @@ public class NewsFragment extends AbstractHomeFragment
         }
     }
 
+    private GridLayoutManager getLayoutManager()
+    {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup()
+        {
+            @Override
+            public int getSpanSize(int position)
+            {
+                return position == 0 ? 2 : 1;
+            }
+        });
+
+        return gridLayoutManager;
+    }
+
     private void onItemClick(View view, int position)
     {
         if (position != 0)
@@ -110,7 +126,7 @@ public class NewsFragment extends AbstractHomeFragment
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.getItem(5).setEnabled(true);
+        menu.getItem(1).setEnabled(true);
     }
 
     @Override

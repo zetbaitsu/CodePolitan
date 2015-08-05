@@ -27,22 +27,6 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/action_news"
-        android:title="@string/news"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_komik"
-        android:title="@string/nyan_komik"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_meme"
-        android:title="@string/meme"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_quotes"
-        android:title="@string/quotes"
-        app:showAsAction="never"/>
-    <item
         android:id="@+id/action_grid"
         android:checkable="true"
         android:title="@string/grid"

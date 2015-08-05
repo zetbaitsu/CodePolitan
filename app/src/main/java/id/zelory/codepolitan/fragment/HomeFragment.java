@@ -27,8 +27,6 @@ import id.zelory.codepolitan.R;
  */
 public class HomeFragment extends BenihFragment
 {
-    private int position = 0;
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -45,48 +43,6 @@ public class HomeFragment extends BenihFragment
     @Override
     protected void onViewReady(Bundle bundle)
     {
-        if (bundle == null)
-        {
-            replace(R.id.fragment_home_container, new NewsFragment(), false);
-            position = 0;
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.action_news:
-                if (position != 0)
-                {
-                    replace(R.id.fragment_home_container, new NewsFragment(), false);
-                    position = 0;
-                }
-                break;
-            case R.id.action_komik:
-                if (position != 1)
-                {
-                    replace(R.id.fragment_home_container, new KomikFragment(), false);
-                    position = 1;
-                }
-                break;
-            case R.id.action_meme:
-                if (position != 2)
-                {
-                    replace(R.id.fragment_home_container, new MemeFragment(), false);
-                    position = 2;
-                }
-                break;
-            case R.id.action_quotes:
-                if (position != 3)
-                {
-                    replace(R.id.fragment_home_container, new QuotesFragment(), false);
-                    position = 3;
-                }
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

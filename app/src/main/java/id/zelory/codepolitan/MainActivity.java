@@ -22,6 +22,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +33,24 @@ import butterknife.Bind;
 import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.adapter.MainPagerAdapter;
+import id.zelory.codepolitan.adapter.MenuSpinnerAdapter;
 import id.zelory.codepolitan.fragment.CategoryFragment;
 import id.zelory.codepolitan.fragment.HomeFragment;
+import id.zelory.codepolitan.fragment.KomikFragment;
+import id.zelory.codepolitan.fragment.MemeFragment;
+import id.zelory.codepolitan.fragment.NewsFragment;
+import id.zelory.codepolitan.fragment.QuotesFragment;
 import id.zelory.codepolitan.fragment.SettingFragment;
 import id.zelory.codepolitan.fragment.TagFragment;
 import id.zelory.codepolitan.fragment.UserFragment;
 
-public class MainActivity extends BenihActivity implements TabLayout.OnTabSelectedListener
+public class MainActivity extends BenihActivity implements TabLayout.OnTabSelectedListener,
+        AdapterView.OnItemSelectedListener
 {
     @Bind(R.id.view_pager) ViewPager viewPager;
     @Bind(R.id.tab_layout) TabLayout tabLayout;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.spinner_nav) Spinner spinner;
 
     @Override
     protected int getActivityView()
@@ -52,10 +62,11 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
     protected void onViewReady(Bundle bundle)
     {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Home");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         setUpViewPager();
         setUpTabLayout();
-
+        spinner.setAdapter(new MenuSpinnerAdapter(this));
+        spinner.setOnItemSelectedListener(this);
     }
 
     private void setUpViewPager()
@@ -101,18 +112,27 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
         switch (tab.getPosition())
         {
             case 0:
-                getSupportActionBar().setTitle("Home");
+                getSupportActionBar().setDisplayShowTitleEnabled(false);
+                spinner.setVisibility(View.VISIBLE);
                 break;
             case 1:
+                spinner.setVisibility(View.GONE);
+                getSupportActionBar().setDisplayShowTitleEnabled(true);
                 getSupportActionBar().setTitle("Category");
                 break;
             case 2:
+                spinner.setVisibility(View.GONE);
+                getSupportActionBar().setDisplayShowTitleEnabled(true);
                 getSupportActionBar().setTitle("Tag");
                 break;
             case 3:
+                spinner.setVisibility(View.GONE);
+                getSupportActionBar().setDisplayShowTitleEnabled(true);
                 getSupportActionBar().setTitle("Yours");
                 break;
             case 4:
+                spinner.setVisibility(View.GONE);
+                getSupportActionBar().setDisplayShowTitleEnabled(true);
                 getSupportActionBar().setTitle("Settings");
                 break;
         }
@@ -127,6 +147,33 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
 
     @Override
     public void onTabReselected(TabLayout.Tab tab)
+    {
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+    {
+        HomeFragment homeFragment = (HomeFragment) ((MainPagerAdapter) viewPager.getAdapter()).getItem(0);
+        switch (position)
+        {
+            case 0:
+                homeFragment.replace(R.id.fragment_home_container, new NewsFragment(), false);
+                break;
+            case 1:
+                homeFragment.replace(R.id.fragment_home_container, new KomikFragment(), false);
+                break;
+            case 2:
+                homeFragment.replace(R.id.fragment_home_container, new MemeFragment(), false);
+                break;
+            case 3:
+                homeFragment.replace(R.id.fragment_home_container, new QuotesFragment(), false);
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent)
     {
 
     }

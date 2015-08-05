@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
   ~ Copyright (c) 2015 Zelory.
   ~
@@ -16,20 +15,20 @@
   ~  limitations under the License.
   -->
 
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    app:statusBarBackground="@color/primary"
-    tools:context=".ReadActivity">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@color/primary"
+    android:orientation="vertical">
 
-    <id.zelory.codepolitan.view.BenihWebView
-        android:id="@+id/content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:minHeight="500dp"/>
+    <TextView
+        android:id="@+id/item_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textColor="#FFF"
+        android:textSize="18sp"/>
 
-</LinearLayout>
+</RelativeLayout>
