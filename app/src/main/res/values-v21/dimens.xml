@@ -16,5 +16,5 @@
   -->
 
 <resources>
-    <dimen name="dropDownVerticalOffset">0dp</dimen>
+    <dimen name="dropDownVerticalOffset">48dp</dimen>
 </resources>
