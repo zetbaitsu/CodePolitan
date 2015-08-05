@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +55,7 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     protected void onViewReady(Bundle bundle)
     {
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         viewPager = (ViewPager) findViewById(R.id.pager);
         readFragments = new ArrayList<>();
@@ -88,6 +91,24 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
             readFragment.setData(article);
             readFragments.add(readFragment);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
     }
 
     @Override
