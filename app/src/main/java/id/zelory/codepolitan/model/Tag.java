@@ -16,13 +16,37 @@
 
 package id.zelory.codepolitan.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by zetbaitsu on 7/28/15.
  */
-public class Tag
+public class Tag implements Parcelable
 {
     private String name;
     private String slug;
+
+    protected Tag(Parcel in)
+    {
+        name = in.readString();
+        slug = in.readString();
+    }
+
+    public static final Creator<Tag> CREATOR = new Creator<Tag>()
+    {
+        @Override
+        public Tag createFromParcel(Parcel in)
+        {
+            return new Tag(in);
+        }
+
+        @Override
+        public Tag[] newArray(int size)
+        {
+            return new Tag[size];
+        }
+    };
 
     public String getName()
     {
@@ -48,5 +72,18 @@ public class Tag
     public String toString()
     {
         return name;
+    }
+
+    @Override
+    public int describeContents()
+    {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        dest.writeString(name);
+        dest.writeString(slug);
     }
 }
