@@ -24,7 +24,6 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.adapter.viewholder.MemeViewHolder;
 import id.zelory.codepolitan.model.Article;
 import id.zelory.codepolitan.util.ArticleUtils;
-import timber.log.Timber;
 
 /**
  * Created by zetbaitsu on 8/4/15.

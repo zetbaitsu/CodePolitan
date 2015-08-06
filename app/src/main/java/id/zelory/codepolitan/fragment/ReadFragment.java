@@ -38,9 +38,6 @@ import timber.log.Timber;
 public class ReadFragment extends BenihFragment<Article> implements ArticleController.Presenter
 {
     private ArticleController articleController;
-    //@Bind(R.id.image) BenihImageView image;
-    /*@Bind(R.id.date) TextView date;
-    @Bind(R.id.title) TextView title;*/
     @Bind(R.id.content) BenihWebView content;
 
     @Override
@@ -82,9 +79,6 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     @Override
     public void showArticle(Article article)
     {
-        //image.setImageUrl(article.getThumbnail());
-        /*date.setText(article.getDate());
-        title.setText(article.getTitle());*/
         content.loadData(article.getTitle(), article.getDate(), article.getThumbnail(), article.getContent(), "CodePolitan 2015");
     }
 

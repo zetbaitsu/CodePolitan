@@ -22,8 +22,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.webkit.WebView;
 
-import timber.log.Timber;
-
 /**
  * Created by zetbaitsu on 7/14/15.
  */

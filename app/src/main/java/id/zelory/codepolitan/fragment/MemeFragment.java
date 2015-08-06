@@ -85,13 +85,10 @@ public class MemeFragment extends AbstractHomeFragment
 
     private void onItemClick(View view, int position)
     {
-        if (position != 0)
-        {
-            Intent intent = new Intent(getActivity(), ReadActivity.class);
-            intent.putParcelableArrayListExtra("data", (ArrayList<Article>) memeAdapter.getData());
-            intent.putExtra("position", position);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(getActivity(), ReadActivity.class);
+        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) memeAdapter.getData());
+        intent.putExtra("position", position);
+        startActivity(intent);
     }
 
     @Override
