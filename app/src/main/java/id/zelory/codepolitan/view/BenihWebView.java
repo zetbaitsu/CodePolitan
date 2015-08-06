@@ -74,10 +74,8 @@ public class BenihWebView extends WebView
     private static final String SUBTITLE_END = "</p>";
     private static final String IMG_START = "<img src=\"";
     private static final String IMG_END = "\" />";
-    private static final String CONTENT_START = "<p>";
-    private static final String CONTENT_END = "</p>";
-
-    private OnScrollChangedCallback mOnScrollChangedCallback;
+    private static final String CONTENT_START = "<div class='content'>";
+    private static final String CONTENT_END = "</div>";
 
     public BenihWebView(Context context)
     {
@@ -107,34 +105,8 @@ public class BenihWebView extends WebView
 
     private String generateHtml(String title, String tanggal, String thumbnail, String content, String copyright)
     {
-        Timber.d(IMG_START + thumbnail + IMG_END);
         return CSS + BODY_START + TITLE_START + "" + TITLE_MIDDLE + title + TITLE_END + SUBTITLE_START + tanggal + SUBTITLE_END
                 + IMG_START + thumbnail + IMG_END + CONTENT_START + content + CONTENT_END
                 + SUBTITLE_START + "<center><b>&copy; " + copyright + "</b></center>" + SUBTITLE_END + BODY_END;
-    }
-
-    @Override
-    protected void onScrollChanged(final int l, final int t, final int oldl, final int oldt)
-    {
-        super.onScrollChanged(l, t, oldl, oldt);
-        if (mOnScrollChangedCallback != null) { mOnScrollChangedCallback.onScroll(l, t); }
-    }
-
-    public OnScrollChangedCallback getOnScrollChangedCallback()
-    {
-        return mOnScrollChangedCallback;
-    }
-
-    public void setOnScrollChangedCallback(final OnScrollChangedCallback onScrollChangedCallback)
-    {
-        mOnScrollChangedCallback = onScrollChangedCallback;
-    }
-
-    /**
-     * Impliment in the activity/fragment/view that you want to listen to the webview
-     */
-    public static interface OnScrollChangedCallback
-    {
-        public void onScroll(int l, int t);
     }
 }
