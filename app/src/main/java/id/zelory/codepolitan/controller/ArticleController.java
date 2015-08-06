@@ -66,8 +66,11 @@ public class ArticleController extends BenihController<ArticleController.Present
                     }
                 }, throwable -> {
                     Timber.d(throwable.getMessage());
-                    presenter.showError(throwable);
-                    presenter.dismissLoading();
+                    if (presenter != null)
+                    {
+                        presenter.showError(throwable);
+                        presenter.dismissLoading();
+                    }
                 });
     }
 
@@ -90,14 +93,24 @@ public class ArticleController extends BenihController<ArticleController.Present
                                     {
                                         articles.addAll(articleResponse.getResult());
                                     }
-                                }).subscribe(o -> presenter.showArticles(articleResponse.getResult()));
+                                }).subscribe(o -> {
+                            if (presenter != null)
+                            {
+                                presenter.showArticles(articleResponse.getResult());
+                            }
+                        });
                     }
-                    presenter.dismissLoading();
+                    if (presenter != null)
+                    {
+                        presenter.dismissLoading();
+                    }
                 }, throwable -> {
                     Timber.d(throwable.getMessage());
-                    loadArticles(page);
-                    presenter.showError(throwable);
-                    presenter.dismissLoading();
+                    if (presenter != null)
+                    {
+                        presenter.showError(throwable);
+                        presenter.dismissLoading();
+                    }
                 });
     }
 
@@ -120,14 +133,24 @@ public class ArticleController extends BenihController<ArticleController.Present
                                     {
                                         articles.addAll(articleResponse.getResult());
                                     }
-                                }).subscribe(o -> presenter.showArticles(articleResponse.getResult()));
+                                }).subscribe(o -> {
+                            if (presenter != null)
+                            {
+                                presenter.showArticles(articleResponse.getResult());
+                            }
+                        });
                     }
-                    presenter.dismissLoading();
+                    if (presenter != null)
+                    {
+                        presenter.dismissLoading();
+                    }
                 }, throwable -> {
                     Timber.d(throwable.getMessage());
-                    loadArticles(page);
-                    presenter.showError(throwable);
-                    presenter.dismissLoading();
+                    if (presenter != null)
+                    {
+                        presenter.showError(throwable);
+                        presenter.dismissLoading();
+                    }
                 });
     }
 
@@ -150,14 +173,24 @@ public class ArticleController extends BenihController<ArticleController.Present
                                     {
                                         articles.addAll(articleResponse.getResult());
                                     }
-                                }).subscribe(o -> presenter.showArticles(articleResponse.getResult()));
+                                }).subscribe(o -> {
+                            if (presenter != null)
+                            {
+                                presenter.showArticles(articleResponse.getResult());
+                            }
+                        });
                     }
-                    presenter.dismissLoading();
+                    if (presenter != null)
+                    {
+                        presenter.dismissLoading();
+                    }
                 }, throwable -> {
                     Timber.d(throwable.getMessage());
-                    loadArticles(page);
-                    presenter.showError(throwable);
-                    presenter.dismissLoading();
+                    if (presenter != null)
+                    {
+                        presenter.showError(throwable);
+                        presenter.dismissLoading();
+                    }
                 });
     }
 
@@ -180,20 +213,29 @@ public class ArticleController extends BenihController<ArticleController.Present
                                     {
                                         articles.addAll(articleResponse.getResult());
                                     }
-                                }).subscribe(o -> presenter.showArticles(articleResponse.getResult()));
+                                }).subscribe(o -> {
+                            if (presenter != null)
+                            {
+                                presenter.showArticles(articleResponse.getResult());
+                            }
+                        });
                     }
-                    presenter.dismissLoading();
+                    if (presenter != null)
+                    {
+                        presenter.dismissLoading();
+                    }
                 }, throwable -> {
                     Timber.d(throwable.getMessage());
-                    loadArticles(page);
-                    presenter.showError(throwable);
-                    presenter.dismissLoading();
+                    if (presenter != null)
+                    {
+                        presenter.showError(throwable);
+                        presenter.dismissLoading();
+                    }
                 });
     }
 
     public void filter(String query)
     {
-        Timber.d(query);
         Observable.from(articles)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.NEW_THREAD))
                 .filter(article -> article.getTitle().toLowerCase().contains(query.toLowerCase()))
@@ -226,7 +268,6 @@ public class ArticleController extends BenihController<ArticleController.Present
     @Override
     public void saveState(Bundle bundle)
     {
-        Timber.d("saveState");
         bundle.putParcelable("article", article);
         bundle.putParcelableArrayList("articles", (ArrayList<Article>) articles);
     }
