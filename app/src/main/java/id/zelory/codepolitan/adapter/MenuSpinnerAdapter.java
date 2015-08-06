@@ -35,7 +35,7 @@ public class MenuSpinnerAdapter extends ArrayAdapter<String>
 
     public MenuSpinnerAdapter(Context context)
     {
-        super(context, R.layout.item_spinner_menu);
+        super(context, R.layout.spinner_item_menu);
         this.context = context;
         addAll(menu);
     }
@@ -54,7 +54,7 @@ public class MenuSpinnerAdapter extends ArrayAdapter<String>
 
     private View getCustomView(int position, View convertView, ViewGroup parent)
     {
-        View row = LayoutInflater.from(context).inflate(R.layout.item_spinner_menu, parent, false);
+        View row = LayoutInflater.from(context).inflate(R.layout.spinner_item_menu, parent, false);
         TextView menuItem = (TextView) row.findViewById(R.id.item_menu);
         menuItem.setText(menu[position]);
         return row;

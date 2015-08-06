@@ -41,10 +41,10 @@ public class KomikAdapter extends BenihRecyclerAdapter<Article, KomikViewHolder>
         if (i % 5 == 0)
         {
             data.get(i).setThumbnail(ArticleUtils.getBigImage(data.get(i).getThumbnail()));
-            return R.layout.item_list_big_article;
+            return R.layout.list_item_article_big;
         } else
         {
-            return R.layout.item_grid_komik;
+            return R.layout.grid_item_komik;
         }
     }
 

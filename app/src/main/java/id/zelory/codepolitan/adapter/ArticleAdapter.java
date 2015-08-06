@@ -41,14 +41,14 @@ public class ArticleAdapter extends BenihRecyclerAdapter<Article, ArticleViewHol
     {
         if (i == 0)
         {
-            return R.layout.header_list_article;
+            return R.layout.list_header_article;
         } else if (i == 1 || BenihUtils.randInt(0, 5) == 3)
         {
             data.get(i).setThumbnail(ArticleUtils.getBigImage(data.get(i).getThumbnail()));
-            return R.layout.item_list_big_article;
+            return R.layout.list_item_article_big;
         } else
         {
-            return R.layout.item_list_mini_article;
+            return R.layout.list_item_article_mini;
         }
     }
 

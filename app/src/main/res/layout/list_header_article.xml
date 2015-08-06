@@ -53,7 +53,7 @@
 
 
     <include
-        layout="@layout/item_list_mini_article"/>
+        layout="@layout/list_item_article_mini"/>
 
     <LinearLayout
         android:layout_width="match_parent"
