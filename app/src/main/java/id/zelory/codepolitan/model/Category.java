@@ -26,11 +26,18 @@ public class Category implements Parcelable
 {
     private String name;
     private String slug;
+    private int imageResource;
+
+    public Category()
+    {
+
+    }
 
     protected Category(Parcel in)
     {
         name = in.readString();
         slug = in.readString();
+        imageResource = in.readInt();
     }
 
     public static final Creator<Category> CREATOR = new Creator<Category>()
@@ -68,6 +75,16 @@ public class Category implements Parcelable
         this.slug = slug;
     }
 
+    public int getImageResource()
+    {
+        return imageResource;
+    }
+
+    public void setImageResource(int imageResource)
+    {
+        this.imageResource = imageResource;
+    }
+
     @Override
     public String toString()
     {
@@ -85,5 +102,6 @@ public class Category implements Parcelable
     {
         dest.writeString(name);
         dest.writeString(slug);
+        dest.writeInt(imageResource);
     }
 }

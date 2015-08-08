@@ -76,7 +76,7 @@ public abstract class AbstractHomeFragment extends BenihFragment implements
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        super.onCreateOptionsMenu(menu, inflater);
+        //super.onCreateOptionsMenu(menu, inflater);
         SearchView searchView = (SearchView) menu.getItem(0).getActionView();
         searchView.setOnQueryTextListener(this);
         TextView textView = ButterKnife.findById(searchView, android.support.v7.appcompat.R.id.search_src_text);

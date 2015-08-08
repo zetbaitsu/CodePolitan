@@ -20,14 +20,16 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
+import id.zelory.benih.adapter.viewholder.BenihViewHolder;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.adapter.viewholder.CategoryHeaderViewHolder;
 import id.zelory.codepolitan.adapter.viewholder.CategoryViewHolder;
 import id.zelory.codepolitan.model.Category;
 
 /**
  * Created by zetbaitsu on 8/6/15.
  */
-public class CategoryAdapter extends BenihRecyclerAdapter<Category, CategoryViewHolder>
+public class CategoryAdapter extends BenihRecyclerAdapter<Category, BenihViewHolder>
 {
     public CategoryAdapter(Context context)
     {
@@ -37,12 +39,24 @@ public class CategoryAdapter extends BenihRecyclerAdapter<Category, CategoryView
     @Override
     protected int getItemView(int i)
     {
-        return R.layout.list_item_category;
+        return i == -1 ? R.layout.list_header_category : R.layout.list_item_category;
     }
 
     @Override
-    public CategoryViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public BenihViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
-        return new CategoryViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+        if (i == -1)
+        {
+            return new CategoryHeaderViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+        } else
+        {
+            return new CategoryViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        return position == 0 ? -1 : data.get(position).getName().equalsIgnoreCase("Info") ? 1 : 0;
     }
 }

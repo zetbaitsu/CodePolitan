@@ -46,6 +46,6 @@ public class ArticleViewHolder extends BenihViewHolder<Article>
     {
         title.setText(article.getTitle());
         date.setText(article.getDate());
-        thumbnail.setImageUrl(article.getThumbnail());
+        thumbnail.setImageUrl(article.getThumbnailSmall());
     }
 }

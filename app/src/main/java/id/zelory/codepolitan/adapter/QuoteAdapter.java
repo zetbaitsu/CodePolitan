@@ -42,7 +42,7 @@ public class QuoteAdapter extends BenihRecyclerAdapter<Article, QuoteViewHolder>
 
         if (BenihUtils.randInt(0, 3) == 2)
         {
-            data.get(i).setThumbnail(ArticleUtils.getBigImage(data.get(i).getThumbnail()));
+            //data.get(i).setThumbnail(ArticleUtils.getBigImage(data.get(i).getThumbnail()));
             return R.layout.grid_item_quote;
         } else
         {

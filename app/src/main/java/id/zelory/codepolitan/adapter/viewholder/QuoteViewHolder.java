@@ -42,6 +42,6 @@ public class QuoteViewHolder extends BenihViewHolder<Article>
     @Override
     public void bind(Article article)
     {
-        thumbnail.setImageUrl(article.getThumbnail());
+        thumbnail.setImageUrl(article.getThumbnailSmall());
     }
 }

@@ -119,6 +119,7 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
                 spinner.setVisibility(View.GONE);
                 getSupportActionBar().setDisplayShowTitleEnabled(true);
                 getSupportActionBar().setTitle("Category");
+                toolbar.getMenu().removeItem(R.id.action_search);
                 break;
             case 2:
                 spinner.setVisibility(View.GONE);

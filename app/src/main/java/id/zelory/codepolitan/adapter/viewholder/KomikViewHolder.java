@@ -24,7 +24,6 @@ import id.zelory.benih.adapter.viewholder.BenihViewHolder;
 import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.model.Article;
-import timber.log.Timber;
 
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
@@ -48,6 +47,6 @@ public class KomikViewHolder extends BenihViewHolder<Article>
     {
         title.setText(article.getTitle());
         date.setText(article.getDate());
-        thumbnail.setImageUrl(article.getThumbnail());
+        thumbnail.setImageUrl(article.getThumbnailSmall());
     }
 }

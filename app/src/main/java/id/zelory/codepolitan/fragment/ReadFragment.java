@@ -79,7 +79,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     @Override
     public void showArticle(Article article)
     {
-        content.loadData(article.getTitle(), article.getDate(), article.getThumbnail(), article.getContent(), "CodePolitan 2015");
+        content.loadData(article.getTitle(), article.getDate(), article.getThumbnailMedium(), article.getContent(), "CodePolitan 2015");
     }
 
     @Override

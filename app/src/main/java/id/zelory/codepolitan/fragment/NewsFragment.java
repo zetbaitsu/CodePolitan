@@ -125,7 +125,7 @@ public class NewsFragment extends AbstractHomeFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        super.onCreateOptionsMenu(menu, inflater);
+        //super.onCreateOptionsMenu(menu, inflater);
         menu.getItem(1).setEnabled(true);
     }
 

@@ -54,7 +54,7 @@ public class ArticleController extends BenihController<ArticleController.Present
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
                 .flatMap(articleObjectResponse -> Observable.just(articleObjectResponse.getResult()))
                 .map(article -> {
-                    article.setThumbnail(ArticleUtils.getBigImage(article.getThumbnail()));
+                    //article.setThumbnail(ArticleUtils.getBigImage(article.getThumbnail()));
                     return article;
                 })
                 .subscribe(article -> {

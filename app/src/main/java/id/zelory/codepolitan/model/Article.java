@@ -29,7 +29,8 @@ public class Article implements Parcelable
     private String content;
     private String date;
     private String link;
-    private String thumbnail;
+    private String thumbnailSmall;
+    private String thumbnailMedium;
 
     public Article()
     {
@@ -43,7 +44,8 @@ public class Article implements Parcelable
         content = in.readString();
         date = in.readString();
         link = in.readString();
-        thumbnail = in.readString();
+        thumbnailSmall = in.readString();
+        thumbnailMedium = in.readString();
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>()
@@ -111,14 +113,24 @@ public class Article implements Parcelable
         this.link = link;
     }
 
-    public String getThumbnail()
+    public String getThumbnailSmall()
     {
-        return thumbnail;
+        return thumbnailSmall;
     }
 
-    public void setThumbnail(String thumbnail)
+    public void setThumbnailSmall(String thumbnailSmall)
     {
-        this.thumbnail = thumbnail;
+        this.thumbnailSmall = thumbnailSmall;
+    }
+
+    public String getThumbnailMedium()
+    {
+        return thumbnailMedium;
+    }
+
+    public void setThumbnailMedium(String thumbnailMedium)
+    {
+        this.thumbnailMedium = thumbnailMedium;
     }
 
     @Override
@@ -135,6 +147,7 @@ public class Article implements Parcelable
         dest.writeString(content);
         dest.writeString(date);
         dest.writeString(link);
-        dest.writeString(thumbnail);
+        dest.writeString(thumbnailSmall);
+        dest.writeString(thumbnailMedium);
     }
 }

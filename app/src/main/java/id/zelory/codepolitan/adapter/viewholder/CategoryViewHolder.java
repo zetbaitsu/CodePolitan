@@ -17,10 +17,12 @@
 package id.zelory.codepolitan.adapter.viewholder;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import id.zelory.benih.adapter.viewholder.BenihViewHolder;
+import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.model.Category;
 
@@ -32,7 +34,8 @@ import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListen
  */
 public class CategoryViewHolder extends BenihViewHolder<Category>
 {
-    @Bind(R.id.name) TextView name;
+    @Bind(R.id.category_name) TextView name;
+    @Bind(R.id.category_image) ImageView image;
 
     public CategoryViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
@@ -43,5 +46,10 @@ public class CategoryViewHolder extends BenihViewHolder<Category>
     public void bind(Category category)
     {
         name.setText(category.getName());
+        image.setImageResource(category.getImageResource());
+        if (category.getName().equalsIgnoreCase("Info"))
+        {
+            name.setTextColor(CodePolitanApplication.pluck().getResources().getColor(R.color.secondary_text));
+        }
     }
 }

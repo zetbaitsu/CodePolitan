@@ -23,8 +23,10 @@ import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
+import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.model.Category;
 import id.zelory.codepolitan.network.CodePolitanService;
+import rx.Observable;
 
 /**
  * Created by zetbaitsu on 8/6/15.
@@ -45,17 +47,58 @@ public class CategoryController extends BenihController<CategoryController.Prese
                 .getApi()
                 .getCategories(page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .subscribe(categoryListResponse -> {
-                    if (categoryListResponse.getCode())
+                .flatMap(categoryListResponse -> Observable.just(categoryListResponse.getResult()))
+                .flatMap(Observable::from)
+                .filter(category -> !category.getName().equalsIgnoreCase("News"))
+                .filter(category -> !category.getName().equalsIgnoreCase("Comic"))
+                .map(category -> {
+                    if (category.getName().equalsIgnoreCase("Tips &amp; Trik"))
                     {
-                        this.categories = categoryListResponse.getResult();
-                        if (presenter != null)
-                        {
-                            presenter.showCategories(categories);
-                        }
+                        category.setName("Tips & Trik");
                     }
+                    return category;
+                })
+                .map(category -> {
+                    switch (category.getName())
+                    {
+                        case "Tokoh":
+                            category.setImageResource(R.drawable.category_tokoh);
+                            break;
+                        case "Tools":
+                            category.setImageResource(R.drawable.category_tools);
+                            break;
+                        case "Info":
+                            category.setImageResource(R.drawable.category_info);
+                            break;
+                        case "Tips & Trik":
+                            category.setImageResource(R.drawable.category_tips);
+                            break;
+                        case "Wawancara":
+                            category.setImageResource(R.drawable.category_wawancara);
+                            break;
+                        case "Event":
+                            category.setImageResource(R.drawable.category_event);
+                            break;
+                        case "Opini":
+                            category.setImageResource(R.drawable.category_opini);
+                            break;
+                        case "Komunitas":
+                            category.setImageResource(R.drawable.category_komunitas);
+                            break;
+                        case "Review KaryaLokal":
+                            category.setImageResource(R.drawable.category_review);
+                            break;
+                        case "Lowongan Kerja":
+                            category.setImageResource(R.drawable.category_lowongan);
+                            break;
+                    }
+                    return category;
+                })
+                .toList()
+                .subscribe(categories -> {
                     if (presenter != null)
                     {
+                        presenter.showCategories(categories);
                         presenter.dismissLoading();
                     }
                 }, throwable -> {

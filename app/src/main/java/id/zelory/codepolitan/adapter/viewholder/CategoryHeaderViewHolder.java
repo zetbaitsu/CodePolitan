@@ -17,36 +17,26 @@
 package id.zelory.codepolitan.adapter.viewholder;
 
 import android.view.View;
-import android.widget.TextView;
 
-import butterknife.Bind;
 import id.zelory.benih.adapter.viewholder.BenihViewHolder;
-import id.zelory.benih.view.BenihImageView;
-import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.model.Article;
+import id.zelory.codepolitan.model.Category;
 
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
 
 /**
- * Created by zetbaitsu on 8/4/15.
+ * Created by zetbaitsu on 8/8/15.
  */
-public class MemeViewHolder extends BenihViewHolder<Article>
+public class CategoryHeaderViewHolder extends BenihViewHolder<Category>
 {
-    @Bind(R.id.title) TextView title;
-    @Bind(R.id.date) TextView date;
-    @Bind(R.id.thumbnail) BenihImageView thumbnail;
-
-    public MemeViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
+    public CategoryHeaderViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
         super(itemView, itemClickListener, longItemClickListener);
     }
 
     @Override
-    public void bind(Article article)
+    public void bind(Category category)
     {
-        title.setText(article.getTitle());
-        date.setText(article.getDate());
-        thumbnail.setImageUrl(article.getThumbnailSmall());
+
     }
 }

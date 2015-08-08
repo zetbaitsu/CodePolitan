@@ -38,7 +38,7 @@ public class MemeAdapter extends BenihRecyclerAdapter<Article, MemeViewHolder>
     @Override
     protected int getItemView(int i)
     {
-        data.get(i).setThumbnail(ArticleUtils.getBigImage(data.get(i).getThumbnail()));
+        //data.get(i).setThumbnail(ArticleUtils.getBigImage(data.get(i).getThumbnail()));
         return R.layout.grid_item_meme;
     }
 
