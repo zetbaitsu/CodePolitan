@@ -19,14 +19,12 @@ package id.zelory.codepolitan.fragment;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import java.util.List;
 
 import butterknife.Bind;
 import id.zelory.benih.fragment.BenihFragment;
-import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.adapter.CategoryAdapter;

@@ -60,5 +60,5 @@ retrolambda {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.0.5'
-    compile 'id.zelory.benih:benih:0.1.4'
+    compile 'id.zelory.benih:benih:0.1.7'
 }

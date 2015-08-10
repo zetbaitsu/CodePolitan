@@ -23,6 +23,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.trello.rxlifecycle.FragmentEvent;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -34,7 +37,6 @@ import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.model.Article;
-import rx.android.widget.WidgetObservable;
 import timber.log.Timber;
 
 /**
@@ -76,14 +78,16 @@ public abstract class AbstractHomeFragment extends BenihFragment implements
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        //super.onCreateOptionsMenu(menu, inflater);
+        super.onCreateOptionsMenu(menu, inflater);
         SearchView searchView = (SearchView) menu.getItem(0).getActionView();
         searchView.setOnQueryTextListener(this);
         TextView textView = ButterKnife.findById(searchView, android.support.v7.appcompat.R.id.search_src_text);
-        subscription = WidgetObservable.text(textView)
+
+        RxTextView.textChanges(textView)
                 .debounce(500, TimeUnit.MILLISECONDS)
-                .subscribe(onTextChangeEvent -> articleController.filter(onTextChangeEvent.text().toString()));
-        subscriptionCollector.add(subscription);
+                .compose(bindUntilEvent(FragmentEvent.DESTROY))
+                .subscribe(charSequence -> articleController.filter(charSequence.toString()),
+                           throwable -> Timber.d(throwable.getMessage()));
     }
 
     protected void setupController(Bundle bundle)
