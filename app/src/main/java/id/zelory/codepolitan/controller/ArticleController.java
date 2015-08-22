@@ -24,11 +24,11 @@ import java.util.List;
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
 import id.zelory.benih.util.BenihWorker;
-import id.zelory.codepolitan.model.Article;
-import id.zelory.codepolitan.model.Category;
-import id.zelory.codepolitan.model.Tag;
-import id.zelory.codepolitan.network.CodePolitanService;
-import id.zelory.codepolitan.util.ArticleUtils;
+import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.data.database.DataBaseHelper;
+import id.zelory.codepolitan.data.api.CodePolitanApi;
 import rx.Observable;
 import timber.log.Timber;
 
@@ -48,13 +48,14 @@ public class ArticleController extends BenihController<ArticleController.Present
     public void loadArticle(int id)
     {
         presenter.showLoading();
-        CodePolitanService.pluck()
+        CodePolitanApi.pluck()
                 .getApi()
                 .getDetailArticle(id)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
                 .flatMap(articleObjectResponse -> Observable.just(articleObjectResponse.getResult()))
                 .map(article -> {
-                    //article.setThumbnail(ArticleUtils.getBigImage(article.getThumbnail()));
+                    article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                    article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
                     return article;
                 })
                 .subscribe(article -> {
@@ -77,35 +78,39 @@ public class ArticleController extends BenihController<ArticleController.Present
     public void loadArticles(int page)
     {
         presenter.showLoading();
-        CodePolitanService.pluck()
+        CodePolitanApi.pluck()
                 .getApi()
                 .getLatestArticles(page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .subscribe(articleResponse -> {
-                    if (articleResponse.getCode())
-                    {
-                        BenihWorker.pluck()
-                                .doInNewThread(() -> {
-                                    if (page == 1)
-                                    {
-                                        articles = articleResponse.getResult();
-                                    } else
-                                    {
-                                        articles.addAll(articleResponse.getResult());
-                                    }
-                                }).subscribe(o -> {
-                            if (presenter != null)
-                            {
-                                presenter.showArticles(articleResponse.getResult());
-                            }
-                        });
-                    }
+                .flatMap(articleListResponse -> Observable.just(articleListResponse.getResult()))
+                .flatMap(Observable::from)
+                .map(article -> {
+                    article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                    article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                    return article;
+                })
+                .toList()
+                .subscribe(articles -> {
+                    BenihWorker.pluck()
+                            .doInNewThread(() -> {
+                                if (page == 1)
+                                {
+                                    this.articles = articles;
+                                } else
+                                {
+                                    this.articles.addAll(articles);
+                                }
+                            }).subscribe(o -> {
+                        if (presenter != null)
+                        {
+                            presenter.showArticles(articles);
+                        }
+                    });
                     if (presenter != null)
                     {
                         presenter.dismissLoading();
                     }
                 }, throwable -> {
-                    Timber.d(throwable.getMessage());
                     if (presenter != null)
                     {
                         presenter.showError(throwable);
@@ -117,7 +122,7 @@ public class ArticleController extends BenihController<ArticleController.Present
     public void loadArticles(String postType, int page)
     {
         presenter.showLoading();
-        CodePolitanService.pluck()
+        CodePolitanApi.pluck()
                 .getApi()
                 .getLatestArticles(postType, page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
@@ -157,7 +162,7 @@ public class ArticleController extends BenihController<ArticleController.Present
     public void loadArticles(Category category, int page)
     {
         presenter.showLoading();
-        CodePolitanService.pluck()
+        CodePolitanApi.pluck()
                 .getApi()
                 .getArticles(category, page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
@@ -197,7 +202,7 @@ public class ArticleController extends BenihController<ArticleController.Present
     public void loadArticles(Tag tag, int page)
     {
         presenter.showLoading();
-        CodePolitanService.pluck()
+        CodePolitanApi.pluck()
                 .getApi()
                 .getArticles(tag, page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
@@ -239,9 +244,15 @@ public class ArticleController extends BenihController<ArticleController.Present
         Observable.from(articles)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.NEW_THREAD))
                 .filter(article -> article.getTitle().toLowerCase().contains(query.toLowerCase()))
+                .map(article -> {
+                    article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                    article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                    return article;
+                })
                 .toList()
                 .subscribe(presenter::showFilteredArticles, presenter::showError);
     }
+
 
     @Override
     public void loadState(Bundle bundle)
@@ -249,6 +260,7 @@ public class ArticleController extends BenihController<ArticleController.Present
         article = bundle.getParcelable("article");
         if (article != null)
         {
+            article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
             presenter.showArticle(article);
         } else
         {
@@ -258,7 +270,15 @@ public class ArticleController extends BenihController<ArticleController.Present
         articles = bundle.getParcelableArrayList("articles");
         if (articles != null)
         {
-            presenter.showArticles(articles);
+            Observable.from(articles)
+                    .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.NEW_THREAD))
+                    .map(article -> {
+                        article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                        article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                        return article;
+                    })
+                    .toList()
+                    .subscribe(presenter::showArticles, presenter::showError);
         } else
         {
             presenter.showError(new Throwable("List article is null"));

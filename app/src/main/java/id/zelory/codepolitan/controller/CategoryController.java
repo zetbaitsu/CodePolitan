@@ -24,8 +24,8 @@ import java.util.List;
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.model.Category;
-import id.zelory.codepolitan.network.CodePolitanService;
+import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.api.CodePolitanApi;
 import rx.Observable;
 
 /**
@@ -43,7 +43,7 @@ public class CategoryController extends BenihController<CategoryController.Prese
     public void loadCategories(int page)
     {
         presenter.showLoading();
-        CodePolitanService.pluck()
+        CodePolitanApi.pluck()
                 .getApi()
                 .getCategories(page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))

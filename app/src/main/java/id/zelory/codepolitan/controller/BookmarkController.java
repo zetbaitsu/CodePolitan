@@ -18,44 +18,35 @@ package id.zelory.codepolitan.controller;
 
 import android.os.Bundle;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
+import id.zelory.benih.util.BenihBus;
 import id.zelory.benih.util.BenihScheduler;
-import id.zelory.codepolitan.data.Tag;
-import id.zelory.codepolitan.data.api.CodePolitanApi;
+import id.zelory.codepolitan.data.database.DataBaseHelper;
+import id.zelory.codepolitan.controller.event.BookmarkEvent;
+import id.zelory.codepolitan.data.Article;
 
 /**
- * Created by zetbaitsu on 8/6/15.
+ * Created by zetbaitsu on 8/18/15.
  */
-public class TagController extends BenihController<TagController.Presenter>
+public class BookmarkController extends BenihController<BookmarkController.Presenter>
 {
-    private List<Tag> tags;
-
-    public TagController(Presenter presenter)
+    public BookmarkController(Presenter presenter)
     {
         super(presenter);
     }
 
-    public void loadTags(int page)
+    public void loadBookmarkedArticles()
     {
         presenter.showLoading();
-        CodePolitanApi.pluck()
-                .getApi()
-                .getTags(page)
+        DataBaseHelper.pluck()
+                .getBookmarkedArticles()
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .subscribe(tagListResponse -> {
-                    if (tagListResponse.getCode())
-                    {
-                        this.tags = tagListResponse.getResult();
-                        if (presenter != null)
-                        {
-                            presenter.showTags(tags);
-                        }
-                    }
+                .subscribe(articles -> {
                     if (presenter != null)
                     {
+                        presenter.showListBookmarkedArticles(articles);
                         presenter.dismissLoading();
                     }
                 }, throwable -> {
@@ -67,25 +58,43 @@ public class TagController extends BenihController<TagController.Presenter>
                 });
     }
 
+    public void bookmark(Article article)
+    {
+        if (!article.isBookmarked())
+        {
+            DataBaseHelper.pluck()
+                    .bookmark(article);
+            presenter.onBookmark(article);
+        } else
+        {
+            DataBaseHelper.pluck()
+                    .unBookmark(article.getId());
+            presenter.onUnBookmark(article);
+        }
+
+        BenihBus.pluck()
+                .send(new BookmarkEvent(article));
+    }
+
     @Override
     public void saveState(Bundle bundle)
     {
-        bundle.putParcelableArrayList("tags", (ArrayList<Tag>) tags);
+
     }
 
     @Override
     public void loadState(Bundle bundle)
     {
-        tags = bundle.getParcelableArrayList("tags");
-        if (tags != null)
-        {
-            presenter.showTags(tags);
-        }
+
     }
 
     public interface Presenter extends BenihController.Presenter
     {
-        void showTags(List<Tag> tags);
+        void showListBookmarkedArticles(List<Article> listArticle);
+
+        void onBookmark(Article article);
+
+        void onUnBookmark(Article article);
 
         void showLoading();
 

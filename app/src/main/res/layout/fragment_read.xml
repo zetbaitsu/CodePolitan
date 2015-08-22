@@ -26,7 +26,7 @@
     app:statusBarBackground="@color/primary"
     tools:context=".ReadActivity">
 
-    <id.zelory.codepolitan.view.BenihWebView
+    <id.zelory.codepolitan.ui.view.BenihWebView
         android:id="@+id/content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
