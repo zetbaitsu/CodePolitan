@@ -30,7 +30,6 @@ import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.ArticleAdapter;
 import id.zelory.codepolitan.ui.adapter.viewholder.NewsHeaderViewHolder;
-import timber.log.Timber;
 
 /**
  * Created on : July 28, 2015
@@ -78,7 +77,6 @@ public class NewsFragment extends AbstractHomeFragment
             @Override
             public void onLoadMore(int i)
             {
-                Timber.d("searching " + searching);
                 if (!searching)
                 {
                     currentPage++;
@@ -93,7 +91,7 @@ public class NewsFragment extends AbstractHomeFragment
     {
         Intent intent = new Intent(getActivity(), ReadActivity.class);
         intent.putParcelableArrayListExtra("data", (ArrayList<Article>) articleAdapter.getData());
-        intent.putExtra("position", position);
+        intent.putExtra("position", articleAdapter.hasHeader() ? position - 1 : position);
         startActivity(intent);
     }
 
@@ -130,7 +128,7 @@ public class NewsFragment extends AbstractHomeFragment
             articleAdapter.clear();
             setUpRecyclerView();
             articleController.loadArticles(currentPage);
-        }else
+        } else
         {
             dismissLoading();
         }

@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.benih.adapter.viewholder.BenihViewHolder;
@@ -167,5 +169,11 @@ public class ArticleAdapter extends BenihRecyclerAdapter<Article, BenihViewHolde
         {
             data.add(null);
         }
+    }
+
+    @Override
+    public List<Article> getData()
+    {
+        return hasHeader ? new ArrayList<>(data.subList(1, data.size())) : super.getData();
     }
 }
