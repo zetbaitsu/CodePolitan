@@ -52,8 +52,7 @@ public class CategoryController extends BenihController<CategoryController.Prese
                 .getApi()
                 .getCategories(page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .flatMap(categoryListResponse -> Observable.just(categoryListResponse.getResult()))
-                .flatMap(Observable::from)
+                .flatMap(categoryListResponse -> Observable.from(categoryListResponse.getResult()))
                 .filter(category -> !category.getName().equalsIgnoreCase("News"))
                 .filter(category -> !category.getName().equalsIgnoreCase("Comic"))
                 .map(category -> {
@@ -128,6 +127,9 @@ public class CategoryController extends BenihController<CategoryController.Prese
         if (categories != null)
         {
             presenter.showCategories(categories);
+        } else
+        {
+            presenter.showError(new Throwable("Categories is null"));
         }
     }
 

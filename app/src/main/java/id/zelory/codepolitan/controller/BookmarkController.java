@@ -66,14 +66,12 @@ public class BookmarkController extends BenihController<BookmarkController.Prese
         if (!article.isBookmarked())
         {
             article.setBookmarked(true);
-            DataBaseHelper.pluck()
-                    .bookmark(article);
+            DataBaseHelper.pluck().bookmark(article);
             presenter.onBookmark(article);
         } else
         {
             article.setBookmarked(false);
-            DataBaseHelper.pluck()
-                    .unBookmark(article.getId());
+            DataBaseHelper.pluck().unBookmark(article.getId());
             presenter.onUnBookmark(article);
         }
     }

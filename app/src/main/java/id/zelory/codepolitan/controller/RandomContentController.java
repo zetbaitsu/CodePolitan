@@ -47,6 +47,7 @@ public class RandomContentController extends BenihController<RandomContentContro
 
     public void loadRandomArticles()
     {
+        presenter.showLoading();
         CodePolitanApi.pluck()
                 .getApi()
                 .getLatestArticles(BenihUtils.randInt(1, 25))
@@ -59,11 +60,24 @@ public class RandomContentController extends BenihController<RandomContentContro
                     return article;
                 })
                 .toList()
-                .subscribe(presenter::showRandomArticles, presenter::showError);
+                .subscribe(articles -> {
+                    if (presenter != null)
+                    {
+                        presenter.showRandomArticles(articles);
+                        presenter.dismissLoading();
+                    }
+                }, throwable -> {
+                    if (presenter != null)
+                    {
+                        presenter.showError(throwable);
+                        presenter.dismissLoading();
+                    }
+                });
     }
 
     public void loadRandomArticles(Category category)
     {
+        presenter.showLoading();
         CodePolitanApi.pluck()
                 .getApi()
                 .getArticles(category, BenihUtils.randInt(1, 3))
@@ -76,11 +90,24 @@ public class RandomContentController extends BenihController<RandomContentContro
                     return article;
                 })
                 .toList()
-                .subscribe(presenter::showRandomArticles, presenter::showError);
+                .subscribe(articles -> {
+                    if (presenter != null)
+                    {
+                        presenter.showRandomArticles(articles);
+                        presenter.dismissLoading();
+                    }
+                }, throwable -> {
+                    if (presenter != null)
+                    {
+                        presenter.showError(throwable);
+                        presenter.dismissLoading();
+                    }
+                });
     }
 
     public void loadRandomArticles(Tag tag)
     {
+        presenter.showLoading();
         CodePolitanApi.pluck()
                 .getApi()
                 .getArticles(tag, BenihUtils.randInt(1, 3))
@@ -93,29 +120,67 @@ public class RandomContentController extends BenihController<RandomContentContro
                     return article;
                 })
                 .toList()
-                .subscribe(presenter::showRandomArticles, presenter::showError);
+                .subscribe(articles -> {
+                    if (presenter != null)
+                    {
+                        presenter.showRandomArticles(articles);
+                        presenter.dismissLoading();
+                    }
+                }, throwable -> {
+                    if (presenter != null)
+                    {
+                        presenter.showError(throwable);
+                        presenter.dismissLoading();
+                    }
+                });
     }
 
     public void loadRandomCategory()
     {
+        presenter.showLoading();
         CodePolitanApi.pluck()
                 .getApi()
                 .getCategories(1)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
                 .flatMap(categoryListResponse -> Observable.just(categoryListResponse.getResult()))
                 .map(categories -> categories.get(BenihUtils.randInt(0, categories.size() - 1)))
-                .subscribe(presenter::showRandomCategory, presenter::showError);
+                .subscribe(category -> {
+                    if (presenter != null)
+                    {
+                        presenter.showRandomCategory(category);
+                        presenter.dismissLoading();
+                    }
+                }, throwable -> {
+                    if (presenter != null)
+                    {
+                        presenter.showError(throwable);
+                        presenter.dismissLoading();
+                    }
+                });
     }
 
     public void loadRandomTag()
     {
+        presenter.showLoading();
         CodePolitanApi.pluck()
                 .getApi()
                 .getTags(BenihUtils.randInt(1, 5))
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
                 .flatMap(tagListResponse -> Observable.just(tagListResponse.getResult()))
                 .map(tags -> tags.get(BenihUtils.randInt(0, tags.size() - 1)))
-                .subscribe(presenter::showRandomTag, presenter::showError);
+                .subscribe(tag -> {
+                    if (presenter != null)
+                    {
+                        presenter.showRandomTag(tag);
+                        presenter.dismissLoading();
+                    }
+                }, throwable -> {
+                    if (presenter != null)
+                    {
+                        presenter.showError(throwable);
+                        presenter.dismissLoading();
+                    }
+                });
     }
 
     @Override
@@ -137,5 +202,9 @@ public class RandomContentController extends BenihController<RandomContentContro
         void showRandomCategory(Category category);
 
         void showRandomTag(Tag tag);
+
+        void showLoading();
+
+        void dismissLoading();
     }
 }

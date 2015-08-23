@@ -29,11 +29,9 @@ import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
-import id.zelory.codepolitan.data.api.response.ListResponse;
 import id.zelory.codepolitan.data.api.response.ObjectResponse;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
 import rx.Observable;
-import timber.log.Timber;
 
 /**
  * Created on : July 29, 2015
@@ -74,7 +72,6 @@ public class ArticleController extends BenihController<ArticleController.Present
                         presenter.dismissLoading();
                     }
                 }, throwable -> {
-                    Timber.d(throwable.getMessage());
                     if (presenter != null)
                     {
                         presenter.showError(throwable);
@@ -90,8 +87,7 @@ public class ArticleController extends BenihController<ArticleController.Present
                 .getApi()
                 .getLatestArticles(page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .map(ListResponse::getResult)
-                .flatMap(Observable::from)
+                .flatMap(articleListResponse -> Observable.from(articleListResponse.getResult()))
                 .map(article -> {
                     article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
                     article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
@@ -136,31 +132,36 @@ public class ArticleController extends BenihController<ArticleController.Present
                 .getApi()
                 .getLatestArticles(postType, page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .subscribe(articleResponse -> {
-                    if (articleResponse.getCode())
-                    {
-                        BenihWorker.pluck()
-                                .doInNewThread(() -> {
-                                    if (page == 1)
-                                    {
-                                        articles = articleResponse.getResult();
-                                    } else
-                                    {
-                                        articles.addAll(articleResponse.getResult());
-                                    }
-                                }).subscribe(o -> {
-                            if (presenter != null)
-                            {
-                                presenter.showArticles(articleResponse.getResult());
-                            }
-                        });
-                    }
+                .flatMap(articleListResponse -> Observable.from(articleListResponse.getResult()))
+                .map(article -> {
+                    article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                    article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                    article.setBig(BenihUtils.randInt(0, 8) == 5);
+                    return article;
+                })
+                .toList()
+                .subscribe(articles -> {
+                    BenihWorker.pluck()
+                            .doInNewThread(() -> {
+                                if (page == 1)
+                                {
+                                    articles.get(0).setBig(true);
+                                    this.articles = articles;
+                                } else
+                                {
+                                    this.articles.addAll(articles);
+                                }
+                            }).subscribe(o -> {
+                        if (presenter != null)
+                        {
+                            presenter.showArticles(articles);
+                        }
+                    });
                     if (presenter != null)
                     {
                         presenter.dismissLoading();
                     }
                 }, throwable -> {
-                    Timber.d(throwable.getMessage());
                     if (presenter != null)
                     {
                         presenter.showError(throwable);
@@ -176,31 +177,36 @@ public class ArticleController extends BenihController<ArticleController.Present
                 .getApi()
                 .getArticles(category, page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .subscribe(articleResponse -> {
-                    if (articleResponse.getCode())
-                    {
-                        BenihWorker.pluck()
-                                .doInNewThread(() -> {
-                                    if (page == 1)
-                                    {
-                                        articles = articleResponse.getResult();
-                                    } else
-                                    {
-                                        articles.addAll(articleResponse.getResult());
-                                    }
-                                }).subscribe(o -> {
-                            if (presenter != null)
-                            {
-                                presenter.showArticles(articleResponse.getResult());
-                            }
-                        });
-                    }
+                .flatMap(articleListResponse -> Observable.from(articleListResponse.getResult()))
+                .map(article -> {
+                    article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                    article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                    article.setBig(BenihUtils.randInt(0, 8) == 5);
+                    return article;
+                })
+                .toList()
+                .subscribe(articles -> {
+                    BenihWorker.pluck()
+                            .doInNewThread(() -> {
+                                if (page == 1)
+                                {
+                                    articles.get(0).setBig(true);
+                                    this.articles = articles;
+                                } else
+                                {
+                                    this.articles.addAll(articles);
+                                }
+                            }).subscribe(o -> {
+                        if (presenter != null)
+                        {
+                            presenter.showArticles(articles);
+                        }
+                    });
                     if (presenter != null)
                     {
                         presenter.dismissLoading();
                     }
                 }, throwable -> {
-                    Timber.d(throwable.getMessage());
                     if (presenter != null)
                     {
                         presenter.showError(throwable);
@@ -216,31 +222,36 @@ public class ArticleController extends BenihController<ArticleController.Present
                 .getApi()
                 .getArticles(tag, page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .subscribe(articleResponse -> {
-                    if (articleResponse.getCode())
-                    {
-                        BenihWorker.pluck()
-                                .doInNewThread(() -> {
-                                    if (page == 1)
-                                    {
-                                        articles = articleResponse.getResult();
-                                    } else
-                                    {
-                                        articles.addAll(articleResponse.getResult());
-                                    }
-                                }).subscribe(o -> {
-                            if (presenter != null)
-                            {
-                                presenter.showArticles(articleResponse.getResult());
-                            }
-                        });
-                    }
+                .flatMap(articleListResponse -> Observable.from(articleListResponse.getResult()))
+                .map(article -> {
+                    article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                    article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                    article.setBig(BenihUtils.randInt(0, 8) == 5);
+                    return article;
+                })
+                .toList()
+                .subscribe(articles -> {
+                    BenihWorker.pluck()
+                            .doInNewThread(() -> {
+                                if (page == 1)
+                                {
+                                    articles.get(0).setBig(true);
+                                    this.articles = articles;
+                                } else
+                                {
+                                    this.articles.addAll(articles);
+                                }
+                            }).subscribe(o -> {
+                        if (presenter != null)
+                        {
+                            presenter.showArticles(articles);
+                        }
+                    });
                     if (presenter != null)
                     {
                         presenter.dismissLoading();
                     }
                 }, throwable -> {
-                    Timber.d(throwable.getMessage());
                     if (presenter != null)
                     {
                         presenter.showError(throwable);
@@ -270,7 +281,6 @@ public class ArticleController extends BenihController<ArticleController.Present
         article = bundle.getParcelable("article");
         if (article != null)
         {
-            article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
             presenter.showArticle(article);
         } else
         {
@@ -280,15 +290,7 @@ public class ArticleController extends BenihController<ArticleController.Present
         articles = bundle.getParcelableArrayList("articles");
         if (articles != null)
         {
-            Observable.from(articles)
-                    .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.NEW_THREAD))
-                    .map(article -> {
-                        article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
-                        article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
-                        return article;
-                    })
-                    .toList()
-                    .subscribe(presenter::showArticles, presenter::showError);
+            presenter.showArticles(articles);
         } else
         {
             presenter.showError(new Throwable("List article is null"));

@@ -90,8 +90,7 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
         } else
         {
             article.setReadLater(false);
-            DataBaseHelper.pluck()
-                    .unReadLater(article.getId());
+            DataBaseHelper.pluck().unReadLater(article.getId());
             presenter.onUnReadLater(article);
         }
     }

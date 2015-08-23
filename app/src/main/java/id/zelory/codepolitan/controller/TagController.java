@@ -85,6 +85,9 @@ public class TagController extends BenihController<TagController.Presenter>
         if (tags != null)
         {
             presenter.showTags(tags);
+        } else
+        {
+            presenter.showError(new Throwable("Tags is null"));
         }
     }
 
