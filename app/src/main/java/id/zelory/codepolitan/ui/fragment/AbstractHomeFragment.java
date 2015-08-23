@@ -18,16 +18,18 @@ package id.zelory.codepolitan.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 
 import java.util.List;
 
 import butterknife.Bind;
+import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.benih.fragment.BenihFragment;
-import id.zelory.benih.util.BenihWorker;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
@@ -43,14 +45,16 @@ import timber.log.Timber;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public abstract class AbstractHomeFragment extends BenihFragment implements
-        ArticleController.Presenter,
-        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener
+public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter> extends
+        BenihFragment implements
+        ArticleController.Presenter, SwipeRefreshLayout.OnRefreshListener,
+        SearchView.OnQueryTextListener
 {
     protected ArticleController articleController;
     @Bind(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.recycler_view) BenihRecyclerView recyclerView;
-    private SearchView searchView;
+    protected SearchView searchView;
+    protected Adapter adapter;
     protected int currentPage = 1;
     protected boolean searching = false;
 
@@ -67,10 +71,25 @@ public abstract class AbstractHomeFragment extends BenihFragment implements
         currentPage = bundle != null ? bundle.getInt("currentPage") : 1;
         setUpSwipeLayout();
         setUpAdapter();
+        setUpRecyclerView();
         setupController(bundle);
     }
 
-    protected abstract void setUpAdapter();
+    protected abstract void setUpRecyclerView();
+
+    protected abstract Adapter createAdapter();
+
+    protected void setUpAdapter()
+    {
+        if (adapter == null)
+        {
+            adapter = createAdapter();
+            adapter.setOnItemClickListener(this::onItemClick);
+            recyclerView.setAdapter(adapter);
+        }
+    }
+
+    protected abstract void onItemClick(View view, int position);
 
     protected void setUpSwipeLayout()
     {
@@ -106,6 +125,8 @@ public abstract class AbstractHomeFragment extends BenihFragment implements
     public void onRefresh()
     {
         currentPage = 1;
+        adapter.clear();
+        setUpRecyclerView();
     }
 
     @Override
@@ -117,13 +138,14 @@ public abstract class AbstractHomeFragment extends BenihFragment implements
     @Override
     public void showArticles(List<Article> articles)
     {
-
+        adapter.add(articles);
     }
 
     @Override
     public void showFilteredArticles(List<Article> articles)
     {
-
+        adapter.clear();
+        adapter.add(articles);
     }
 
     @Override
@@ -141,13 +163,13 @@ public abstract class AbstractHomeFragment extends BenihFragment implements
     @Override
     public void showError(Throwable throwable)
     {
+        Snackbar.make(recyclerView, "Something Wrong!", Snackbar.LENGTH_SHORT).show();
         Timber.d(throwable.getMessage());
     }
 
     @Override
     public void onDestroy()
     {
-        super.onDestroy();
         articleController = null;
 
         if (recyclerView != null)
@@ -155,9 +177,13 @@ public abstract class AbstractHomeFragment extends BenihFragment implements
             recyclerView.removeAllViews();
             recyclerView = null;
         }
-        BenihWorker.pluck()
-                .doInNewThread(System::gc)
-                .subscribe();
+
+        if (adapter != null)
+        {
+            adapter.clear();
+            adapter = null;
+        }
+        super.onDestroy();
     }
 
     @Override

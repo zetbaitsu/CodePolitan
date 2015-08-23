@@ -17,12 +17,10 @@
 package id.zelory.codepolitan.ui.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
@@ -39,10 +37,8 @@ import id.zelory.codepolitan.ui.adapter.viewholder.NewsHeaderViewHolder;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class NewsFragment extends AbstractHomeFragment
+public class NewsFragment extends AbstractHomeFragment<ArticleAdapter>
 {
-    private ArticleAdapter articleAdapter;
-
     @Override
     protected int getFragmentView()
     {
@@ -50,25 +46,7 @@ public class NewsFragment extends AbstractHomeFragment
     }
 
     @Override
-    protected void onViewReady(Bundle bundle)
-    {
-        super.onViewReady(bundle);
-        setUpRecyclerView();
-    }
-
-    @Override
-    protected void setUpAdapter()
-    {
-        if (articleAdapter == null)
-        {
-            articleAdapter = new ArticleAdapter(getActivity());
-            articleAdapter.setOnItemClickListener(this::onItemClick);
-            articleAdapter.addHeader(R.layout.list_header_article, NewsHeaderViewHolder.class);
-            recyclerView.setAdapter(articleAdapter);
-        }
-    }
-
-    private void setUpRecyclerView()
+    protected void setUpRecyclerView()
     {
         recyclerView.clearOnScrollListeners();
         recyclerView.setUpAsList();
@@ -87,36 +65,29 @@ public class NewsFragment extends AbstractHomeFragment
 
     }
 
-    private void onItemClick(View view, int position)
+    @Override
+    protected ArticleAdapter createAdapter()
+    {
+        return new ArticleAdapter(getActivity());
+    }
+
+    @Override
+    protected void setUpAdapter()
+    {
+        super.setUpAdapter();
+        if (adapter != null)
+        {
+            adapter.addHeader(R.layout.list_header_article, NewsHeaderViewHolder.class);
+        }
+    }
+
+    @Override
+    protected void onItemClick(View view, int position)
     {
         Intent intent = new Intent(getActivity(), ReadActivity.class);
-        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) articleAdapter.getData());
-        intent.putExtra("position", articleAdapter.hasHeader() ? position - 1 : position);
+        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) adapter.getData());
+        intent.putExtra("position", adapter.hasHeader() ? position - 1 : position);
         startActivity(intent);
-    }
-
-    @Override
-    public void showArticles(List<Article> articles)
-    {
-        articleAdapter.add(articles);
-    }
-
-    @Override
-    public void showFilteredArticles(List<Article> articles)
-    {
-        articleAdapter.clear();
-        articleAdapter.add(articles);
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        if (articleAdapter != null)
-        {
-            articleAdapter.clear();
-            articleAdapter = null;
-        }
-        super.onDestroy();
     }
 
     @Override
@@ -125,8 +96,6 @@ public class NewsFragment extends AbstractHomeFragment
         if (!searching)
         {
             super.onRefresh();
-            articleAdapter.clear();
-            setUpRecyclerView();
             articleController.loadArticles(currentPage);
         } else
         {
@@ -141,10 +110,10 @@ public class NewsFragment extends AbstractHomeFragment
         articleController.filter(newText);
         if (!searching)
         {
-            articleAdapter.showHeader();
+            adapter.showHeader();
         } else
         {
-            articleAdapter.hideHeader();
+            adapter.hideHeader();
         }
         return true;
     }

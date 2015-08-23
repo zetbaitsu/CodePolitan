@@ -17,21 +17,17 @@
 package id.zelory.codepolitan.ui.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.QuoteAdapter;
-import id.zelory.codepolitan.data.Article;
 
 /**
  * Created on : August 4, 2015
@@ -41,10 +37,8 @@ import id.zelory.codepolitan.data.Article;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class QuotesFragment extends AbstractHomeFragment
+public class QuotesFragment extends AbstractHomeFragment<QuoteAdapter>
 {
-    private QuoteAdapter quoteAdapter;
-
     @Override
     protected int getFragmentView()
     {
@@ -52,13 +46,7 @@ public class QuotesFragment extends AbstractHomeFragment
     }
 
     @Override
-    protected void onViewReady(Bundle bundle)
-    {
-        super.onViewReady(bundle);
-        setUpRecyclerView();
-    }
-
-    private void setUpRecyclerView()
+    protected void setUpRecyclerView()
     {
         recyclerView.clearOnScrollListeners();
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -70,61 +58,40 @@ public class QuotesFragment extends AbstractHomeFragment
             @Override
             public void onLoadMore(int i)
             {
-                currentPage++;
-                articleController.loadArticles("quotes", currentPage);
+                if (!searching)
+                {
+                    currentPage++;
+                    articleController.loadArticles("quotes", currentPage);
+                }
             }
         });
     }
 
     @Override
-    protected void setUpAdapter()
+    protected QuoteAdapter createAdapter()
     {
-        if (quoteAdapter == null)
-        {
-            quoteAdapter = new QuoteAdapter(getActivity());
-            quoteAdapter.setOnItemClickListener(this::onItemClick);
-            recyclerView.setAdapter(quoteAdapter);
-        }
+        return new QuoteAdapter(getActivity());
     }
 
-    private void onItemClick(View view, int position)
+    @Override
+    protected void onItemClick(View view, int position)
     {
         Intent intent = new Intent(getActivity(), ReadActivity.class);
-        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) quoteAdapter.getData());
+        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) adapter.getData());
         intent.putExtra("position", position);
         startActivity(intent);
     }
 
     @Override
-    public void showArticles(List<Article> articles)
-    {
-        quoteAdapter.add(articles);
-    }
-
-    @Override
-    public void showFilteredArticles(List<Article> articles)
-    {
-        quoteAdapter.clear();
-        quoteAdapter.add(articles);
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        if (quoteAdapter != null)
-        {
-            quoteAdapter.clear();
-            quoteAdapter = null;
-        }
-        super.onDestroy();
-    }
-
-    @Override
     public void onRefresh()
     {
-        super.onRefresh();
-        quoteAdapter.clear();
-        setUpRecyclerView();
-        articleController.loadArticles("quotes", currentPage);
+        if (!searching)
+        {
+            super.onRefresh();
+            articleController.loadArticles("quotes", currentPage);
+        } else
+        {
+            dismissLoading();
+        }
     }
 }
