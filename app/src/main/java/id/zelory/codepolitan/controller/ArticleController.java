@@ -23,12 +23,15 @@ import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
+import id.zelory.benih.util.BenihUtils;
 import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
-import id.zelory.codepolitan.data.database.DataBaseHelper;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
+import id.zelory.codepolitan.data.api.response.ListResponse;
+import id.zelory.codepolitan.data.api.response.ObjectResponse;
+import id.zelory.codepolitan.data.database.DataBaseHelper;
 import rx.Observable;
 import timber.log.Timber;
 
@@ -57,7 +60,7 @@ public class ArticleController extends BenihController<ArticleController.Present
                 .getApi()
                 .getDetailArticle(id)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .flatMap(articleObjectResponse -> Observable.just(articleObjectResponse.getResult()))
+                .map(ObjectResponse::getResult)
                 .map(article -> {
                     article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
                     article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
@@ -87,11 +90,12 @@ public class ArticleController extends BenihController<ArticleController.Present
                 .getApi()
                 .getLatestArticles(page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .flatMap(articleListResponse -> Observable.just(articleListResponse.getResult()))
+                .map(ListResponse::getResult)
                 .flatMap(Observable::from)
                 .map(article -> {
                     article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
                     article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                    article.setBig(BenihUtils.randInt(0, 8) == 5);
                     return article;
                 })
                 .toList()
@@ -100,6 +104,7 @@ public class ArticleController extends BenihController<ArticleController.Present
                             .doInNewThread(() -> {
                                 if (page == 1)
                                 {
+                                    articles.get(0).setBig(true);
                                     this.articles = articles;
                                 } else
                                 {

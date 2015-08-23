@@ -18,7 +18,6 @@ package id.zelory.codepolitan.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -30,6 +29,8 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.ArticleAdapter;
+import id.zelory.codepolitan.ui.adapter.viewholder.NewsHeaderViewHolder;
+import timber.log.Timber;
 
 /**
  * Created on : July 28, 2015
@@ -53,7 +54,7 @@ public class NewsFragment extends AbstractHomeFragment
     protected void onViewReady(Bundle bundle)
     {
         super.onViewReady(bundle);
-        setUpRecyclerView(false);
+        setUpRecyclerView();
     }
 
     @Override
@@ -63,65 +64,37 @@ public class NewsFragment extends AbstractHomeFragment
         {
             articleAdapter = new ArticleAdapter(getActivity());
             articleAdapter.setOnItemClickListener(this::onItemClick);
+            articleAdapter.addHeader(R.layout.list_header_article, NewsHeaderViewHolder.class);
             recyclerView.setAdapter(articleAdapter);
         }
     }
 
-    private void setUpRecyclerView(boolean isGrid)
+    private void setUpRecyclerView()
     {
         recyclerView.clearOnScrollListeners();
-        if (isGrid)
-        {
-            recyclerView.setLayoutManager(getLayoutManager());
-            recyclerView.setHasFixedSize(true);
-            recyclerView.addOnScrollListener(new BenihRecyclerListener((GridLayoutManager) recyclerView.getLayoutManager(), 5)
-            {
-                @Override
-                public void onLoadMore(int i)
-                {
-                    currentPage++;
-                    articleController.loadArticles(currentPage);
-                }
-            });
-        } else
-        {
-            recyclerView.setUpAsList();
-            recyclerView.addOnScrollListener(new BenihRecyclerListener((LinearLayoutManager) recyclerView.getLayoutManager(), 5)
-            {
-                @Override
-                public void onLoadMore(int i)
-                {
-                    currentPage++;
-                    articleController.loadArticles(currentPage);
-                }
-            });
-        }
-    }
-
-    private GridLayoutManager getLayoutManager()
-    {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup()
+        recyclerView.setUpAsList();
+        recyclerView.addOnScrollListener(new BenihRecyclerListener((LinearLayoutManager) recyclerView.getLayoutManager(), 3)
         {
             @Override
-            public int getSpanSize(int position)
+            public void onLoadMore(int i)
             {
-                return position == 0 ? 2 : 1;
+                Timber.d("searching " + searching);
+                if (!searching)
+                {
+                    currentPage++;
+                    articleController.loadArticles(currentPage);
+                }
             }
         });
 
-        return gridLayoutManager;
     }
 
     private void onItemClick(View view, int position)
     {
-        if (position != 0)
-        {
-            Intent intent = new Intent(getActivity(), ReadActivity.class);
-            intent.putParcelableArrayListExtra("data", (ArrayList<Article>) articleAdapter.getData());
-            intent.putExtra("position", position);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(getActivity(), ReadActivity.class);
+        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) articleAdapter.getData());
+        intent.putExtra("position", position);
+        startActivity(intent);
     }
 
     @Override
@@ -133,9 +106,7 @@ public class NewsFragment extends AbstractHomeFragment
     @Override
     public void showFilteredArticles(List<Article> articles)
     {
-        Article tmp = articleAdapter.getData().get(0);
         articleAdapter.clear();
-        articleAdapter.add(tmp);
         articleAdapter.add(articles);
     }
 
@@ -153,9 +124,30 @@ public class NewsFragment extends AbstractHomeFragment
     @Override
     public void onRefresh()
     {
-        super.onRefresh();
-        articleAdapter.clear();
-        setUpRecyclerView(false);
-        articleController.loadArticles(currentPage);
+        if (!searching)
+        {
+            super.onRefresh();
+            articleAdapter.clear();
+            setUpRecyclerView();
+            articleController.loadArticles(currentPage);
+        }else
+        {
+            dismissLoading();
+        }
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText)
+    {
+        searching = !"".equals(newText);
+        articleController.filter(newText);
+        if (!searching)
+        {
+            articleAdapter.showHeader();
+        } else
+        {
+            articleAdapter.hideHeader();
+        }
+        return true;
     }
 }

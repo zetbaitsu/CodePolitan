@@ -76,7 +76,7 @@ public class Tag implements Parcelable
     @Override
     public String toString()
     {
-        return name;
+        return slug;
     }
 
     @Override

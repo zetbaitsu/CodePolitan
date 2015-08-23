@@ -21,11 +21,9 @@ import android.os.Bundle;
 import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
-import id.zelory.benih.util.BenihBus;
 import id.zelory.benih.util.BenihScheduler;
-import id.zelory.codepolitan.data.database.DataBaseHelper;
-import id.zelory.codepolitan.controller.event.BookmarkEvent;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.database.DataBaseHelper;
 
 /**
  * Created on : August 18, 2015
@@ -67,18 +65,17 @@ public class BookmarkController extends BenihController<BookmarkController.Prese
     {
         if (!article.isBookmarked())
         {
+            article.setBookmarked(true);
             DataBaseHelper.pluck()
                     .bookmark(article);
             presenter.onBookmark(article);
         } else
         {
+            article.setBookmarked(false);
             DataBaseHelper.pluck()
                     .unBookmark(article.getId());
             presenter.onUnBookmark(article);
         }
-
-        BenihBus.pluck()
-                .send(new BookmarkEvent(article));
     }
 
     @Override

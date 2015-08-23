@@ -17,25 +17,21 @@
 package id.zelory.codepolitan.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.widget.TextView;
-
-import com.jakewharton.rxbinding.widget.RxTextView;
-import com.trello.rxlifecycle.FragmentEvent;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.util.BenihWorker;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
+import id.zelory.codepolitan.controller.util.KeyboardUtil;
 import id.zelory.codepolitan.data.Article;
 import timber.log.Timber;
 
@@ -54,7 +50,9 @@ public abstract class AbstractHomeFragment extends BenihFragment implements
     protected ArticleController articleController;
     @Bind(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.recycler_view) BenihRecyclerView recyclerView;
+    private SearchView searchView;
     protected int currentPage = 1;
+    protected boolean searching = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -84,15 +82,8 @@ public abstract class AbstractHomeFragment extends BenihFragment implements
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
-        SearchView searchView = (SearchView) menu.getItem(0).getActionView();
+        searchView = (SearchView) menu.getItem(0).getActionView();
         searchView.setOnQueryTextListener(this);
-        TextView textView = ButterKnife.findById(searchView, android.support.v7.appcompat.R.id.search_src_text);
-
-        RxTextView.textChanges(textView)
-                .debounce(500, TimeUnit.MILLISECONDS)
-                .compose(bindUntilEvent(FragmentEvent.DESTROY))
-                .subscribe(charSequence -> articleController.filter(charSequence.toString()),
-                           throwable -> Timber.d(throwable.getMessage()));
     }
 
     protected void setupController(Bundle bundle)
@@ -107,7 +98,7 @@ public abstract class AbstractHomeFragment extends BenihFragment implements
             articleController.loadState(bundle);
         } else
         {
-            onRefresh();
+            new Handler().postDelayed(this::onRefresh, 800);
         }
     }
 
@@ -173,12 +164,15 @@ public abstract class AbstractHomeFragment extends BenihFragment implements
     public boolean onQueryTextSubmit(String query)
     {
         articleController.filter(query);
+        KeyboardUtil.hideKeyboard(searchView);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText)
     {
+        searching = !"".equals(newText);
+        articleController.filter(newText);
         return true;
     }
 

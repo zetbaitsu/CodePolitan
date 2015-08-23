@@ -41,6 +41,7 @@ public class Article implements Parcelable
     private String thumbnailMedium;
     private boolean bookmarked;
     private boolean readLater;
+    private boolean big;
 
     public Article()
     {
@@ -61,6 +62,7 @@ public class Article implements Parcelable
         thumbnailMedium = in.readString();
         bookmarked = in.readInt() == 1;
         readLater = in.readInt() == 1;
+        big = in.readInt() == 1;
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>()
@@ -198,6 +200,16 @@ public class Article implements Parcelable
         this.readLater = readLater;
     }
 
+    public boolean isBig()
+    {
+        return big;
+    }
+
+    public void setBig(boolean big)
+    {
+        this.big = big;
+    }
+
     @Override
     public int describeContents()
     {
@@ -219,5 +231,6 @@ public class Article implements Parcelable
         dest.writeString(thumbnailMedium);
         dest.writeInt(bookmarked ? 1 : 0);
         dest.writeInt(readLater ? 1 : 0);
+        dest.writeInt(big ? 1 : 0);
     }
 }

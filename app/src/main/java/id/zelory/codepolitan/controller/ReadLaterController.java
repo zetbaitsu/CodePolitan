@@ -21,12 +21,10 @@ import android.os.Bundle;
 import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
-import id.zelory.benih.util.BenihBus;
 import id.zelory.benih.util.BenihScheduler;
-import id.zelory.codepolitan.data.database.DataBaseHelper;
-import id.zelory.codepolitan.controller.event.ReadLaterEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
+import id.zelory.codepolitan.data.database.DataBaseHelper;
 
 /**
  * Created on : August 18, 2015
@@ -78,27 +76,24 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
                                    throwable -> {
                                        if (presenter != null)
                                        {
+                                           article.setReadLater(false);
                                            presenter.showError(throwable);
                                            presenter.onUnReadLater(article);
-                                           BenihBus.pluck()
-                                                   .send(new ReadLaterEvent(article));
                                        }
                                    });
             } else
             {
                 DataBaseHelper.pluck().readLater(article);
             }
-
+            article.setReadLater(true);
             presenter.onReadLater(article);
         } else
         {
+            article.setReadLater(false);
             DataBaseHelper.pluck()
                     .unReadLater(article.getId());
             presenter.onUnReadLater(article);
         }
-
-        BenihBus.pluck()
-                .send(new ReadLaterEvent(article));
     }
 
     @Override

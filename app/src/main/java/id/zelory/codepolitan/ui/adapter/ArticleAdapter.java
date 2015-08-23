@@ -17,18 +17,18 @@
 package id.zelory.codepolitan.ui.adapter;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
-import id.zelory.benih.util.BenihBus;
-import id.zelory.benih.util.BenihUtils;
-import id.zelory.benih.util.BenihWorker;
+import id.zelory.benih.adapter.viewholder.BenihViewHolder;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.ui.adapter.viewholder.ArticleViewHolder;
-import id.zelory.codepolitan.controller.event.BookmarkEvent;
-import id.zelory.codepolitan.controller.event.ReadLaterEvent;
 import id.zelory.codepolitan.data.Article;
-import timber.log.Timber;
+import id.zelory.codepolitan.ui.adapter.viewholder.ArticleViewHolder;
+import id.zelory.codepolitan.ui.view.RecycleViewHeader;
 
 /**
  * Created on : July 28, 2015
@@ -38,47 +38,28 @@ import timber.log.Timber;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class ArticleAdapter extends BenihRecyclerAdapter<Article, ArticleViewHolder>
+public class ArticleAdapter extends BenihRecyclerAdapter<Article, BenihViewHolder>
 {
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_BIG = 1;
+    private static final int TYPE_MINI = 2;
+    private int headerLayout;
+    private boolean hasHeader = false;
+    private RecycleViewHeader header;
+    private Constructor<?> headerConstructor;
+
     public ArticleAdapter(Context context)
     {
         super(context);
-        BenihBus.pluck()
-                .receive()
-                .subscribe(o -> {
-                    if (o instanceof BookmarkEvent)
-                    {
-                        onBookmark(((BookmarkEvent) o).getArticle());
-                    } else if (o instanceof ReadLaterEvent)
-                    {
-                        onReadLater(((ReadLaterEvent) o).getArticle());
-                    }
-                });
-    }
-
-    private void onReadLater(Article article)
-    {
-        BenihWorker.pluck().doInNewThread(() -> {
-            int x = data.indexOf(article);
-            data.get(x).setReadLater(!article.isReadLater());
-        }).subscribe(o -> Timber.d(o.toString()), throwable -> Timber.d(throwable.getMessage()));
-    }
-
-    private void onBookmark(Article article)
-    {
-        BenihWorker.pluck().doInNewThread(() -> {
-            int x = data.indexOf(article);
-            data.get(x).setBookmarked(!article.isBookmarked());
-        }).subscribe(o -> Timber.d(o.toString()), throwable -> Timber.d(throwable.getMessage()));
     }
 
     @Override
-    protected int getItemView(int i)
+    protected int getItemView(int viewType)
     {
-        if (i == 0)
+        if (viewType == TYPE_HEADER)
         {
-            return R.layout.list_header_article;
-        } else if (i == 1 || BenihUtils.randInt(0, 8) == 3)
+            return headerLayout;
+        } else if (viewType == TYPE_BIG)
         {
             return R.layout.list_item_article_big;
         } else
@@ -88,14 +69,103 @@ public class ArticleAdapter extends BenihRecyclerAdapter<Article, ArticleViewHol
     }
 
     @Override
-    public ArticleViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public BenihViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
     {
-        return new ArticleViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+        if (hasHeader && viewType == TYPE_HEADER)
+        {
+            try
+            {
+                header = (RecycleViewHeader) headerConstructor.newInstance(getView(viewGroup, viewType));
+                return (BenihViewHolder) header;
+            } catch (InstantiationException e)
+            {
+                e.printStackTrace();
+            } catch (IllegalAccessException e)
+            {
+                e.printStackTrace();
+            } catch (InvocationTargetException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        return new ArticleViewHolder(getView(viewGroup, viewType), itemClickListener, longItemClickListener);
+    }
+
+    @Override
+    public void onBindViewHolder(BenihViewHolder holder, int position)
+    {
+        if (hasHeader && position == 0)
+        {
+            header.show();
+            return;
+        }
+        super.onBindViewHolder(holder, position);
     }
 
     @Override
     public int getItemViewType(int position)
     {
-        return position == 1 ? 1 : position == 0 ? 0 : 2;
+        if (position == 0 && hasHeader)
+        {
+            return TYPE_HEADER;
+        } else if (data.get(position).isBig())
+        {
+            return TYPE_BIG;
+        } else
+        {
+            return TYPE_MINI;
+        }
+    }
+
+    public void addHeader(int headerLayout, Class<? extends BenihViewHolder> holderClass)
+    {
+        try
+        {
+            hasHeader = true;
+            this.headerLayout = headerLayout;
+            headerConstructor = holderClass.getConstructor(View.class);
+            data.add(null);
+        } catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+            hasHeader = false;
+            this.headerLayout = 0;
+            data.clear();
+        }
+    }
+
+    public void showHeader()
+    {
+        if (!hasHeader)
+        {
+            hasHeader = true;
+            data.add(0, null);
+            header.show();
+        }
+    }
+
+    public void hideHeader()
+    {
+        if (hasHeader)
+        {
+            hasHeader = false;
+            data.remove(0);
+        }
+    }
+
+    public boolean hasHeader()
+    {
+        return hasHeader;
+    }
+
+    @Override
+    public void clear()
+    {
+        super.clear();
+        if (hasHeader)
+        {
+            data.add(null);
+        }
     }
 }
