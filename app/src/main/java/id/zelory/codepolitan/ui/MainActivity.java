@@ -121,31 +121,32 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
         switch (tab.getPosition())
         {
             case 0:
-                getSupportActionBar().setDisplayShowTitleEnabled(false);
-                spinner.setVisibility(View.VISIBLE);
                 break;
             case 1:
-                spinner.setVisibility(View.GONE);
-                getSupportActionBar().setDisplayShowTitleEnabled(true);
                 getSupportActionBar().setTitle("Category");
-                toolbar.getMenu().removeItem(R.id.action_search);
                 break;
             case 2:
-                spinner.setVisibility(View.GONE);
-                getSupportActionBar().setDisplayShowTitleEnabled(true);
                 getSupportActionBar().setTitle("Tag");
                 break;
             case 3:
-                spinner.setVisibility(View.GONE);
-                getSupportActionBar().setDisplayShowTitleEnabled(true);
                 getSupportActionBar().setTitle("Yours");
                 break;
             case 4:
-                spinner.setVisibility(View.GONE);
-                getSupportActionBar().setDisplayShowTitleEnabled(true);
                 getSupportActionBar().setTitle("Settings");
                 break;
         }
+
+        if (tab.getPosition() == 0)
+        {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            spinner.setVisibility(View.VISIBLE);
+        } else
+        {
+            spinner.setVisibility(View.GONE);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            toolbar.getMenu().removeItem(R.id.action_search);
+        }
+
         viewPager.setCurrentItem(tab.getPosition());
     }
 

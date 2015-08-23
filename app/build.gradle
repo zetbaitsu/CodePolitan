@@ -18,13 +18,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "id.zelory.codepolitan"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -60,5 +60,5 @@ retrolambda {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.0.5'
-    compile 'id.zelory.benih:benih:0.1.8'
+    compile 'id.zelory.benih:benih:0.1.7'
 }

@@ -16,7 +16,6 @@
 
 package id.zelory.codepolitan.ui.adapter.viewholder;
 
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,9 +54,7 @@ public class CategoryViewHolder extends BenihViewHolder<Category>
         image.setImageResource(category.getImageResource());
         if (category.getName().equalsIgnoreCase("Info"))
         {
-            name.setTextColor(ContextCompat.getColor(
-                    CodePolitanApplication.pluck().getApplicationContext(),
-                    R.color.secondary_text));
+            name.setTextColor(CodePolitanApplication.pluck().getResources().getColor(R.color.secondary_text));
         }
     }
 }
