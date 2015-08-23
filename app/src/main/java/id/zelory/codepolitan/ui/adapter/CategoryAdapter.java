@@ -42,20 +42,20 @@ public class CategoryAdapter extends BenihRecyclerAdapter<Category, BenihViewHol
     }
 
     @Override
-    protected int getItemView(int i)
+    protected int getItemView(int viewType)
     {
-        return i == -1 ? R.layout.list_header_category : R.layout.list_item_category;
+        return viewType == -1 ? R.layout.list_header_category : R.layout.list_item_category;
     }
 
     @Override
-    public BenihViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public BenihViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
     {
-        if (i == -1)
+        if (viewType == -1)
         {
-            return new CategoryHeaderViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+            return new CategoryHeaderViewHolder(getView(viewGroup, viewType));
         } else
         {
-            return new CategoryViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+            return new CategoryViewHolder(getView(viewGroup, viewType), itemClickListener, longItemClickListener);
         }
     }
 

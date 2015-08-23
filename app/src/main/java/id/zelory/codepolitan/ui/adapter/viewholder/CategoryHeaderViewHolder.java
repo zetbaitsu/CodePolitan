@@ -20,6 +20,7 @@ import android.view.View;
 
 import id.zelory.benih.adapter.viewholder.BenihViewHolder;
 import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.ui.view.RecycleViewHeader;
 
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
@@ -32,15 +33,21 @@ import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListen
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class CategoryHeaderViewHolder extends BenihViewHolder<Category>
+public class CategoryHeaderViewHolder extends BenihViewHolder<Category> implements RecycleViewHeader
 {
-    public CategoryHeaderViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
+    public CategoryHeaderViewHolder(View itemView)
     {
-        super(itemView, itemClickListener, longItemClickListener);
+        super(itemView, null, null);
     }
 
     @Override
     public void bind(Category category)
+    {
+
+    }
+
+    @Override
+    public void show()
     {
 
     }

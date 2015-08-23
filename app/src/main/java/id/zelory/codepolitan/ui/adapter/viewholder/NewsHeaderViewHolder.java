@@ -20,16 +20,12 @@ import android.view.View;
 
 import java.util.List;
 
-import id.zelory.benih.adapter.viewholder.BenihViewHolder;
 import id.zelory.codepolitan.controller.RandomContentController;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.ui.view.RecycleViewHeader;
 import timber.log.Timber;
-
-import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
-import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
 
 /**
  * Created on : August 23, 2015

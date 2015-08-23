@@ -52,7 +52,7 @@ public class CategoryViewHolder extends BenihViewHolder<Category>
     {
         name.setText(category.getName());
         image.setImageResource(category.getImageResource());
-        if (category.getName().equalsIgnoreCase("Info"))
+        if ("Info".equalsIgnoreCase(category.getName()))
         {
             name.setTextColor(CodePolitanApplication.pluck().getResources().getColor(R.color.secondary_text));
         }
