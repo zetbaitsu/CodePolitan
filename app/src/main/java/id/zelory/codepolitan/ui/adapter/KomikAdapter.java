@@ -21,8 +21,8 @@ import android.view.ViewGroup;
 
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.ui.adapter.viewholder.KomikViewHolder;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.ui.adapter.viewholder.KomikViewHolder;
 
 /**
  * Created on : August 4, 2015
@@ -34,17 +34,19 @@ import id.zelory.codepolitan.data.Article;
  */
 public class KomikAdapter extends BenihRecyclerAdapter<Article, KomikViewHolder>
 {
+    private static final int TYPE_BIG = 1;
+    private static final int TYPE_MINI = 2;
+
     public KomikAdapter(Context context)
     {
         super(context);
     }
 
     @Override
-    protected int getItemView(int i)
+    protected int getItemView(int viewType)
     {
-        if (i % 5 == 0)
+        if (viewType == TYPE_BIG)
         {
-            //data.get(i).setThumbnail(ArticleUtil.getBigImage(data.get(i).getThumbnail()));
             return R.layout.list_item_article_big;
         } else
         {
@@ -61,6 +63,7 @@ public class KomikAdapter extends BenihRecyclerAdapter<Article, KomikViewHolder>
     @Override
     public int getItemViewType(int position)
     {
-        return position;
+        data.get(position).setBig(position % 5 == 0);
+        return data.get(position).isBig() ? TYPE_BIG : TYPE_MINI;
     }
 }

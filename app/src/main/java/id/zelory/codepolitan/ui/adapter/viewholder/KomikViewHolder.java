@@ -66,7 +66,7 @@ public class KomikViewHolder extends BenihViewHolder<Article> implements
     {
         title.setText(article.getTitle());
         date.setText(article.getDate());
-        thumbnail.setImageUrl(article.getThumbnailSmall());
+        thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall());
         ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
         ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
         ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);
