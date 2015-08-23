@@ -33,7 +33,12 @@ import id.zelory.codepolitan.data.Tag;
 import timber.log.Timber;
 
 /**
- * Created by zetbaitsu on 8/4/15.
+ * Created on : August 4, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnRefreshListener,
         TagController.Presenter

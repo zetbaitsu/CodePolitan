@@ -22,7 +22,12 @@ import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.R;
 
 /**
- * Created by zetbaitsu on 8/4/15.
+ * Created on : August 4, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class UserFragment extends BenihFragment
 {

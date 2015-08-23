@@ -19,8 +19,6 @@ package id.zelory.codepolitan.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -28,12 +26,17 @@ import java.util.List;
 
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.MemeAdapter;
-import id.zelory.codepolitan.data.Article;
 
 /**
- * Created by zetbaitsu on 8/3/15.
+ * Created on : August 3, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class MemeFragment extends AbstractHomeFragment
 {
@@ -50,14 +53,6 @@ public class MemeFragment extends AbstractHomeFragment
     {
         super.onViewReady(bundle);
         setUpRecyclerView();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.getItem(1).setEnabled(false);
-        menu.getItem(1).setChecked(true);
     }
 
     @Override

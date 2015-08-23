@@ -16,6 +16,7 @@
 
 package id.zelory.codepolitan.ui.adapter.viewholder;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,7 +31,12 @@ import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
 
 /**
- * Created by zetbaitsu on 8/6/15.
+ * Created on : August 6, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class CategoryViewHolder extends BenihViewHolder<Category>
 {
@@ -49,7 +55,9 @@ public class CategoryViewHolder extends BenihViewHolder<Category>
         image.setImageResource(category.getImageResource());
         if (category.getName().equalsIgnoreCase("Info"))
         {
-            name.setTextColor(CodePolitanApplication.pluck().getResources().getColor(R.color.secondary_text));
+            name.setTextColor(ContextCompat.getColor(
+                    CodePolitanApplication.pluck().getApplicationContext(),
+                    R.color.secondary_text));
         }
     }
 }

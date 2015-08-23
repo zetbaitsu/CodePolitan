@@ -25,7 +25,12 @@ import id.zelory.codepolitan.ui.adapter.viewholder.TagViewHolder;
 import id.zelory.codepolitan.data.Tag;
 
 /**
- * Created by zetbaitsu on 8/6/15.
+ * Created on : August 6, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class TagAdapter extends BenihRecyclerAdapter<Tag, TagViewHolder>
 {

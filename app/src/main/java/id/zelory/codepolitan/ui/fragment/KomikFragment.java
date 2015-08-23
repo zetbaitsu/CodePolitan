@@ -33,7 +33,12 @@ import id.zelory.codepolitan.ui.adapter.KomikAdapter;
 import id.zelory.codepolitan.data.Article;
 
 /**
- * Created by zetbaitsu on 8/3/15.
+ * Created on : August 3, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class KomikFragment extends AbstractHomeFragment
 {
@@ -50,14 +55,6 @@ public class KomikFragment extends AbstractHomeFragment
     {
         super.onViewReady(bundle);
         setUpRecyclerView();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.getItem(1).setEnabled(false);
-        menu.getItem(1).setChecked(true);
     }
 
     @Override

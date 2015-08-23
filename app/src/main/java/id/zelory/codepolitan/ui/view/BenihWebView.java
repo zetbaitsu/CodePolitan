@@ -16,14 +16,17 @@
 
 package id.zelory.codepolitan.ui.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.webkit.WebView;
 
 /**
- * Created by zetbaitsu on 7/14/15.
+ * Created on : July 14, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class BenihWebView extends WebView
 {
@@ -88,12 +91,6 @@ public class BenihWebView extends WebView
     public BenihWebView(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public BenihWebView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
-    {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     public void loadData(String title, String tanggal, String thumbnail, String content, String copyright)

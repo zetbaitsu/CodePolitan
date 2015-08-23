@@ -22,7 +22,12 @@ import android.database.Cursor;
 import id.zelory.codepolitan.data.Article;
 
 /**
- * Created by zetbaitsu on 8/18/15.
+ * Created on : August 18, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class Db
 {

@@ -27,7 +27,12 @@ import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
 
 /**
- * Created by zetbaitsu on 8/6/15.
+ * Created on : August 6, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class TagController extends BenihController<TagController.Presenter>
 {

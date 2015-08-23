@@ -20,7 +20,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by zetbaitsu on 7/28/15.
+ * Created on : July 28, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class Tag implements Parcelable
 {

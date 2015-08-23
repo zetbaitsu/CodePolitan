@@ -33,7 +33,12 @@ import id.zelory.codepolitan.data.Category;
 import timber.log.Timber;
 
 /**
- * Created by zetbaitsu on 8/4/15.
+ * Created on : August 4, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class CategoryFragment extends BenihFragment implements CategoryController.Presenter,
         SwipeRefreshLayout.OnRefreshListener

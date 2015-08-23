@@ -40,7 +40,12 @@ import id.zelory.codepolitan.data.Article;
 import timber.log.Timber;
 
 /**
- * Created by zetbaitsu on 8/3/15.
+ * Created on : August 3, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public abstract class AbstractHomeFragment extends BenihFragment implements
         ArticleController.Presenter,

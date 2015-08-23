@@ -34,7 +34,12 @@ import id.zelory.codepolitan.ui.adapter.QuoteAdapter;
 import id.zelory.codepolitan.data.Article;
 
 /**
- * Created by zetbaitsu on 8/4/15.
+ * Created on : August 4, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class QuotesFragment extends AbstractHomeFragment
 {
@@ -88,14 +93,6 @@ public class QuotesFragment extends AbstractHomeFragment
         intent.putParcelableArrayListExtra("data", (ArrayList<Article>) quoteAdapter.getData());
         intent.putExtra("position", position);
         startActivity(intent);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.getItem(1).setEnabled(false);
-        menu.getItem(1).setChecked(true);
     }
 
     @Override

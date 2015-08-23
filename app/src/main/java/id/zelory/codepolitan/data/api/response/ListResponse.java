@@ -19,7 +19,12 @@ package id.zelory.codepolitan.data.api.response;
 import java.util.List;
 
 /**
- * Created by zetbaitsu on 7/28/15.
+ * Created on : July 28, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class ListResponse<Data> extends Response
 {

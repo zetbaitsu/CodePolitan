@@ -26,7 +26,12 @@ import android.widget.TextView;
 import id.zelory.codepolitan.R;
 
 /**
- * Created by zetbaitsu on 8/4/15.
+ * Created on : August 4, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class MenuSpinnerAdapter extends ArrayAdapter<String>
 {
@@ -52,11 +57,26 @@ public class MenuSpinnerAdapter extends ArrayAdapter<String>
         return getCustomView(position, convertView, parent);
     }
 
+    private class ViewHolder
+    {
+        TextView menuItem;
+    }
+
     private View getCustomView(int position, View convertView, ViewGroup parent)
     {
-        View row = LayoutInflater.from(context).inflate(R.layout.spinner_item_menu, parent, false);
-        TextView menuItem = (TextView) row.findViewById(R.id.item_menu);
-        menuItem.setText(menu[position]);
-        return row;
+        ViewHolder holder;
+        if (convertView == null)
+        {
+            convertView = LayoutInflater.from(context).inflate(R.layout.spinner_item_menu, parent, false);
+            holder = new ViewHolder();
+            holder.menuItem = (TextView) convertView.findViewById(R.id.item_menu);
+            convertView.setTag(holder);
+        } else
+        {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        holder.menuItem.setText(menu[position]);
+        return convertView;
     }
 }

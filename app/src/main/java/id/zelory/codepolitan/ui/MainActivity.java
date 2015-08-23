@@ -45,6 +45,14 @@ import id.zelory.codepolitan.ui.fragment.SettingFragment;
 import id.zelory.codepolitan.ui.fragment.TagFragment;
 import id.zelory.codepolitan.ui.fragment.UserFragment;
 
+/**
+ * Created on : July 28, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
+ */
 public class MainActivity extends BenihActivity implements TabLayout.OnTabSelectedListener,
         AdapterView.OnItemSelectedListener
 {

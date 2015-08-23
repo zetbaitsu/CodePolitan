@@ -31,7 +31,12 @@ import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.view.BenihWebView;
 
 /**
- * Created by zetbaitsu on 7/28/15.
+ * Created on : July 28, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class ReadFragment extends BenihFragment<Article> implements ArticleController.Presenter
 {

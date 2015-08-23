@@ -17,7 +17,12 @@
 package id.zelory.codepolitan.controller.util;
 
 /**
- * Created by zetbaitsu on 8/5/15.
+ * Created on : August 5, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class ArticleUtil
 {

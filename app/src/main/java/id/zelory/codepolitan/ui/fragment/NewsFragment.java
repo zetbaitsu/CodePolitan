@@ -20,9 +20,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -30,12 +27,17 @@ import java.util.List;
 
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.ArticleAdapter;
-import id.zelory.codepolitan.data.Article;
 
 /**
- * Created by zetbaitsu on 7/28/15.
+ * Created on : July 28, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class NewsFragment extends AbstractHomeFragment
 {
@@ -120,26 +122,6 @@ public class NewsFragment extends AbstractHomeFragment
             intent.putExtra("position", position);
             startActivity(intent);
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.getItem(1).setEnabled(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.action_grid:
-                setUpRecyclerView(!item.isChecked());
-                item.setChecked(!item.isChecked());
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

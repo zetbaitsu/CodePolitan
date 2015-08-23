@@ -24,7 +24,12 @@ import id.zelory.benih.adapter.BenihPagerAdapter;
 import id.zelory.codepolitan.ui.fragment.ReadFragment;
 
 /**
- * Created by zetbaitsu on 7/28/15.
+ * Created on : July 28, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class ReadPagerAdapter extends BenihPagerAdapter<ReadFragment>
 {

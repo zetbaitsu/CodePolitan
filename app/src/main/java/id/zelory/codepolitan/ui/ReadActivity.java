@@ -35,7 +35,12 @@ import id.zelory.codepolitan.ui.fragment.ReadFragment;
 import id.zelory.codepolitan.data.Article;
 
 /**
- * Created by zetbaitsu on 7/28/15.
+ * Created on : July 28, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class ReadActivity extends BenihActivity implements ViewPager.OnPageChangeListener
 {

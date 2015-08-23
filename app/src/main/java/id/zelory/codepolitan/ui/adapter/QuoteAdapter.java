@@ -26,7 +26,12 @@ import id.zelory.codepolitan.ui.adapter.viewholder.QuoteViewHolder;
 import id.zelory.codepolitan.data.Article;
 
 /**
- * Created by zetbaitsu on 8/4/15.
+ * Created on : August 4, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class QuoteAdapter extends BenihRecyclerAdapter<Article, QuoteViewHolder>
 {

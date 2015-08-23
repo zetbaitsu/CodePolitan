@@ -24,7 +24,12 @@ import id.zelory.benih.adapter.BenihPagerAdapter;
 import id.zelory.benih.fragment.BenihFragment;
 
 /**
- * Created by zetbaitsu on 8/1/15.
+ * Created on : August 1, 2015
+ * Author     : zetbaitsu
+ * Name       : Zetra
+ * Email      : zetra@mail.ugm.ac.id
+ * GitHub     : https://github.com/zetbaitsu
+ * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class MainPagerAdapter extends BenihPagerAdapter<BenihFragment>
 {
