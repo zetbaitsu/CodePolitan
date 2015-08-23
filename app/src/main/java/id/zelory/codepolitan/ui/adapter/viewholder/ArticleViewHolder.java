@@ -67,7 +67,7 @@ public class ArticleViewHolder extends BenihViewHolder<Article> implements
         thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall());
         ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
         ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
-        ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_see_later);
+        ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);
         ivReadLater.setOnClickListener(v -> readLaterController.readLater(article));
     }
 
@@ -103,7 +103,7 @@ public class ArticleViewHolder extends BenihViewHolder<Article> implements
     @Override
     public void onUnReadLater(Article article)
     {
-        ivReadLater.setImageResource(R.mipmap.ic_see_later);
+        ivReadLater.setImageResource(R.mipmap.ic_read_later);
     }
 
     @Override

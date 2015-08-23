@@ -16,13 +16,19 @@
 
 package id.zelory.codepolitan.ui.adapter.viewholder;
 
+import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
 
 import butterknife.Bind;
 import id.zelory.benih.adapter.viewholder.BenihViewHolder;
 import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.controller.BookmarkController;
+import id.zelory.codepolitan.controller.ReadLaterController;
 import id.zelory.codepolitan.data.Article;
 
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
@@ -36,15 +42,23 @@ import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListen
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class MemeViewHolder extends BenihViewHolder<Article>
+public class MemeViewHolder extends BenihViewHolder<Article> implements
+        BookmarkController.Presenter,
+        ReadLaterController.Presenter
 {
     @Bind(R.id.title) TextView title;
     @Bind(R.id.date) TextView date;
     @Bind(R.id.thumbnail) BenihImageView thumbnail;
+    @Bind(R.id.iv_bookmark) ImageView ivBookmark;
+    @Bind(R.id.iv_read_later) ImageView ivReadLater;
+    private BookmarkController bookmarkController;
+    private ReadLaterController readLaterController;
 
     public MemeViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
         super(itemView, itemClickListener, longItemClickListener);
+        bookmarkController = new BookmarkController(this);
+        readLaterController = new ReadLaterController(this);
     }
 
     @Override
@@ -53,5 +67,62 @@ public class MemeViewHolder extends BenihViewHolder<Article>
         title.setText(article.getTitle());
         date.setText(article.getDate());
         thumbnail.setImageUrl(article.getThumbnailSmall());
+        ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
+        ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
+        ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);
+        ivReadLater.setOnClickListener(v -> readLaterController.readLater(article));
+    }
+
+    @Override
+    public void showListBookmarkedArticles(List<Article> listArticle)
+    {
+    }
+
+    @Override
+    public void onBookmark(Article article)
+    {
+        ivBookmark.setImageResource(R.mipmap.ic_bookmark_on);
+    }
+
+    @Override
+    public void onUnBookmark(Article article)
+    {
+        ivBookmark.setImageResource(R.mipmap.ic_bookmark);
+    }
+
+    @Override
+    public void showListReadLaterArticles(List<Article> listArticle)
+    {
+
+    }
+
+    @Override
+    public void onReadLater(Article article)
+    {
+        ivReadLater.setImageResource(R.mipmap.ic_read_later_on);
+    }
+
+    @Override
+    public void onUnReadLater(Article article)
+    {
+        ivReadLater.setImageResource(R.mipmap.ic_read_later);
+    }
+
+    @Override
+    public void showLoading()
+    {
+
+    }
+
+    @Override
+    public void dismissLoading()
+    {
+
+    }
+
+    @Override
+    public void showError(Throwable throwable)
+    {
+        Snackbar.make(ivReadLater, "Something wrong!", Snackbar.LENGTH_SHORT).show();
     }
 }
