@@ -16,12 +16,12 @@
 
 package id.zelory.codepolitan.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -32,6 +32,7 @@ import java.util.List;
 import butterknife.Bind;
 import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
+import id.zelory.benih.util.BenihBus;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.ui.adapter.MainPagerAdapter;
 import id.zelory.codepolitan.ui.adapter.MenuSpinnerAdapter;
@@ -70,6 +71,7 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
     @Override
     protected void onViewReady(Bundle bundle)
     {
+        BenihBus.pluck().receive().subscribe(o -> onReload());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setUpViewPager();
@@ -107,12 +109,6 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
     {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -187,5 +183,15 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
     public void onNothingSelected(AdapterView<?> parent)
     {
 
+    }
+
+    public void onReload()
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }

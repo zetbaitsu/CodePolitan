@@ -17,9 +17,14 @@
 package id.zelory.codepolitan.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+
+import java.lang.reflect.Field;
 
 import id.zelory.benih.fragment.BenihFragment;
+import id.zelory.benih.util.BenihBus;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.controller.event.ReloadEvent;
 
 /**
  * Created on : August 3, 2015
@@ -53,15 +58,54 @@ public class HomeFragment extends BenihFragment
     {
         if (addToBackStack)
         {
-            getChildFragmentManager().beginTransaction()
-                    .replace(containerId, fragment, fragment.getClass().getSimpleName())
-                    .addToBackStack(null)
-                    .commit();
+            try
+            {
+                getChildFragmentManager().beginTransaction()
+                        .replace(containerId, fragment, fragment.getClass().getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
+            } catch (Exception e)
+            {
+                resetChildFragmentManager();
+                BenihBus.pluck().send(new ReloadEvent());
+            }
+
         } else
         {
-            getChildFragmentManager().beginTransaction()
-                    .replace(containerId, fragment, fragment.getClass().getSimpleName())
-                    .commit();
+            try
+            {
+                getChildFragmentManager().beginTransaction()
+                        .replace(containerId, fragment, fragment.getClass().getSimpleName())
+                        .commit();
+            } catch (Exception e)
+            {
+                resetChildFragmentManager();
+                BenihBus.pluck().send(new ReloadEvent());
+            }
         }
+    }
+
+    private void resetChildFragmentManager()
+    {
+        try
+        {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e)
+        {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void onDetach()
+    {
+        super.onDetach();
+        resetChildFragmentManager();
     }
 }
