@@ -168,25 +168,6 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
     }
 
     @Override
-    public void onDestroy()
-    {
-        articleController = null;
-
-        if (recyclerView != null)
-        {
-            recyclerView.removeAllViews();
-            recyclerView = null;
-        }
-
-        if (adapter != null)
-        {
-            adapter.clear();
-            adapter = null;
-        }
-        super.onDestroy();
-    }
-
-    @Override
     public boolean onQueryTextSubmit(String query)
     {
         articleController.filter(query);
