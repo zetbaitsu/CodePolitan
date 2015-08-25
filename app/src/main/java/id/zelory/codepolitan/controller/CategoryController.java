@@ -27,7 +27,6 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
 import rx.Observable;
-import timber.log.Timber;
 
 /**
  * Created on : August 6, 2015
