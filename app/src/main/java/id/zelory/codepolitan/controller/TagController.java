@@ -87,7 +87,7 @@ public class TagController extends BenihController<TagController.Presenter>
             presenter.showTags(tags);
         } else
         {
-            presenter.showError(new Throwable("Tags is null"));
+            loadTags(1);
         }
     }
 
