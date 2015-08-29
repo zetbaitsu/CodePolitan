@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.benih.util.BenihUtils;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.ui.adapter.viewholder.QuoteViewHolder;
+import id.zelory.codepolitan.ui.adapter.viewholder.QuoteItemViewHolder;
 import id.zelory.codepolitan.data.Article;
 
 /**
@@ -33,7 +33,7 @@ import id.zelory.codepolitan.data.Article;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class QuoteAdapter extends BenihRecyclerAdapter<Article, QuoteViewHolder>
+public class QuoteAdapter extends BenihRecyclerAdapter<Article, QuoteItemViewHolder>
 {
     public QuoteAdapter(Context context)
     {
@@ -55,9 +55,9 @@ public class QuoteAdapter extends BenihRecyclerAdapter<Article, QuoteViewHolder>
     }
 
     @Override
-    public QuoteViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public QuoteItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
-        return new QuoteViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+        return new QuoteItemViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
     }
 
     @Override

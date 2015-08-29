@@ -33,9 +33,9 @@ import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.controller.util.KeyboardUtil;
 import id.zelory.codepolitan.data.Article;
-import timber.log.Timber;
 
 /**
  * Created on : August 3, 2015
@@ -70,7 +70,7 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
     {
         currentPage = bundle != null ? bundle.getInt("currentPage") : 1;
         setUpSwipeLayout();
-        setUpAdapter();
+        setUpAdapter(bundle);
         setUpRecyclerView();
         setupController(bundle);
     }
@@ -79,7 +79,7 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
 
     protected abstract Adapter createAdapter();
 
-    protected void setUpAdapter()
+    protected void setUpAdapter(Bundle bundle)
     {
         if (adapter == null)
         {
@@ -138,7 +138,10 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
     @Override
     public void showArticles(List<Article> articles)
     {
-        adapter.add(articles);
+        if(!searching)
+        {
+            adapter.add(articles);
+        }
     }
 
     @Override
@@ -151,7 +154,10 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
     @Override
     public void showLoading()
     {
-        swipeRefreshLayout.setRefreshing(true);
+        if(!searching)
+        {
+            swipeRefreshLayout.setRefreshing(true);
+        }
     }
 
     @Override
@@ -163,8 +169,17 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
     @Override
     public void showError(Throwable throwable)
     {
-        Snackbar.make(recyclerView, "Something Wrong!", Snackbar.LENGTH_SHORT).show();
-        Timber.d(throwable.getMessage());
+        switch (throwable.getMessage())
+        {
+            case ErrorEvent.LOAD_STATE_LIST_ARTICLE:
+                onRefresh();
+                break;
+            case ErrorEvent.LOAD_LIST_ARTICLE_BY_PAGE:
+                Snackbar.make(recyclerView, R.string.error_message, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry, v -> articleController.loadArticles(currentPage))
+                        .show();
+                break;
+        }
     }
 
     @Override

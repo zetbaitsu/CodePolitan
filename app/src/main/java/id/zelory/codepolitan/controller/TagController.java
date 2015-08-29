@@ -23,8 +23,10 @@ import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
+import timber.log.Timber;
 
 /**
  * Created on : August 6, 2015
@@ -66,7 +68,8 @@ public class TagController extends BenihController<TagController.Presenter>
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_LIST_TAG));
                         presenter.dismissLoading();
                     }
                 });
@@ -87,7 +90,7 @@ public class TagController extends BenihController<TagController.Presenter>
             presenter.showTags(tags);
         } else
         {
-            loadTags(1);
+            presenter.showError(new Throwable(ErrorEvent.LOAD_STATE_LIST_TAG));
         }
     }
 

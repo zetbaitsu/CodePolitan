@@ -24,27 +24,25 @@ import android.widget.TextView;
 import java.util.List;
 
 import butterknife.Bind;
-import id.zelory.benih.adapter.viewholder.BenihViewHolder;
+import id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
+import id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
+import id.zelory.benih.adapter.viewholder.BenihItemViewHolder;
 import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.ReadLaterController;
 import id.zelory.codepolitan.data.Article;
 
-import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
-import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
-
 /**
- * Created on : August 4, 2015
+ * Created on : July 28, 2015
  * Author     : zetbaitsu
  * Name       : Zetra
  * Email      : zetra@mail.ugm.ac.id
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class MemeViewHolder extends BenihViewHolder<Article> implements
-        BookmarkController.Presenter,
-        ReadLaterController.Presenter
+public class ArticleItemViewHolder extends BenihItemViewHolder<Article> implements
+        BookmarkController.Presenter, ReadLaterController.Presenter
 {
     @Bind(R.id.title) TextView title;
     @Bind(R.id.date) TextView date;
@@ -54,7 +52,7 @@ public class MemeViewHolder extends BenihViewHolder<Article> implements
     private BookmarkController bookmarkController;
     private ReadLaterController readLaterController;
 
-    public MemeViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
+    public ArticleItemViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
         super(itemView, itemClickListener, longItemClickListener);
         bookmarkController = new BookmarkController(this);
@@ -65,8 +63,8 @@ public class MemeViewHolder extends BenihViewHolder<Article> implements
     public void bind(Article article)
     {
         title.setText(article.getTitle());
-        date.setText(article.getDate());
-        thumbnail.setImageUrl(article.getThumbnailSmall());
+        date.setText(article.getDateClear());
+        thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall());
         ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
         ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
         ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);

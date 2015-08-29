@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.ui.adapter.viewholder.TagViewHolder;
+import id.zelory.codepolitan.ui.adapter.viewholder.TagItemViewHolder;
 import id.zelory.codepolitan.data.Tag;
 
 /**
@@ -32,7 +32,7 @@ import id.zelory.codepolitan.data.Tag;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class TagAdapter extends BenihRecyclerAdapter<Tag, TagViewHolder>
+public class TagAdapter extends BenihRecyclerAdapter<Tag, TagItemViewHolder>
 {
     public TagAdapter(Context context)
     {
@@ -46,8 +46,8 @@ public class TagAdapter extends BenihRecyclerAdapter<Tag, TagViewHolder>
     }
 
     @Override
-    public TagViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public TagItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
-        return new TagViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+        return new TagItemViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
     }
 }

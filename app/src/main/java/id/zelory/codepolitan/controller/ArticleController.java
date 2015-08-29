@@ -25,6 +25,7 @@ import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
 import id.zelory.benih.util.BenihUtils;
 import id.zelory.benih.util.BenihWorker;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
@@ -32,6 +33,7 @@ import id.zelory.codepolitan.data.api.CodePolitanApi;
 import id.zelory.codepolitan.data.api.response.ObjectResponse;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
 import rx.Observable;
+import timber.log.Timber;
 
 /**
  * Created on : July 29, 2015
@@ -74,7 +76,8 @@ public class ArticleController extends BenihController<ArticleController.Present
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_ARTICLE));
                         presenter.dismissLoading();
                     }
                 });
@@ -119,7 +122,8 @@ public class ArticleController extends BenihController<ArticleController.Present
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_LIST_ARTICLE_BY_PAGE));
                         presenter.dismissLoading();
                     }
                 });
@@ -164,7 +168,8 @@ public class ArticleController extends BenihController<ArticleController.Present
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_LIST_ARTICLE_BY_POST_TYPE));
                         presenter.dismissLoading();
                     }
                 });
@@ -209,7 +214,8 @@ public class ArticleController extends BenihController<ArticleController.Present
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_LIST_ARTICLE_BY_CATEGORY));
                         presenter.dismissLoading();
                     }
                 });
@@ -254,7 +260,8 @@ public class ArticleController extends BenihController<ArticleController.Present
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_LIST_ARTICLE_BY_TAG));
                         presenter.dismissLoading();
                     }
                 });
@@ -284,7 +291,7 @@ public class ArticleController extends BenihController<ArticleController.Present
             presenter.showArticle(article);
         } else
         {
-            presenter.showError(new Throwable("Article is null"));
+            presenter.showError(new Throwable(ErrorEvent.LOAD_STATE_ARTICLE));
         }
 
         articles = bundle.getParcelableArrayList("articles");
@@ -293,7 +300,7 @@ public class ArticleController extends BenihController<ArticleController.Present
             presenter.showArticles(articles);
         } else
         {
-            presenter.showError(new Throwable("List article is null"));
+            presenter.showError(new Throwable(ErrorEvent.LOAD_STATE_LIST_ARTICLE));
         }
     }
 

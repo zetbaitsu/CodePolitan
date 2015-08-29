@@ -24,13 +24,14 @@ import android.view.View;
 import java.util.List;
 
 import butterknife.Bind;
+import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.ui.adapter.CategoryAdapter;
 import id.zelory.codepolitan.controller.CategoryController;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Category;
-import timber.log.Timber;
+import id.zelory.codepolitan.ui.adapter.CategoryAdapter;
 
 /**
  * Created on : August 4, 2015
@@ -41,7 +42,8 @@ import timber.log.Timber;
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class CategoryFragment extends BenihFragment implements CategoryController.Presenter,
-        SwipeRefreshLayout.OnRefreshListener
+        SwipeRefreshLayout.OnRefreshListener, BenihRecyclerAdapter.OnItemClickListener,
+        BenihRecyclerAdapter.OnLongItemClickListener
 {
     private CategoryController categoryController;
     private CategoryAdapter adapter;
@@ -58,7 +60,7 @@ public class CategoryFragment extends BenihFragment implements CategoryControlle
     protected void onViewReady(Bundle bundle)
     {
         setUpSwipeLayout();
-        setUpAdapter();
+        setUpAdapter(bundle);
         setUpRecyclerView();
         setUpController(bundle);
     }
@@ -91,27 +93,16 @@ public class CategoryFragment extends BenihFragment implements CategoryControlle
         recyclerView.setAdapter(adapter);
     }
 
-    private void setUpAdapter()
+    private void setUpAdapter(Bundle bundle)
     {
-        adapter = new CategoryAdapter(getActivity());
-        adapter.setOnItemClickListener(this::onItemClick);
-        adapter.setOnLongItemClickListener(this::onLongItemClick);
-    }
-
-    private void onLongItemClick(View view, int i)
-    {
-
-    }
-
-    private void onItemClick(View view, int i)
-    {
-
+        adapter = new CategoryAdapter(getActivity(), bundle);
+        adapter.setOnItemClickListener(this);
+        adapter.setOnLongItemClickListener(this);
     }
 
     @Override
     public void showCategories(List<Category> categories)
     {
-        adapter.add(new Category());
         adapter.add(categories);
     }
 
@@ -130,10 +121,17 @@ public class CategoryFragment extends BenihFragment implements CategoryControlle
     @Override
     public void showError(Throwable throwable)
     {
-        Timber.d(throwable.getMessage());
-        Snackbar.make(recyclerView, "Something Wrong!", Snackbar.LENGTH_LONG)
-                .setAction("Retry", v -> onRefresh())
-                .show();
+        switch (throwable.getMessage())
+        {
+            case ErrorEvent.LOAD_STATE_LIST_CATEGORY:
+                onRefresh();
+                break;
+            case ErrorEvent.LOAD_LIST_CATEGORY:
+                Snackbar.make(recyclerView, R.string.error_message, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry, v -> categoryController.loadCategories(1))
+                        .show();
+                break;
+        }
     }
 
     @Override
@@ -148,5 +146,17 @@ public class CategoryFragment extends BenihFragment implements CategoryControlle
     {
         categoryController.saveState(outState);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onItemClick(View view, int position)
+    {
+
+    }
+
+    @Override
+    public void onLongItemClick(View view, int position)
+    {
+
     }
 }

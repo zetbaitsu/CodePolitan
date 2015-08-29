@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.Bind;
-import id.zelory.benih.adapter.viewholder.BenihViewHolder;
+import id.zelory.benih.adapter.viewholder.BenihItemViewHolder;
 import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.data.Category;
@@ -37,12 +37,12 @@ import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListen
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class CategoryViewHolder extends BenihViewHolder<Category>
+public class CategoryItemViewHolder extends BenihItemViewHolder<Category>
 {
     @Bind(R.id.category_name) TextView name;
     @Bind(R.id.category_image) ImageView image;
 
-    public CategoryViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
+    public CategoryItemViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
         super(itemView, itemClickListener, longItemClickListener);
     }

@@ -17,6 +17,7 @@
 package id.zelory.codepolitan.ui.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -26,8 +27,7 @@ import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ReadActivity;
-import id.zelory.codepolitan.ui.adapter.ArticleAdapter;
-import id.zelory.codepolitan.ui.adapter.viewholder.NewsHeaderViewHolder;
+import id.zelory.codepolitan.ui.adapter.TesAdapter;
 
 /**
  * Created on : July 28, 2015
@@ -37,7 +37,7 @@ import id.zelory.codepolitan.ui.adapter.viewholder.NewsHeaderViewHolder;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class NewsFragment extends AbstractHomeFragment<ArticleAdapter>
+public class NewsFragment extends AbstractHomeFragment<TesAdapter>
 {
     @Override
     protected int getFragmentView()
@@ -55,29 +55,27 @@ public class NewsFragment extends AbstractHomeFragment<ArticleAdapter>
             @Override
             public void onLoadMore(int i)
             {
-                if (!searching)
-                {
-                    currentPage++;
-                    articleController.loadArticles(currentPage);
-                }
+                currentPage++;
+                articleController.loadArticles(currentPage);
             }
         });
 
     }
 
     @Override
-    protected ArticleAdapter createAdapter()
+    protected TesAdapter createAdapter()
     {
-        return new ArticleAdapter(getActivity());
+        return null;
     }
 
     @Override
-    protected void setUpAdapter()
+    protected void setUpAdapter(Bundle bundle)
     {
-        super.setUpAdapter();
-        if (adapter != null)
+        if (adapter == null)
         {
-            adapter.addHeader(R.layout.list_header_article, NewsHeaderViewHolder.class);
+            adapter = new TesAdapter(getActivity(), bundle);
+            adapter.setOnItemClickListener(this::onItemClick);
+            recyclerView.setAdapter(adapter);
         }
     }
 
@@ -86,7 +84,7 @@ public class NewsFragment extends AbstractHomeFragment<ArticleAdapter>
     {
         Intent intent = new Intent(getActivity(), ReadActivity.class);
         intent.putParcelableArrayListExtra("data", (ArrayList<Article>) adapter.getData());
-        intent.putExtra("position", adapter.hasHeader() ? position - 1 : position);
+        intent.putExtra("position", position);
         startActivity(intent);
     }
 
@@ -116,5 +114,12 @@ public class NewsFragment extends AbstractHomeFragment<ArticleAdapter>
             adapter.hideHeader();
         }
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        adapter.getHeader().saveState(outState);
+        super.onSaveInstanceState(outState);
     }
 }

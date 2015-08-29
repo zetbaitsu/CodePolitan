@@ -24,7 +24,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import butterknife.Bind;
-import id.zelory.benih.adapter.viewholder.BenihViewHolder;
+import id.zelory.benih.adapter.viewholder.BenihItemViewHolder;
 import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
@@ -42,7 +42,7 @@ import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListen
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class KomikViewHolder extends BenihViewHolder<Article> implements
+public class MemeItemViewHolder extends BenihItemViewHolder<Article> implements
         BookmarkController.Presenter,
         ReadLaterController.Presenter
 {
@@ -54,7 +54,7 @@ public class KomikViewHolder extends BenihViewHolder<Article> implements
     private BookmarkController bookmarkController;
     private ReadLaterController readLaterController;
 
-    public KomikViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
+    public MemeItemViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
         super(itemView, itemClickListener, longItemClickListener);
         bookmarkController = new BookmarkController(this);
@@ -66,7 +66,7 @@ public class KomikViewHolder extends BenihViewHolder<Article> implements
     {
         title.setText(article.getTitle());
         date.setText(article.getDate());
-        thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall());
+        thumbnail.setImageUrl(article.getThumbnailSmall());
         ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
         ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
         ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);

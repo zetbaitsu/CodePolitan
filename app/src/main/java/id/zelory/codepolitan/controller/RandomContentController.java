@@ -18,17 +18,20 @@ package id.zelory.codepolitan.controller;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
 import id.zelory.benih.util.BenihUtils;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
 import rx.Observable;
+import timber.log.Timber;
 
 /**
  * Created on : August 23, 2015
@@ -40,6 +43,10 @@ import rx.Observable;
  */
 public class RandomContentController extends BenihController<RandomContentController.Presenter>
 {
+    private List<Article> randomArticles;
+    private Category category;
+    private Tag tag;
+
     public RandomContentController(Presenter presenter)
     {
         super(presenter);
@@ -61,6 +68,7 @@ public class RandomContentController extends BenihController<RandomContentContro
                 })
                 .toList()
                 .subscribe(articles -> {
+                    randomArticles = articles;
                     if (presenter != null)
                     {
                         presenter.showRandomArticles(articles);
@@ -69,7 +77,8 @@ public class RandomContentController extends BenihController<RandomContentContro
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_RANDOM_ARTICLES));
                         presenter.dismissLoading();
                     }
                 });
@@ -91,6 +100,7 @@ public class RandomContentController extends BenihController<RandomContentContro
                 })
                 .toList()
                 .subscribe(articles -> {
+                    randomArticles = articles;
                     if (presenter != null)
                     {
                         presenter.showRandomArticles(articles);
@@ -99,7 +109,8 @@ public class RandomContentController extends BenihController<RandomContentContro
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_RANDOM_ARTICLES_BY_CATEGORY));
                         presenter.dismissLoading();
                     }
                 });
@@ -121,6 +132,7 @@ public class RandomContentController extends BenihController<RandomContentContro
                 })
                 .toList()
                 .subscribe(articles -> {
+                    randomArticles = articles;
                     if (presenter != null)
                     {
                         presenter.showRandomArticles(articles);
@@ -129,7 +141,8 @@ public class RandomContentController extends BenihController<RandomContentContro
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_RANDOM_ARTICLES_BY_TAG));
                         presenter.dismissLoading();
                     }
                 });
@@ -145,6 +158,7 @@ public class RandomContentController extends BenihController<RandomContentContro
                 .flatMap(categoryListResponse -> Observable.just(categoryListResponse.getResult()))
                 .map(categories -> categories.get(BenihUtils.randInt(0, categories.size() - 1)))
                 .subscribe(category -> {
+                    this.category = category;
                     if (presenter != null)
                     {
                         presenter.showRandomCategory(category);
@@ -153,7 +167,8 @@ public class RandomContentController extends BenihController<RandomContentContro
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_RANDOM_CATEGORY));
                         presenter.dismissLoading();
                     }
                 });
@@ -169,6 +184,7 @@ public class RandomContentController extends BenihController<RandomContentContro
                 .flatMap(tagListResponse -> Observable.just(tagListResponse.getResult()))
                 .map(tags -> tags.get(BenihUtils.randInt(0, tags.size() - 1)))
                 .subscribe(tag -> {
+                    this.tag = tag;
                     if (presenter != null)
                     {
                         presenter.showRandomTag(tag);
@@ -177,7 +193,8 @@ public class RandomContentController extends BenihController<RandomContentContro
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_RANDOM_TAG));
                         presenter.dismissLoading();
                     }
                 });
@@ -186,13 +203,40 @@ public class RandomContentController extends BenihController<RandomContentContro
     @Override
     public void saveState(Bundle bundle)
     {
-
+        bundle.putParcelableArrayList("random_articles", (ArrayList<Article>) randomArticles);
+        bundle.putParcelable("random_category", category);
+        bundle.putParcelable("random_tag", tag);
     }
 
     @Override
     public void loadState(Bundle bundle)
     {
+        randomArticles = bundle.getParcelableArrayList("random_articles");
+        if (randomArticles != null)
+        {
+            presenter.showRandomArticles(randomArticles);
+        } else
+        {
+            presenter.showError(new Throwable(ErrorEvent.LOAD_STATE_RANDOM_ARTICLES));
+        }
 
+        category = bundle.getParcelable("random_category");
+        if (category != null)
+        {
+            presenter.showRandomCategory(category);
+        } else
+        {
+            presenter.showError(new Throwable(ErrorEvent.LOAD_STATE_RANDOM_CATEGORY));
+        }
+
+        tag = bundle.getParcelable("random_tag");
+        if (tag != null)
+        {
+            presenter.showRandomTag(tag);
+        } else
+        {
+            presenter.showError(new Throwable(ErrorEvent.LOAD_STATE_RANDOM_TAG));
+        }
     }
 
     public interface Presenter extends BenihController.Presenter

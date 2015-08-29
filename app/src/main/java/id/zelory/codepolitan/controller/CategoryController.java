@@ -24,9 +24,11 @@ import java.util.List;
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
 import rx.Observable;
+import timber.log.Timber;
 
 /**
  * Created on : August 6, 2015
@@ -109,7 +111,8 @@ public class CategoryController extends BenihController<CategoryController.Prese
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_LIST_CATEGORY));
                         presenter.dismissLoading();
                     }
                 });
@@ -130,7 +133,7 @@ public class CategoryController extends BenihController<CategoryController.Prese
             presenter.showCategories(categories);
         } else
         {
-            loadCategories(1);
+            presenter.showError(new Throwable(ErrorEvent.LOAD_STATE_LIST_CATEGORY));
         }
     }
 

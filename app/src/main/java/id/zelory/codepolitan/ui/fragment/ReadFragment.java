@@ -18,6 +18,7 @@ package id.zelory.codepolitan.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 
@@ -27,6 +28,7 @@ import butterknife.Bind;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.view.BenihWebView;
 
@@ -112,14 +114,23 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     @Override
     public void showError(Throwable throwable)
     {
-
+        switch (throwable.getMessage())
+        {
+            case ErrorEvent.LOAD_STATE_ARTICLE:
+                articleController.loadArticle(data.getId());
+                break;
+            case ErrorEvent.LOAD_ARTICLE:
+                Snackbar.make(content, R.string.error_message, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry, v -> articleController.loadArticle(data.getId()))
+                        .show();
+                break;
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void setupWebView()
     {
         content.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        content.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         content.setVerticalScrollBarEnabled(false);
         content.setHorizontalScrollBarEnabled(false);
         content.setWebChromeClient(new WebChromeClient());

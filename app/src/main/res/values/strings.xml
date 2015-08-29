@@ -25,4 +25,6 @@
     <string name="meme">Meme</string>
     <string name="grid">Grid</string>
     <string name="quotes">Quotes</string>
+    <string name="error_message">Could not connect to server!</string>
+    <string name="retry">Retry</string>
 </resources>

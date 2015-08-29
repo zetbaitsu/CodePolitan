@@ -14,39 +14,39 @@
  *  limitations under the License.
  */
 
-package id.zelory.codepolitan.ui.adapter.viewholder;
+package id.zelory.benih.adapter.viewholder;
 
+import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
-
-import butterknife.Bind;
-import id.zelory.benih.adapter.viewholder.BenihViewHolder;
-import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.data.Tag;
-
-import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
-import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
 
 /**
- * Created on : August 4, 2015
+ * Created on : August 25, 2015
  * Author     : zetbaitsu
  * Name       : Zetra
  * Email      : zetra@mail.ugm.ac.id
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class TagViewHolder extends BenihViewHolder<Tag>
+public abstract class BenihHeaderViewHolder extends BenihItemViewHolder
 {
-    @Bind(R.id.name) TextView name;
+    protected Bundle bundle;
 
-    public TagViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
+    public BenihHeaderViewHolder(View itemView, Bundle bundle)
     {
-        super(itemView, itemClickListener, longItemClickListener);
+        super(itemView, null, null);
+        this.bundle = bundle;
     }
 
     @Override
-    public void bind(Tag tag)
+    public void bind(Object o)
     {
-        name.setText(tag.getName());
+
+    }
+
+    public abstract void show();
+
+    public void saveState(Bundle bundle)
+    {
+        this.bundle = bundle;
     }
 }

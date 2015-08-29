@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.ui.adapter.viewholder.MemeViewHolder;
+import id.zelory.codepolitan.ui.adapter.viewholder.MemeItemViewHolder;
 import id.zelory.codepolitan.data.Article;
 
 /**
@@ -32,7 +32,7 @@ import id.zelory.codepolitan.data.Article;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class MemeAdapter extends BenihRecyclerAdapter<Article, MemeViewHolder>
+public class MemeAdapter extends BenihRecyclerAdapter<Article, MemeItemViewHolder>
 {
     public MemeAdapter(Context context)
     {
@@ -47,9 +47,9 @@ public class MemeAdapter extends BenihRecyclerAdapter<Article, MemeViewHolder>
     }
 
     @Override
-    public MemeViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public MemeItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
-        return new MemeViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+        return new MemeItemViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
     }
 
     @Override

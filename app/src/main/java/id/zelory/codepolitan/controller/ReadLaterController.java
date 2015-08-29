@@ -22,9 +22,11 @@ import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
+import timber.log.Timber;
 
 /**
  * Created on : August 18, 2015
@@ -56,7 +58,8 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_READ_LATER_ARTICLES));
                         presenter.dismissLoading();
                     }
                 });
@@ -77,7 +80,8 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
                                        if (presenter != null)
                                        {
                                            article.setReadLater(false);
-                                           presenter.showError(throwable);
+                                           Timber.d(throwable.getMessage());
+                                           presenter.showError(new Throwable(ErrorEvent.ON_READ_LATER));
                                            presenter.onUnReadLater(article);
                                        }
                                    });

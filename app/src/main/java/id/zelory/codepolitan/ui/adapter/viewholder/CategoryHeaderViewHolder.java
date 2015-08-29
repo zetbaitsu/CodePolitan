@@ -16,14 +16,11 @@
 
 package id.zelory.codepolitan.ui.adapter.viewholder;
 
+import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import id.zelory.benih.adapter.viewholder.BenihViewHolder;
-import id.zelory.codepolitan.data.Category;
-import id.zelory.codepolitan.ui.view.RecycleViewHeader;
-
-import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
-import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
+import id.zelory.benih.adapter.viewholder.BenihHeaderViewHolder;
 
 /**
  * Created on : August 8, 2015
@@ -33,22 +30,22 @@ import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListen
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class CategoryHeaderViewHolder extends BenihViewHolder<Category> implements RecycleViewHeader
+public class CategoryHeaderViewHolder extends BenihHeaderViewHolder
 {
-    public CategoryHeaderViewHolder(View itemView)
+    public CategoryHeaderViewHolder(View itemView, Bundle bundle)
     {
-        super(itemView, null, null);
-    }
-
-    @Override
-    public void bind(Category category)
-    {
-
+        super(itemView, bundle);
     }
 
     @Override
     public void show()
     {
 
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        Snackbar.make(v, "Header", Snackbar.LENGTH_SHORT).show();
     }
 }

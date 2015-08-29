@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 Zelory.
+ * Copyright (c) 2015 Zetra.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,17 +14,18 @@
  *  limitations under the License.
  */
 
-package id.zelory.codepolitan.ui.view;
+package id.zelory.benih;
+
+import android.app.Application;
+import android.test.ApplicationTestCase;
 
 /**
- * Created on : August 23, 2015
- * Author     : zetbaitsu
- * Name       : Zetra
- * Email      : zetra@mail.ugm.ac.id
- * GitHub     : https://github.com/zetbaitsu
- * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
+ * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
-public interface RecycleViewHeader
+public class ApplicationTest extends ApplicationTestCase<Application>
 {
-    void show();
+    public ApplicationTest()
+    {
+        super(Application.class);
+    }
 }

@@ -12,7 +12,8 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- */
+ *//*
+
 
 package id.zelory.codepolitan.ui.adapter;
 
@@ -26,12 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
-import id.zelory.benih.adapter.viewholder.BenihViewHolder;
+import id.zelory.benih.adapter.viewholder.BenihItemViewHolder;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.data.Article;
-import id.zelory.codepolitan.ui.adapter.viewholder.ArticleViewHolder;
-import id.zelory.codepolitan.ui.view.RecycleViewHeader;
+import id.zelory.codepolitan.ui.adapter.viewholder.ArticleItemViewHolder;
 
+*/
 /**
  * Created on : July 28, 2015
  * Author     : zetbaitsu
@@ -39,15 +40,16 @@ import id.zelory.codepolitan.ui.view.RecycleViewHeader;
  * Email      : zetra@mail.ugm.ac.id
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
- */
-public class ArticleAdapter extends BenihRecyclerAdapter<Article, BenihViewHolder>
+ *//*
+
+public class ArticleAdapter extends BenihRecyclerAdapter<Article, BenihItemViewHolder>
 {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_BIG = 1;
     private static final int TYPE_MINI = 2;
     private int headerLayout;
     private boolean hasHeader = false;
-    private RecycleViewHeader header;
+    private RecyclerViewHeader header;
     private Constructor<?> headerConstructor;
 
     public ArticleAdapter(Context context)
@@ -71,14 +73,14 @@ public class ArticleAdapter extends BenihRecyclerAdapter<Article, BenihViewHolde
     }
 
     @Override
-    public BenihViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
+    public BenihItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
     {
         if (hasHeader && viewType == TYPE_HEADER)
         {
             try
             {
-                header = (RecycleViewHeader) headerConstructor.newInstance(getView(viewGroup, viewType));
-                return (BenihViewHolder) header;
+                header = (RecyclerViewHeader) headerConstructor.newInstance(getView(viewGroup, viewType));
+                return (BenihItemViewHolder) header;
             } catch (InstantiationException e)
             {
                 e.printStackTrace();
@@ -91,11 +93,11 @@ public class ArticleAdapter extends BenihRecyclerAdapter<Article, BenihViewHolde
             }
         }
 
-        return new ArticleViewHolder(getView(viewGroup, viewType), itemClickListener, longItemClickListener);
+        return new ArticleItemViewHolder(getView(viewGroup, viewType), itemClickListener, longItemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(BenihViewHolder holder, int position)
+    public void onBindViewHolder(BenihItemViewHolder holder, int position)
     {
         if (hasHeader && position == 0)
         {
@@ -120,7 +122,7 @@ public class ArticleAdapter extends BenihRecyclerAdapter<Article, BenihViewHolde
         }
     }
 
-    public void addHeader(int headerLayout, Class<? extends BenihViewHolder> holderClass)
+    public void addHeader(int headerLayout, Class<? extends BenihItemViewHolder> holderClass)
     {
         try
         {
@@ -143,7 +145,6 @@ public class ArticleAdapter extends BenihRecyclerAdapter<Article, BenihViewHolde
         {
             hasHeader = true;
             data.add(0, null);
-            header.show();
         }
     }
 
@@ -176,4 +177,10 @@ public class ArticleAdapter extends BenihRecyclerAdapter<Article, BenihViewHolde
     {
         return hasHeader ? new ArrayList<>(data.subList(1, data.size())) : super.getData();
     }
+
+    public RecyclerViewHeader getHeader()
+    {
+        return header;
+    }
 }
+*/

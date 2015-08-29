@@ -17,14 +17,14 @@
 package id.zelory.codepolitan.ui.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.ViewGroup;
 
-import id.zelory.benih.adapter.BenihRecyclerAdapter;
-import id.zelory.benih.adapter.viewholder.BenihViewHolder;
+import id.zelory.benih.adapter.BenihHeaderAdapter;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.ui.adapter.viewholder.CategoryHeaderViewHolder;
-import id.zelory.codepolitan.ui.adapter.viewholder.CategoryViewHolder;
 import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.ui.adapter.viewholder.CategoryHeaderViewHolder;
+import id.zelory.codepolitan.ui.adapter.viewholder.CategoryItemViewHolder;
 
 /**
  * Created on : August 6, 2015
@@ -34,34 +34,50 @@ import id.zelory.codepolitan.data.Category;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class CategoryAdapter extends BenihRecyclerAdapter<Category, BenihViewHolder>
+public class CategoryAdapter extends
+        BenihHeaderAdapter<Category, CategoryItemViewHolder, CategoryHeaderViewHolder>
 {
-    public CategoryAdapter(Context context)
+    public CategoryAdapter(Context context, Bundle bundle)
     {
-        super(context);
+        super(context, bundle);
     }
 
     @Override
-    protected int getItemView(int viewType)
+    protected int getHeaderResourceLayout()
     {
-        return viewType == -1 ? R.layout.list_header_category : R.layout.list_item_category;
+        return R.layout.list_header_category;
     }
 
     @Override
-    public BenihViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
+    protected int getItemResourceLayout(int viewType)
     {
-        if (viewType == -1)
-        {
-            return new CategoryHeaderViewHolder(getView(viewGroup, viewType));
-        } else
-        {
-            return new CategoryViewHolder(getView(viewGroup, viewType), itemClickListener, longItemClickListener);
-        }
+        return R.layout.list_item_category;
+    }
+
+    @Override
+    protected CategoryHeaderViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup, int viewType)
+    {
+        return new CategoryHeaderViewHolder(getView(viewGroup, viewType), bundle);
+    }
+
+    @Override
+    public CategoryItemViewHolder onCreateItemViewHolder(ViewGroup viewGroup, int viewType)
+    {
+        return new CategoryItemViewHolder(getView(viewGroup, viewType), itemClickListener, longItemClickListener);
     }
 
     @Override
     public int getItemViewType(int position)
     {
-        return position == 0 ? -1 : data.get(position).getName().equalsIgnoreCase("Info") ? 1 : 0;
+        if (position == 0 && hasHeader)
+        {
+            return TYPE_HEADER;
+        } else if ("Info".equalsIgnoreCase(data.get(position).getName()))
+        {
+            return 2;
+        } else
+        {
+            return 1;
+        }
     }
 }

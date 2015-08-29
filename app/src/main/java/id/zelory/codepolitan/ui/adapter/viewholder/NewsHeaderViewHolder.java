@@ -16,16 +16,25 @@
 
 package id.zelory.codepolitan.ui.adapter.viewholder;
 
+import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.Bind;
+import id.zelory.benih.adapter.viewholder.BenihHeaderViewHolder;
+import id.zelory.benih.view.BenihImageView;
+import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.RandomContentController;
+import id.zelory.codepolitan.controller.ReadLaterController;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
-import id.zelory.codepolitan.ui.view.RecycleViewHeader;
-import timber.log.Timber;
 
 /**
  * Created on : August 23, 2015
@@ -35,17 +44,41 @@ import timber.log.Timber;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class NewsHeaderViewHolder extends ArticleViewHolder implements RecycleViewHeader,
-        RandomContentController.Presenter
+public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
+        RandomContentController.Presenter, BookmarkController.Presenter,
+        ReadLaterController.Presenter
 {
+    @Bind(R.id.title) TextView title;
+    @Bind(R.id.date) TextView date;
+    @Bind(R.id.thumbnail) BenihImageView thumbnail;
+    @Bind(R.id.iv_bookmark) ImageView ivBookmark;
+    @Bind(R.id.iv_read_later) ImageView ivReadLater;
+    private BookmarkController bookmarkController;
+    private ReadLaterController readLaterController;
     private RandomContentController randomContentController;
     private List<Article> articles;
 
-    public NewsHeaderViewHolder(View itemView)
+    public NewsHeaderViewHolder(View itemView, Bundle bundle)
     {
-        super(itemView, null, null);
+        super(itemView, bundle);
+        bookmarkController = new BookmarkController(this);
+        readLaterController = new ReadLaterController(this);
         randomContentController = new RandomContentController(this);
-        randomContentController.loadRandomArticles();
+        if (bundle != null)
+        {
+            randomContentController.loadState(bundle);
+        }
+    }
+
+    public void bind(Article article)
+    {
+        title.setText(article.getTitle());
+        date.setText(article.getDateClear());
+        thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall());
+        ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
+        ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
+        ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);
+        ivReadLater.setOnClickListener(v -> readLaterController.readLater(article));
     }
 
     @Override
@@ -68,10 +101,67 @@ public class NewsHeaderViewHolder extends ArticleViewHolder implements RecycleVi
     }
 
     @Override
+    public void showListBookmarkedArticles(List<Article> listArticle)
+    {
+
+    }
+
+    @Override
+    public void onBookmark(Article article)
+    {
+        ivBookmark.setImageResource(R.mipmap.ic_bookmark_on);
+    }
+
+    @Override
+    public void onUnBookmark(Article article)
+    {
+        ivBookmark.setImageResource(R.mipmap.ic_bookmark);
+    }
+
+    @Override
+    public void showListReadLaterArticles(List<Article> listArticle)
+    {
+
+    }
+
+    @Override
+    public void onReadLater(Article article)
+    {
+        ivReadLater.setImageResource(R.mipmap.ic_read_later_on);
+    }
+
+    @Override
+    public void onUnReadLater(Article article)
+    {
+        ivReadLater.setImageResource(R.mipmap.ic_read_later);
+    }
+
+    @Override
+    public void showLoading()
+    {
+
+    }
+
+    @Override
+    public void dismissLoading()
+    {
+
+    }
+
+    @Override
     public void showError(Throwable throwable)
     {
-        super.showError(throwable);
-        Timber.d(throwable.getMessage());
+        switch (throwable.getMessage())
+        {
+            case ErrorEvent.LOAD_STATE_RANDOM_ARTICLES:
+                randomContentController.loadRandomArticles();
+                break;
+            case ErrorEvent.LOAD_RANDOM_ARTICLES:
+                Snackbar.make(ivBookmark, R.string.error_message, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry, v -> randomContentController.loadRandomArticles())
+                        .show();
+                break;
+        }
     }
 
     @Override
@@ -80,6 +170,16 @@ public class NewsHeaderViewHolder extends ArticleViewHolder implements RecycleVi
         if (articles != null && !articles.isEmpty())
         {
             bind(articles.get(0));
+        } else
+        {
+            randomContentController.loadRandomArticles();
         }
+    }
+
+    @Override
+    public void saveState(Bundle bundle)
+    {
+        super.saveState(bundle);
+        randomContentController.saveState(bundle);
     }
 }

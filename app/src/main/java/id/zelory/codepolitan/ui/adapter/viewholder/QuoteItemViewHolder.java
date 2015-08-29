@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import java.util.List;
 
 import butterknife.Bind;
-import id.zelory.benih.adapter.viewholder.BenihViewHolder;
+import id.zelory.benih.adapter.viewholder.BenihItemViewHolder;
 import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
@@ -41,7 +41,7 @@ import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListen
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class QuoteViewHolder extends BenihViewHolder<Article> implements
+public class QuoteItemViewHolder extends BenihItemViewHolder<Article> implements
         BookmarkController.Presenter,
         ReadLaterController.Presenter
 {
@@ -51,7 +51,7 @@ public class QuoteViewHolder extends BenihViewHolder<Article> implements
     private BookmarkController bookmarkController;
     private ReadLaterController readLaterController;
 
-    public QuoteViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
+    public QuoteItemViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
         super(itemView, itemClickListener, longItemClickListener);
         bookmarkController = new BookmarkController(this);

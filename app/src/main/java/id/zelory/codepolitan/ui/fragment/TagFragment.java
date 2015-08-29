@@ -27,10 +27,10 @@ import butterknife.Bind;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.ui.adapter.TagAdapter;
 import id.zelory.codepolitan.controller.TagController;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Tag;
-import timber.log.Timber;
+import id.zelory.codepolitan.ui.adapter.TagAdapter;
 
 /**
  * Created on : August 4, 2015
@@ -136,10 +136,17 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
     @Override
     public void showError(Throwable throwable)
     {
-        Timber.d(throwable.getMessage());
-        Snackbar.make(recyclerView, "Something Wrong!", Snackbar.LENGTH_LONG)
-                .setAction("Retry", v -> onRefresh())
-                .show();
+        switch (throwable.getMessage())
+        {
+            case ErrorEvent.LOAD_STATE_LIST_TAG:
+                onRefresh();
+                break;
+            case ErrorEvent.LOAD_LIST_TAG:
+                Snackbar.make(recyclerView, R.string.error_message, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry, v -> tagController.loadTags(1))
+                        .show();
+                break;
+        }
     }
 
     @Override

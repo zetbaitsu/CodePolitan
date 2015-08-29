@@ -22,8 +22,10 @@ import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
+import timber.log.Timber;
 
 /**
  * Created on : August 18, 2015
@@ -55,7 +57,8 @@ public class BookmarkController extends BenihController<BookmarkController.Prese
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        presenter.showError(throwable);
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_BOOKMARKED_ARTICLES));
                         presenter.dismissLoading();
                     }
                 });

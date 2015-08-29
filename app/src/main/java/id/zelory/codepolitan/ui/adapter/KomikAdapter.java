@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.data.Article;
-import id.zelory.codepolitan.ui.adapter.viewholder.KomikViewHolder;
+import id.zelory.codepolitan.ui.adapter.viewholder.KomikItemViewHolder;
 
 /**
  * Created on : August 4, 2015
@@ -32,7 +32,7 @@ import id.zelory.codepolitan.ui.adapter.viewholder.KomikViewHolder;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class KomikAdapter extends BenihRecyclerAdapter<Article, KomikViewHolder>
+public class KomikAdapter extends BenihRecyclerAdapter<Article, KomikItemViewHolder>
 {
     private static final int TYPE_BIG = 1;
     private static final int TYPE_MINI = 2;
@@ -55,9 +55,9 @@ public class KomikAdapter extends BenihRecyclerAdapter<Article, KomikViewHolder>
     }
 
     @Override
-    public KomikViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public KomikItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
-        return new KomikViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+        return new KomikItemViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
     }
 
     @Override
