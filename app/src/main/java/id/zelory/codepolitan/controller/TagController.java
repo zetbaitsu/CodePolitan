@@ -97,9 +97,5 @@ public class TagController extends BenihController<TagController.Presenter>
     public interface Presenter extends BenihController.Presenter
     {
         void showTags(List<Tag> tags);
-
-        void showLoading();
-
-        void dismissLoading();
     }
 }

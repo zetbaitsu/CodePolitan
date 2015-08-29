@@ -246,9 +246,5 @@ public class RandomContentController extends BenihController<RandomContentContro
         void showRandomCategory(Category category);
 
         void showRandomTag(Tag tag);
-
-        void showLoading();
-
-        void dismissLoading();
     }
 }

@@ -140,9 +140,5 @@ public class CategoryController extends BenihController<CategoryController.Prese
     public interface Presenter extends BenihController.Presenter
     {
         void showCategories(List<Category> categories);
-
-        void showLoading();
-
-        void dismissLoading();
     }
 }

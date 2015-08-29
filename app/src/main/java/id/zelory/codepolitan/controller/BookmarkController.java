@@ -98,9 +98,5 @@ public class BookmarkController extends BenihController<BookmarkController.Prese
         void onBookmark(Article article);
 
         void onUnBookmark(Article article);
-
-        void showLoading();
-
-        void dismissLoading();
     }
 }

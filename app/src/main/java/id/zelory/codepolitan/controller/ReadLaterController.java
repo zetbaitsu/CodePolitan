@@ -118,9 +118,5 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
         void onReadLater(Article article);
 
         void onUnReadLater(Article article);
-
-        void showLoading();
-
-        void dismissLoading();
     }
 }

@@ -318,9 +318,5 @@ public class ArticleController extends BenihController<ArticleController.Present
         void showArticles(List<Article> articles);
 
         void showFilteredArticles(List<Article> articles);
-
-        void showLoading();
-
-        void dismissLoading();
     }
 }
