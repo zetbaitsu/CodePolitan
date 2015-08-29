@@ -43,8 +43,7 @@ import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListen
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class MemeItemViewHolder extends BenihItemViewHolder<Article> implements
-        BookmarkController.Presenter,
-        ReadLaterController.Presenter
+        BookmarkController.Presenter, ReadLaterController.Presenter
 {
     @Bind(R.id.title) TextView title;
     @Bind(R.id.date) TextView date;
