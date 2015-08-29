@@ -138,7 +138,7 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
     @Override
     public void showArticles(List<Article> articles)
     {
-        if (!searching)
+        if (!searching && adapter != null)
         {
             adapter.add(articles);
         }

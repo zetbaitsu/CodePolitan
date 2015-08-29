@@ -103,7 +103,10 @@ public class CategoryFragment extends BenihFragment implements CategoryControlle
     @Override
     public void showCategories(List<Category> categories)
     {
-        adapter.add(categories);
+        if (adapter != null)
+        {
+            adapter.add(categories);
+        }
     }
 
     @Override

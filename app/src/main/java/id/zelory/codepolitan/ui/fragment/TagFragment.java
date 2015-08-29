@@ -42,7 +42,8 @@ import id.zelory.codepolitan.ui.adapter.TagAdapter;
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnRefreshListener,
-        TagController.Presenter, BenihRecyclerAdapter.OnItemClickListener, BenihRecyclerAdapter.OnLongItemClickListener
+        TagController.Presenter, BenihRecyclerAdapter.OnItemClickListener,
+        BenihRecyclerAdapter.OnLongItemClickListener
 {
     private TagController tagController;
     private TagAdapter adapter;
@@ -109,7 +110,10 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
     @Override
     public void showTags(List<Tag> tags)
     {
-        adapter.add(tags);
+        if (adapter != null)
+        {
+            adapter.add(tags);
+        }
     }
 
     @Override
@@ -156,6 +160,6 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
     @Override
     public void onLongItemClick(View view, int position)
     {
-        
+
     }
 }
