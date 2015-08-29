@@ -18,6 +18,7 @@ package id.zelory.benih.util;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.graphics.Color;
 
 import java.util.List;
 import java.util.Random;
@@ -64,5 +65,11 @@ public class BenihUtils
         }
 
         return run;
+    }
+
+    public static int getRandomColor()
+    {
+        Random rand = new Random();
+        return Color.argb(100, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
     }
 }

@@ -26,6 +26,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import id.zelory.benih.adapter.viewholder.BenihItemViewHolder;
+import id.zelory.benih.util.BenihUtils;
 import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.R;
@@ -67,6 +68,7 @@ public abstract class AbstractArticleViewHolder extends BenihItemViewHolder<Arti
     public void bind(Article article)
     {
         setThumbnail(article);
+        thumbnail.setBackgroundColor(BenihUtils.getRandomColor());
         ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
         ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
         ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);
