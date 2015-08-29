@@ -47,7 +47,7 @@ public class KomikAdapter extends BenihRecyclerAdapter<Article, KomikItemViewHol
     {
         if (viewType == TYPE_BIG)
         {
-            return R.layout.list_item_article_big;
+            return R.layout.list_item_news_big;
         } else
         {
             return R.layout.grid_item_komik;

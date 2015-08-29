@@ -56,7 +56,7 @@ public class NewsAdapter extends
     @Override
     protected int getItemResourceLayout(int viewType)
     {
-        return viewType == TYPE_BIG ? R.layout.list_item_article_big : R.layout.list_item_article_mini;
+        return viewType == TYPE_BIG ? R.layout.list_item_news_big : R.layout.list_item_news_mini;
     }
 
     @Override
