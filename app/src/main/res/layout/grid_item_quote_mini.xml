@@ -29,11 +29,19 @@
         android:layout_height="150dp"
         android:background="#FFF">
 
-        <id.zelory.benih.view.BenihImageView
+        <id.zelory.codepolitan.ui.view.CodePolitanImageView
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/iv_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:src="@drawable/could_not_load_image"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="100dp"

@@ -18,6 +18,9 @@ package id.zelory.codepolitan.ui.adapter.viewholder;
 
 import android.view.View;
 
+import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.data.Article;
+
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
 
@@ -34,5 +37,19 @@ public class KomikItemViewHolder extends NewsItemViewHolder
     public KomikItemViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
         super(itemView, itemClickListener, longItemClickListener);
+    }
+
+    @Override
+    protected void setThumbnail(Article article)
+    {
+        if (article.isBig())
+        {
+            ivError.setImageResource(R.drawable.could_not_load_image_big);
+            thumbnail.setImageUrl(article.getThumbnailMedium(), ivError);
+        } else
+        {
+            ivError.setImageResource(R.drawable.could_not_load_image);
+            thumbnail.setImageUrl(article.getThumbnailSmall(), ivError);
+        }
     }
 }

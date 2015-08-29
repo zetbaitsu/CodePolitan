@@ -42,6 +42,6 @@ public class QuoteItemViewHolder extends AbstractArticleViewHolder
     @Override
     protected void setThumbnail(Article article)
     {
-        thumbnail.setImageUrl(article.getThumbnailMedium(), R.drawable.could_not_load_image);
+        thumbnail.setImageUrl(article.getThumbnailMedium(), ivError);
     }
 }

@@ -42,6 +42,6 @@ public class MemeItemViewHolder extends NewsItemViewHolder
     @Override
     protected void setThumbnail(Article article)
     {
-        thumbnail.setImageUrl(article.getThumbnailMedium(), R.drawable.could_not_load_image);
+        thumbnail.setImageUrl(article.getThumbnailMedium(), ivError);
     }
 }

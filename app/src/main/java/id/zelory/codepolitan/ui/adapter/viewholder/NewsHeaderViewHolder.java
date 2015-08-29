@@ -28,7 +28,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import id.zelory.benih.adapter.viewholder.BenihHeaderViewHolder;
-import id.zelory.benih.view.BenihImageView;
+import id.zelory.benih.util.BenihUtils;
 import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
@@ -38,6 +38,7 @@ import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.ui.view.CodePolitanImageView;
 
 /**
  * Created on : August 23, 2015
@@ -53,9 +54,10 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
 {
     @Bind(R.id.title) TextView title;
     @Bind(R.id.date) TextView date;
-    @Bind(R.id.thumbnail) BenihImageView thumbnail;
+    @Bind(R.id.thumbnail) CodePolitanImageView thumbnail;
     @Bind(R.id.iv_bookmark) ImageView ivBookmark;
     @Bind(R.id.iv_read_later) ImageView ivReadLater;
+    @Bind(R.id.iv_error) ImageView ivError;
     private BookmarkController bookmarkController;
     private ReadLaterController readLaterController;
     private RandomContentController randomContentController;
@@ -80,8 +82,8 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
     {
         title.setText(article.getTitle());
         date.setText(article.getDateClear());
-        thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall(),
-                              article.isBig() ? R.drawable.could_not_load_image_big : R.drawable.could_not_load_image);
+        thumbnail.setBackgroundColor(BenihUtils.getRandomColor());
+        thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall(), ivError);
         ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
         ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
         ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);

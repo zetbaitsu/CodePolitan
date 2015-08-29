@@ -33,6 +33,7 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.ReadLaterController;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.ui.view.CodePolitanImageView;
 
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
@@ -48,9 +49,10 @@ import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListen
 public abstract class AbstractArticleViewHolder extends BenihItemViewHolder<Article> implements
         BookmarkController.Presenter, ReadLaterController.Presenter
 {
-    @Bind(R.id.thumbnail) BenihImageView thumbnail;
+    @Bind(R.id.thumbnail) CodePolitanImageView thumbnail;
     @Bind(R.id.iv_bookmark) ImageView ivBookmark;
     @Bind(R.id.iv_read_later) ImageView ivReadLater;
+    @Bind(R.id.iv_error) ImageView ivError;
     private BookmarkController bookmarkController;
     private ReadLaterController readLaterController;
     private Animation animation;
