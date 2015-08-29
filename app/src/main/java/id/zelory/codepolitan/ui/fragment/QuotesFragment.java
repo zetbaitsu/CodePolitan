@@ -58,11 +58,8 @@ public class QuotesFragment extends AbstractHomeFragment<QuoteAdapter>
             @Override
             public void onLoadMore(int i)
             {
-                if (!searching)
-                {
-                    currentPage++;
-                    articleController.loadArticles("quotes", currentPage);
-                }
+                currentPage++;
+                articleController.loadArticles("quotes", currentPage);
             }
         });
     }

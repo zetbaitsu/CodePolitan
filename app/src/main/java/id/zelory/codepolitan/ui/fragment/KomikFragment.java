@@ -55,11 +55,8 @@ public class KomikFragment extends AbstractHomeFragment<KomikAdapter>
             @Override
             public void onLoadMore(int i)
             {
-                if (!searching)
-                {
-                    currentPage++;
-                    articleController.loadArticles("nyankomik", currentPage);
-                }
+                currentPage++;
+                articleController.loadArticles("nyankomik", currentPage);
             }
         });
     }

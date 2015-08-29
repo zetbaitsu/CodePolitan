@@ -54,11 +54,8 @@ public class MemeFragment extends AbstractHomeFragment<MemeAdapter>
             @Override
             public void onLoadMore(int i)
             {
-                if (!searching)
-                {
-                    currentPage++;
-                    articleController.loadArticles("meme", currentPage);
-                }
+                currentPage++;
+                articleController.loadArticles("meme", currentPage);
             }
         });
     }
