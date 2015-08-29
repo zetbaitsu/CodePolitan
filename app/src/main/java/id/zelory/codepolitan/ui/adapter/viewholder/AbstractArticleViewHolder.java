@@ -18,6 +18,8 @@ package id.zelory.codepolitan.ui.adapter.viewholder;
 
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.List;
 import butterknife.Bind;
 import id.zelory.benih.adapter.viewholder.BenihItemViewHolder;
 import id.zelory.benih.view.BenihImageView;
+import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.ReadLaterController;
@@ -49,12 +52,15 @@ public abstract class AbstractArticleViewHolder extends BenihItemViewHolder<Arti
     @Bind(R.id.iv_read_later) ImageView ivReadLater;
     private BookmarkController bookmarkController;
     private ReadLaterController readLaterController;
+    private Animation animation;
 
     public AbstractArticleViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
         super(itemView, itemClickListener, longItemClickListener);
         bookmarkController = new BookmarkController(this);
         readLaterController = new ReadLaterController(this);
+        animation = AnimationUtils.loadAnimation(CodePolitanApplication.pluck().getApplicationContext(),
+                                                 R.anim.push_right_in);
     }
 
     @Override
@@ -78,12 +84,14 @@ public abstract class AbstractArticleViewHolder extends BenihItemViewHolder<Arti
     @Override
     public void onBookmark(Article article)
     {
+        ivBookmark.startAnimation(animation);
         ivBookmark.setImageResource(R.mipmap.ic_bookmark_on);
     }
 
     @Override
     public void onUnBookmark(Article article)
     {
+        ivBookmark.startAnimation(animation);
         ivBookmark.setImageResource(R.mipmap.ic_bookmark);
     }
 
@@ -114,12 +122,14 @@ public abstract class AbstractArticleViewHolder extends BenihItemViewHolder<Arti
     @Override
     public void onReadLater(Article article)
     {
+        ivReadLater.startAnimation(animation);
         ivReadLater.setImageResource(R.mipmap.ic_read_later_on);
     }
 
     @Override
     public void onUnReadLater(Article article)
     {
+        ivReadLater.startAnimation(animation);
         ivReadLater.setImageResource(R.mipmap.ic_read_later);
     }
 }

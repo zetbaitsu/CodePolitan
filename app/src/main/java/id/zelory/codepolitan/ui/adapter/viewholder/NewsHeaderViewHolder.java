@@ -19,6 +19,8 @@ package id.zelory.codepolitan.ui.adapter.viewholder;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ import java.util.List;
 import butterknife.Bind;
 import id.zelory.benih.adapter.viewholder.BenihHeaderViewHolder;
 import id.zelory.benih.view.BenihImageView;
+import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.RandomContentController;
@@ -57,10 +60,13 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
     private ReadLaterController readLaterController;
     private RandomContentController randomContentController;
     private List<Article> articles;
+    private Animation animation;
 
     public NewsHeaderViewHolder(View itemView, Bundle bundle)
     {
         super(itemView, bundle);
+        animation = AnimationUtils.loadAnimation(CodePolitanApplication.pluck().getApplicationContext(),
+                                                 R.anim.push_right_in);
         bookmarkController = new BookmarkController(this);
         readLaterController = new ReadLaterController(this);
         randomContentController = new RandomContentController(this);
@@ -109,12 +115,14 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
     @Override
     public void onBookmark(Article article)
     {
+        ivBookmark.startAnimation(animation);
         ivBookmark.setImageResource(R.mipmap.ic_bookmark_on);
     }
 
     @Override
     public void onUnBookmark(Article article)
     {
+        ivBookmark.startAnimation(animation);
         ivBookmark.setImageResource(R.mipmap.ic_bookmark);
     }
 
@@ -127,12 +135,14 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
     @Override
     public void onReadLater(Article article)
     {
+        ivReadLater.startAnimation(animation);
         ivReadLater.setImageResource(R.mipmap.ic_read_later_on);
     }
 
     @Override
     public void onUnReadLater(Article article)
     {
+        ivReadLater.startAnimation(animation);
         ivReadLater.setImageResource(R.mipmap.ic_read_later);
     }
 
