@@ -66,7 +66,7 @@ public class MemeItemViewHolder extends BenihItemViewHolder<Article> implements
     {
         title.setText(article.getTitle());
         date.setText(article.getDate());
-        thumbnail.setImageUrl(article.getThumbnailSmall());
+        thumbnail.setImageUrl(article.getThumbnailMedium());
         ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
         ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
         ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);
