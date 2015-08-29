@@ -20,10 +20,9 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
-import id.zelory.benih.util.BenihUtils;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.ui.adapter.viewholder.QuoteItemViewHolder;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.ui.adapter.viewholder.QuoteItemViewHolder;
 
 /**
  * Created on : August 4, 2015
@@ -35,18 +34,19 @@ import id.zelory.codepolitan.data.Article;
  */
 public class QuoteAdapter extends BenihRecyclerAdapter<Article, QuoteItemViewHolder>
 {
+    private static final int TYPE_BIG = 0;
+    private static final int TYPE_MINI = 1;
+
     public QuoteAdapter(Context context)
     {
         super(context);
     }
 
     @Override
-    protected int getItemView(int i)
+    protected int getItemView(int viewType)
     {
-
-        if (BenihUtils.randInt(0, 3) == 2)
+        if (viewType == TYPE_BIG)
         {
-            //data.get(i).setThumbnail(ArticleUtil.getBigImage(data.get(i).getThumbnail()));
             return R.layout.grid_item_quote;
         } else
         {
@@ -55,14 +55,14 @@ public class QuoteAdapter extends BenihRecyclerAdapter<Article, QuoteItemViewHol
     }
 
     @Override
-    public QuoteItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public QuoteItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
     {
-        return new QuoteItemViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+        return new QuoteItemViewHolder(getView(viewGroup, viewType), itemClickListener, longItemClickListener);
     }
 
     @Override
     public int getItemViewType(int position)
     {
-        return position;
+        return data.get(position).isBig() ? TYPE_BIG : TYPE_MINI;
     }
 }
