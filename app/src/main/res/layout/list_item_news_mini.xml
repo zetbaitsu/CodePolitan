@@ -42,8 +42,7 @@
                 android:layout_height="55dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingTop="10dp"
-                android:src="@mipmap/ic_read_later"/>
+                android:paddingTop="10dp"/>
 
             <ImageView
                 android:id="@+id/iv_bookmark"
@@ -51,8 +50,7 @@
                 android:layout_height="55dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:src="@mipmap/ic_bookmark"/>
+                android:paddingRight="10dp"/>
         </LinearLayout>
 
         <TextView

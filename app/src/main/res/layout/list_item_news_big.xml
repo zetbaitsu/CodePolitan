@@ -80,8 +80,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="14dp"
                     android:paddingStart="14dp"
-                    android:paddingTop="10dp"
-                    android:src="@mipmap/ic_read_later"/>
+                    android:paddingTop="10dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -98,8 +97,7 @@
                     android:paddingEnd="12dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="12dp"
-                    android:paddingStart="8dp"
-                    android:src="@mipmap/ic_bookmark"/>
+                    android:paddingStart="8dp"/>
             </LinearLayout>
 
         </LinearLayout>

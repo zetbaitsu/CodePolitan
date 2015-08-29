@@ -63,8 +63,7 @@
                     android:id="@+id/iv_read_later"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="2dp"
-                    android:src="@mipmap/ic_read_later"/>
+                    android:padding="2dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -77,8 +76,7 @@
                     android:id="@+id/iv_bookmark"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="2dp"
-                    android:src="@mipmap/ic_bookmark"/>
+                    android:padding="2dp"/>
             </LinearLayout>
 
         </LinearLayout>
