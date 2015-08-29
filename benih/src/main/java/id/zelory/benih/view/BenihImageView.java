@@ -57,6 +57,15 @@ public class BenihImageView extends ImageView
                 .into(this);
     }
 
+    public void setImageUrl(String url, int errorResourceId)
+    {
+        imageUrl = url;
+        Glide.with(getContext())
+                .load(url)
+                .error(errorResourceId)
+                .into(this);
+    }
+
     public void setImageUrl(String url, int placeHolderResourceId, int errorResourceId)
     {
         imageUrl = url;

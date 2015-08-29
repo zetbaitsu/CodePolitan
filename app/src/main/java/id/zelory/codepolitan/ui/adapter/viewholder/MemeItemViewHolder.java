@@ -18,6 +18,7 @@ package id.zelory.codepolitan.ui.adapter.viewholder;
 
 import android.view.View;
 
+import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.data.Article;
 
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
@@ -41,6 +42,6 @@ public class MemeItemViewHolder extends NewsItemViewHolder
     @Override
     protected void setThumbnail(Article article)
     {
-        thumbnail.setImageUrl(article.getThumbnailMedium());
+        thumbnail.setImageUrl(article.getThumbnailMedium(), R.drawable.could_not_load_image);
     }
 }

@@ -54,6 +54,7 @@ public class NewsItemViewHolder extends AbstractArticleViewHolder
     @Override
     protected void setThumbnail(Article article)
     {
-        thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall());
+        thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall(),
+                              article.isBig() ? R.drawable.could_not_load_image_big : R.drawable.could_not_load_image);
     }
 }

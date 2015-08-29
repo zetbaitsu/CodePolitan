@@ -80,7 +80,8 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
     {
         title.setText(article.getTitle());
         date.setText(article.getDateClear());
-        thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall());
+        thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall(),
+                              article.isBig() ? R.drawable.could_not_load_image_big : R.drawable.could_not_load_image);
         ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
         ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
         ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);
