@@ -48,4 +48,6 @@ public interface ErrorEvent
     String LOAD_STATE_RANDOM_TAG = "19";
     String LOAD_LIST_CATEGORY = "20";
     String LOAD_LIST_TAG = "21";
+    String LOAD_POPULAR_TAGS = "22";
+    String LOAD_STATE_POPULAR_TAGS = "23";
 }

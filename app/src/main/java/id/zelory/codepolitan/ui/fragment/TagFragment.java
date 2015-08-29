@@ -104,15 +104,21 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
     public void onRefresh()
     {
         adapter.clear();
-        tagController.loadTags(1);
+        tagController.loadPopularTags(1);
     }
 
     @Override
     public void showTags(List<Tag> tags)
     {
+
+    }
+
+    @Override
+    public void showPopularTags(List<Tag> popularTags)
+    {
         if (adapter != null)
         {
-            adapter.add(tags);
+            adapter.add(popularTags);
         }
     }
 
@@ -133,12 +139,12 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
     {
         switch (throwable.getMessage())
         {
-            case ErrorEvent.LOAD_STATE_LIST_TAG:
+            case ErrorEvent.LOAD_STATE_POPULAR_TAGS:
                 onRefresh();
                 break;
-            case ErrorEvent.LOAD_LIST_TAG:
+            case ErrorEvent.LOAD_POPULAR_TAGS:
                 Snackbar.make(recyclerView, R.string.error_message, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.retry, v -> tagController.loadTags(1))
+                        .setAction(R.string.retry, v -> tagController.loadPopularTags(1))
                         .show();
                 break;
         }

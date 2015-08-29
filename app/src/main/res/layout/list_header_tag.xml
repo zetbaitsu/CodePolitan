@@ -37,7 +37,7 @@
                 android:id="@+id/category_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/background_other_category"
+                android:src="@drawable/header_tag_back"
                 android:scaleType="centerCrop"/>
 
             <ImageView
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
-                android:src="@drawable/text_other_category"
+                android:src="@drawable/header_tag_text"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:adjustViewBounds="true"/>

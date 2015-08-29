@@ -37,7 +37,8 @@ import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListen
  */
 public class TagItemViewHolder extends BenihItemViewHolder<Tag>
 {
-    @Bind(R.id.name) TextView name;
+    @Bind(R.id.tag_name) TextView name;
+    @Bind(R.id.tag_count) TextView count;
 
     public TagItemViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
@@ -47,6 +48,7 @@ public class TagItemViewHolder extends BenihItemViewHolder<Tag>
     @Override
     public void bind(Tag tag)
     {
-        name.setText(tag.getName());
+        name.setText("# " + tag.getName());
+        count.setText("(" + tag.getCount() + ")");
     }
 }

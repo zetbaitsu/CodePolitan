@@ -39,6 +39,7 @@ import timber.log.Timber;
 public class TagController extends BenihController<TagController.Presenter>
 {
     private List<Tag> tags;
+    private List<Tag> popularTags;
 
     public TagController(Presenter presenter)
     {
@@ -75,10 +76,41 @@ public class TagController extends BenihController<TagController.Presenter>
                 });
     }
 
+    public void loadPopularTags(int page)
+    {
+        presenter.showLoading();
+        CodePolitanApi.pluck()
+                .getApi()
+                .getPopularTags(page)
+                .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
+                .subscribe(tagListResponse -> {
+                    if (tagListResponse.getCode())
+                    {
+                        this.popularTags = tagListResponse.getResult();
+                        if (presenter != null)
+                        {
+                            presenter.showPopularTags(popularTags);
+                        }
+                    }
+                    if (presenter != null)
+                    {
+                        presenter.dismissLoading();
+                    }
+                }, throwable -> {
+                    if (presenter != null)
+                    {
+                        Timber.d(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_POPULAR_TAGS));
+                        presenter.dismissLoading();
+                    }
+                });
+    }
+
     @Override
     public void saveState(Bundle bundle)
     {
         bundle.putParcelableArrayList("tags", (ArrayList<Tag>) tags);
+        bundle.putParcelableArrayList("popular_tags", (ArrayList<Tag>) popularTags);
     }
 
     @Override
@@ -92,10 +124,21 @@ public class TagController extends BenihController<TagController.Presenter>
         {
             presenter.showError(new Throwable(ErrorEvent.LOAD_STATE_LIST_TAG));
         }
+
+        popularTags = bundle.getParcelableArrayList("popular_tags");
+        if (popularTags != null)
+        {
+            presenter.showPopularTags(popularTags);
+        } else
+        {
+            presenter.showError(new Throwable(ErrorEvent.LOAD_STATE_POPULAR_TAGS));
+        }
     }
 
     public interface Presenter extends BenihController.Presenter
     {
         void showTags(List<Tag> tags);
+
+        void showPopularTags(List<Tag> popularTags);
     }
 }

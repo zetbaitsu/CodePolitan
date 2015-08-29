@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Your Category"
+            android:text="Your Categories"
             android:textColor="@color/primary"
             android:textSize="18sp"/>
     </LinearLayout>

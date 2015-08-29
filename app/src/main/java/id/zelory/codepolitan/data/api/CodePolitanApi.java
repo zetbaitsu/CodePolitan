@@ -16,6 +16,8 @@
 
 package id.zelory.codepolitan.data.api;
 
+import java.util.List;
+
 import id.zelory.benih.network.BenihServiceGenerator;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
@@ -78,5 +80,8 @@ public enum CodePolitanApi
 
         @GET("/tags/available/{page}")
         Observable<ListResponse<Tag>> getTags(@Path("page") int page);
+
+        @GET("/tags/popular/{page}")
+        Observable<ListResponse<Tag>> getPopularTags(@Path("page") int page);
     }
 }
