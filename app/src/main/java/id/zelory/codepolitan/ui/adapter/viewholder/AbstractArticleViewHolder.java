@@ -19,7 +19,6 @@ package id.zelory.codepolitan.ui.adapter.viewholder;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.List;
 
