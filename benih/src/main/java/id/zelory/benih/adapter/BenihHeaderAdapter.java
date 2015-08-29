@@ -48,6 +48,10 @@ public abstract class BenihHeaderAdapter<Data, ViewHolder extends BenihItemViewH
     {
         super(context);
         this.bundle = bundle;
+        if (hasHeader)
+        {
+            data.add(null);
+        }
     }
 
     @Override
@@ -125,7 +129,7 @@ public abstract class BenihHeaderAdapter<Data, ViewHolder extends BenihItemViewH
         }
     }
 
-    public boolean hasHeader()
+    public boolean isHasHeader()
     {
         return hasHeader;
     }
