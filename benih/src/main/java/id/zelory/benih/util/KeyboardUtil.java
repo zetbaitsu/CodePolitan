@@ -14,13 +14,11 @@
  *  limitations under the License.
  */
 
-package id.zelory.codepolitan.controller.util;
+package id.zelory.benih.util;
 
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
-import id.zelory.codepolitan.CodePolitanApplication;
 
 /**
  * Created on : August 23, 2015
@@ -32,10 +30,9 @@ import id.zelory.codepolitan.CodePolitanApplication;
  */
 public class KeyboardUtil
 {
-    public static void showKeyboard(View view)
+    public static void showKeyboard(Context context, View view)
     {
-        InputMethodManager inputMethodManager = (InputMethodManager) CodePolitanApplication.pluck()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         if (view.requestFocus())
         {
@@ -43,10 +40,9 @@ public class KeyboardUtil
         }
     }
 
-    public static void hideKeyboard(View view)
+    public static void hideKeyboard(Context context, View view)
     {
-        InputMethodManager inputMethodManager = (InputMethodManager) CodePolitanApplication.pluck()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

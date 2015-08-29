@@ -30,11 +30,11 @@ import java.util.List;
 import butterknife.Bind;
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.benih.fragment.BenihFragment;
+import id.zelory.benih.util.KeyboardUtil;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
-import id.zelory.codepolitan.controller.util.KeyboardUtil;
 import id.zelory.codepolitan.data.Article;
 
 /**
@@ -138,7 +138,7 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
     @Override
     public void showArticles(List<Article> articles)
     {
-        if(!searching)
+        if (!searching)
         {
             adapter.add(articles);
         }
@@ -154,7 +154,7 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
     @Override
     public void showLoading()
     {
-        if(!searching)
+        if (!searching)
         {
             swipeRefreshLayout.setRefreshing(true);
         }
@@ -186,7 +186,7 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
     public boolean onQueryTextSubmit(String query)
     {
         articleController.filter(query);
-        KeyboardUtil.hideKeyboard(searchView);
+        KeyboardUtil.hideKeyboard(getActivity(), searchView);
         return true;
     }
 
