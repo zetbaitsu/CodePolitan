@@ -42,19 +42,12 @@ public class MemeAdapter extends BenihRecyclerAdapter<Article, MemeItemViewHolde
     @Override
     protected int getItemView(int i)
     {
-        //data.get(i).setThumbnail(ArticleUtil.getBigImage(data.get(i).getThumbnail()));
         return R.layout.grid_item_meme;
     }
 
     @Override
-    public MemeItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public MemeItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
     {
-        return new MemeItemViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
-    }
-
-    @Override
-    public int getItemViewType(int position)
-    {
-        return position;
+        return new MemeItemViewHolder(getView(viewGroup, viewType), itemClickListener, longItemClickListener);
     }
 }
