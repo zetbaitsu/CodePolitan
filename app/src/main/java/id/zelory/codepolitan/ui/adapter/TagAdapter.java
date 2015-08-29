@@ -17,12 +17,14 @@
 package id.zelory.codepolitan.ui.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.ViewGroup;
 
-import id.zelory.benih.adapter.BenihRecyclerAdapter;
+import id.zelory.benih.adapter.BenihHeaderAdapter;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.ui.adapter.viewholder.TagItemViewHolder;
 import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.ui.adapter.viewholder.TagHeaderViewHolder;
+import id.zelory.codepolitan.ui.adapter.viewholder.TagItemViewHolder;
 
 /**
  * Created on : August 6, 2015
@@ -32,22 +34,34 @@ import id.zelory.codepolitan.data.Tag;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class TagAdapter extends BenihRecyclerAdapter<Tag, TagItemViewHolder>
+public class TagAdapter extends BenihHeaderAdapter<Tag, TagItemViewHolder, TagHeaderViewHolder>
 {
-    public TagAdapter(Context context)
+    public TagAdapter(Context context, Bundle bundle)
     {
-        super(context);
+        super(context, bundle);
     }
 
     @Override
-    protected int getItemView(int i)
+    protected int getHeaderResourceLayout()
+    {
+        return R.layout.list_header_tag;
+    }
+
+    @Override
+    protected int getItemResourceLayout(int viewType)
     {
         return R.layout.list_item_tag;
     }
 
     @Override
-    public TagItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    protected TagHeaderViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup, int viewType)
     {
-        return new TagItemViewHolder(getView(viewGroup, i), itemClickListener, longItemClickListener);
+        return new TagHeaderViewHolder(getView(viewGroup, viewType), bundle);
+    }
+
+    @Override
+    public TagItemViewHolder onCreateItemViewHolder(ViewGroup viewGroup, int viewType)
+    {
+        return new TagItemViewHolder(getView(viewGroup, viewType), itemClickListener, longItemClickListener);
     }
 }

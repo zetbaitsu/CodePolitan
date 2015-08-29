@@ -24,6 +24,7 @@ import android.view.View;
 import java.util.List;
 
 import butterknife.Bind;
+import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
@@ -41,7 +42,7 @@ import id.zelory.codepolitan.ui.adapter.TagAdapter;
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnRefreshListener,
-        TagController.Presenter
+        TagController.Presenter, BenihRecyclerAdapter.OnItemClickListener, BenihRecyclerAdapter.OnLongItemClickListener
 {
     private TagController tagController;
     private TagAdapter adapter;
@@ -58,7 +59,7 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
     protected void onViewReady(Bundle bundle)
     {
         setUpSwipeLayout();
-        setUpAdapter();
+        setUpAdapter(bundle);
         setUpRecyclerView();
         setUpController(bundle);
     }
@@ -69,21 +70,11 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    private void setUpAdapter()
+    private void setUpAdapter(Bundle bundle)
     {
-        adapter = new TagAdapter(getActivity());
-        adapter.setOnItemClickListener(this::onItemClick);
-        adapter.setOnLongItemClickListener(this::onLongItemClick);
-    }
-
-    private void onLongItemClick(View view, int i)
-    {
-
-    }
-
-    private void onItemClick(View view, int i)
-    {
-
+        adapter = new TagAdapter(getActivity(), bundle);
+        adapter.setOnItemClickListener(this);
+        adapter.setOnLongItemClickListener(this);
     }
 
     private void setUpRecyclerView()
@@ -154,5 +145,17 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
     {
         tagController.saveState(outState);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onItemClick(View view, int position)
+    {
+
+    }
+
+    @Override
+    public void onLongItemClick(View view, int position)
+    {
+        
     }
 }
