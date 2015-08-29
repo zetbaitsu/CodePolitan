@@ -27,7 +27,7 @@ import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ReadActivity;
-import id.zelory.codepolitan.ui.adapter.TesAdapter;
+import id.zelory.codepolitan.ui.adapter.NewsAdapter;
 
 /**
  * Created on : July 28, 2015
@@ -37,7 +37,7 @@ import id.zelory.codepolitan.ui.adapter.TesAdapter;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class NewsFragment extends AbstractHomeFragment<TesAdapter>
+public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
 {
     @Override
     protected int getFragmentView()
@@ -63,7 +63,7 @@ public class NewsFragment extends AbstractHomeFragment<TesAdapter>
     }
 
     @Override
-    protected TesAdapter createAdapter()
+    protected NewsAdapter createAdapter()
     {
         return null;
     }
@@ -73,7 +73,7 @@ public class NewsFragment extends AbstractHomeFragment<TesAdapter>
     {
         if (adapter == null)
         {
-            adapter = new TesAdapter(getActivity(), bundle);
+            adapter = new NewsAdapter(getActivity(), bundle);
             adapter.setOnItemClickListener(this::onItemClick);
             recyclerView.setAdapter(adapter);
         }

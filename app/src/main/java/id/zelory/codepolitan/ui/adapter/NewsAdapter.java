@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 
+
 package id.zelory.codepolitan.ui.adapter;
 
 import android.content.Context;
@@ -23,24 +24,25 @@ import android.view.ViewGroup;
 import id.zelory.benih.adapter.BenihHeaderAdapter;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.data.Article;
-import id.zelory.codepolitan.ui.adapter.viewholder.ArticleItemViewHolder;
+import id.zelory.codepolitan.ui.adapter.viewholder.NewsItemViewHolder;
 import id.zelory.codepolitan.ui.adapter.viewholder.NewsHeaderViewHolder;
 
 /**
- * Created on : August 25, 2015
+ * Created on : July 28, 2015
  * Author     : zetbaitsu
  * Name       : Zetra
  * Email      : zetra@mail.ugm.ac.id
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class TesAdapter extends
-        BenihHeaderAdapter<Article, ArticleItemViewHolder, NewsHeaderViewHolder>
+
+public class NewsAdapter extends
+        BenihHeaderAdapter<Article, NewsItemViewHolder, NewsHeaderViewHolder>
 {
     private final static int TYPE_BIG = 2;
     private final static int TYPE_MINI = 3;
 
-    public TesAdapter(Context context, Bundle bundle)
+    public NewsAdapter(Context context, Bundle bundle)
     {
         super(context, bundle);
     }
@@ -64,9 +66,9 @@ public class TesAdapter extends
     }
 
     @Override
-    public ArticleItemViewHolder onCreateItemViewHolder(ViewGroup viewGroup, int viewType)
+    public NewsItemViewHolder onCreateItemViewHolder(ViewGroup viewGroup, int viewType)
     {
-        return new ArticleItemViewHolder(getView(viewGroup, viewType), itemClickListener, longItemClickListener);
+        return new NewsItemViewHolder(getView(viewGroup, viewType), itemClickListener, longItemClickListener);
     }
 
     @Override

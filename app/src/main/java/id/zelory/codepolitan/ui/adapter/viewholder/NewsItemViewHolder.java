@@ -41,7 +41,7 @@ import id.zelory.codepolitan.data.Article;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class ArticleItemViewHolder extends BenihItemViewHolder<Article> implements
+public class NewsItemViewHolder extends BenihItemViewHolder<Article> implements
         BookmarkController.Presenter, ReadLaterController.Presenter
 {
     @Bind(R.id.title) TextView title;
@@ -52,7 +52,7 @@ public class ArticleItemViewHolder extends BenihItemViewHolder<Article> implemen
     private BookmarkController bookmarkController;
     private ReadLaterController readLaterController;
 
-    public ArticleItemViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
+    public NewsItemViewHolder(View itemView, OnItemClickListener itemClickListener, OnLongItemClickListener longItemClickListener)
     {
         super(itemView, itemClickListener, longItemClickListener);
         bookmarkController = new BookmarkController(this);
