@@ -17,6 +17,7 @@
 package id.zelory.codepolitan.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -96,7 +97,7 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
             tagController.loadState(bundle);
         } else
         {
-            onRefresh();
+            new Handler().postDelayed(this::onRefresh, 800);
         }
     }
 
