@@ -16,8 +16,6 @@
 
 package id.zelory.benih.util;
 
-import android.util.Log;
-
 import rx.Observable;
 import rx.subjects.PublishSubject;
 import rx.subjects.SerializedSubject;
@@ -34,7 +32,6 @@ public enum BenihBus
     BenihBus()
     {
         bus = new SerializedSubject<>(PublishSubject.create());
-        Log.d("BenihBus", "Create");
     }
 
     public static BenihBus pluck()

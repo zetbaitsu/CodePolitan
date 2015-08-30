@@ -34,6 +34,7 @@ import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.util.BenihBus;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.controller.event.ReloadEvent;
 import id.zelory.codepolitan.ui.adapter.MainPagerAdapter;
 import id.zelory.codepolitan.ui.adapter.MenuSpinnerAdapter;
 import id.zelory.codepolitan.ui.fragment.CategoryFragment;
@@ -71,7 +72,13 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
     @Override
     protected void onViewReady(Bundle bundle)
     {
-        BenihBus.pluck().receive().subscribe(o -> onReload());
+        BenihBus.pluck().receive()
+                .subscribe(o -> {
+                    if (o instanceof ReloadEvent)
+                    {
+                        onReload();
+                    }
+                });
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setUpViewPager();

@@ -23,11 +23,15 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import id.zelory.benih.util.BenihBus;
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.controller.event.MoreNewsHeaderEvent;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.NewsAdapter;
+import timber.log.Timber;
 
 /**
  * Created on : July 28, 2015
@@ -43,6 +47,27 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
     protected int getFragmentView()
     {
         return R.layout.fragment_news;
+    }
+
+    @Override
+    protected void onViewReady(Bundle bundle)
+    {
+        BenihBus.pluck()
+                .receive()
+                .subscribe(o -> {
+                    if (o instanceof MoreNewsHeaderEvent)
+                    {
+                        onMoreNewsHeaderClick();
+                    }
+                }, throwable -> Timber.d(throwable.getMessage()));
+        super.onViewReady(bundle);
+    }
+
+    private void onMoreNewsHeaderClick()
+    {
+        Intent intent = new Intent(getActivity(), ListArticleActivity.class);
+        intent.putExtra(ListArticleActivity.KEY_TYPE, ListArticleActivity.TYPE_OTHER);
+        startActivity(intent);
     }
 
     @Override

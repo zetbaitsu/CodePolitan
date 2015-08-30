@@ -16,6 +16,7 @@
 
 package id.zelory.codepolitan.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -32,6 +33,7 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.CategoryController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.adapter.CategoryAdapter;
 
 /**
@@ -155,7 +157,10 @@ public class CategoryFragment extends BenihFragment implements CategoryControlle
     @Override
     public void onItemClick(View view, int position)
     {
-
+        Intent intent = new Intent(getActivity(), ListArticleActivity.class);
+        intent.putExtra(ListArticleActivity.KEY_TYPE, ListArticleActivity.TYPE_CATEGORY);
+        intent.putExtra(ListArticleActivity.KEY_DATA, adapter.getData().get(position));
+        startActivity(intent);
     }
 
     @Override

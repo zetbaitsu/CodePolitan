@@ -42,6 +42,9 @@
             android:name=".ui.MainActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".ui.ListArticleActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.ReadActivity"
             android:screenOrientation="portrait"/>
     </application>

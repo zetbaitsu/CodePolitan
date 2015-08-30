@@ -28,6 +28,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import id.zelory.benih.adapter.viewholder.BenihHeaderViewHolder;
+import id.zelory.benih.util.BenihBus;
 import id.zelory.benih.util.BenihUtils;
 import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.R;
@@ -35,6 +36,7 @@ import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.RandomContentController;
 import id.zelory.codepolitan.controller.ReadLaterController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
+import id.zelory.codepolitan.controller.event.MoreNewsHeaderEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
@@ -57,6 +59,7 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
     @Bind(R.id.thumbnail) CodePolitanImageView thumbnail;
     @Bind(R.id.iv_bookmark) ImageView ivBookmark;
     @Bind(R.id.iv_read_later) ImageView ivReadLater;
+    @Bind(R.id.tv_more) TextView tvMore;
     @Bind(R.id.iv_error) ImageView ivError;
     private BookmarkController bookmarkController;
     private ReadLaterController readLaterController;
@@ -88,6 +91,7 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
         ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
         ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);
         ivReadLater.setOnClickListener(v -> readLaterController.readLater(article));
+        tvMore.setOnClickListener(v -> BenihBus.pluck().send(new MoreNewsHeaderEvent()));
     }
 
     @Override

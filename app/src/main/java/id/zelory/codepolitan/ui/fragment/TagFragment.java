@@ -16,6 +16,7 @@
 
 package id.zelory.codepolitan.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -32,6 +33,7 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.TagController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.adapter.TagAdapter;
 
 /**
@@ -161,7 +163,10 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
     @Override
     public void onItemClick(View view, int position)
     {
-
+        Intent intent = new Intent(getActivity(), ListArticleActivity.class);
+        intent.putExtra(ListArticleActivity.KEY_TYPE, ListArticleActivity.TYPE_TAG);
+        intent.putExtra(ListArticleActivity.KEY_DATA, adapter.getData().get(position));
+        startActivity(intent);
     }
 
     @Override
