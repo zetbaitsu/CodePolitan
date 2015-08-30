@@ -50,7 +50,7 @@ public class NewsAdapter extends
     @Override
     protected int getHeaderResourceLayout()
     {
-        return R.layout.list_header_article;
+        return R.layout.list_header_news;
     }
 
     @Override
