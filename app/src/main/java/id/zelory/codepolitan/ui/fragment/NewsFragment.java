@@ -144,7 +144,10 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
     @Override
     public void onSaveInstanceState(Bundle outState)
     {
-        adapter.getHeader().saveState(outState);
+        if (adapter.getHeader() != null)
+        {
+            adapter.getHeader().saveState(outState);
+        }
         super.onSaveInstanceState(outState);
     }
 }
