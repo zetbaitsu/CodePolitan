@@ -18,6 +18,7 @@ package id.zelory.codepolitan.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -114,7 +115,12 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (tabLayout.getSelectedTabPosition() == 0)
+        {
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.menu_main);
+            new Handler().postDelayed(() -> BenihBus.pluck().send(toolbar.getMenu()), 800);
+        }
         return true;
     }
 
@@ -143,11 +149,14 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
         {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             spinner.setVisibility(View.VISIBLE);
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.menu_main);
+            BenihBus.pluck().send(toolbar.getMenu());
         } else
         {
             spinner.setVisibility(View.GONE);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
-            toolbar.getMenu().removeItem(R.id.action_search);
+            toolbar.getMenu().clear();
         }
 
         viewPager.setCurrentItem(tab.getPosition());

@@ -22,7 +22,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 
 import java.util.List;
@@ -30,6 +29,7 @@ import java.util.List;
 import butterknife.Bind;
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.benih.fragment.BenihFragment;
+import id.zelory.benih.util.BenihBus;
 import id.zelory.benih.util.KeyboardUtil;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
@@ -46,8 +46,7 @@ import id.zelory.codepolitan.data.Article;
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter> extends
-        BenihFragment implements
-        ArticleController.Presenter, SwipeRefreshLayout.OnRefreshListener,
+        BenihFragment implements ArticleController.Presenter, SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener
 {
     protected ArticleController articleController;
@@ -68,6 +67,14 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
     @Override
     protected void onViewReady(Bundle bundle)
     {
+        BenihBus.pluck()
+                .receive()
+                .subscribe(o -> {
+                    if (o instanceof Menu)
+                    {
+                        onMenuCreated((Menu) o);
+                    }
+                });
         currentPage = bundle != null ? bundle.getInt("currentPage") : 1;
         setUpSwipeLayout();
         setUpAdapter(bundle);
@@ -97,10 +104,8 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    private void onMenuCreated(Menu menu)
     {
-        super.onCreateOptionsMenu(menu, inflater);
         searchView = (SearchView) menu.getItem(0).getActionView();
         searchView.setOnQueryTextListener(this);
     }

@@ -37,12 +37,6 @@ import id.zelory.codepolitan.controller.event.ReloadEvent;
 public class HomeFragment extends BenihFragment
 {
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     protected int getFragmentView()
     {
         return R.layout.fragment_home;
