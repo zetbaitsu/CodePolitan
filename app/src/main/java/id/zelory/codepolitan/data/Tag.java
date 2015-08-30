@@ -32,12 +32,19 @@ public class Tag implements Parcelable
     private String name;
     private String slug;
     private int count;
+    private boolean followed;
+
+    public Tag()
+    {
+
+    }
 
     protected Tag(Parcel in)
     {
         name = in.readString();
         slug = in.readString();
         count = in.readInt();
+        followed = in.readInt() == 1;
     }
 
     public static final Creator<Tag> CREATOR = new Creator<Tag>()
@@ -85,6 +92,16 @@ public class Tag implements Parcelable
         this.count = count;
     }
 
+    public boolean isFollowed()
+    {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed)
+    {
+        this.followed = followed;
+    }
+
     @Override
     public String toString()
     {
@@ -103,5 +120,6 @@ public class Tag implements Parcelable
         dest.writeString(name);
         dest.writeString(slug);
         dest.writeInt(count);
+        dest.writeInt(followed ? 1 : 0);
     }
 }

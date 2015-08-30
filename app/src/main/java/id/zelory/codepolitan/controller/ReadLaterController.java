@@ -47,7 +47,7 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
     {
         presenter.showLoading();
         DataBaseHelper.pluck()
-                .getBookmarkedArticles()
+                .getReadLaterArticles()
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
                 .subscribe(articles -> {
                     if (presenter != null)

@@ -28,6 +28,8 @@ import id.zelory.benih.util.BenihScheduler;
 import id.zelory.codepolitan.BuildConfig;
 import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.Tag;
 import rx.Observable;
 
 /**
@@ -65,7 +67,7 @@ public enum DataBaseHelper
                     List<Article> articles = new ArrayList<>();
                     while (cursor.moveToNext())
                     {
-                        articles.add(Db.parseCursor(cursor));
+                        articles.add(Db.BookmarkTable.parseCursor(cursor));
                     }
                     return articles;
                 });
@@ -80,9 +82,39 @@ public enum DataBaseHelper
                     List<Article> articles = new ArrayList<>();
                     while (cursor.moveToNext())
                     {
-                        articles.add(Db.parseCursor(cursor));
+                        articles.add(Db.ReadLaterTable.parseCursor(cursor));
                     }
                     return articles;
+                });
+    }
+
+    public Observable<List<Category>> getFollowedCategories()
+    {
+        return briteDatabase.createQuery(Db.CategoryTable.TABLE_NAME, "SELECT * FROM " + Db.CategoryTable.TABLE_NAME)
+                .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
+                .map(query -> {
+                    Cursor cursor = query.run();
+                    List<Category> categories = new ArrayList<>();
+                    while (cursor.moveToNext())
+                    {
+                        categories.add(Db.CategoryTable.parseCursor(cursor));
+                    }
+                    return categories;
+                });
+    }
+
+    public Observable<List<Tag>> getFollowedTags()
+    {
+        return briteDatabase.createQuery(Db.TagTable.TABLE_NAME, "SELECT * FROM " + Db.TagTable.TABLE_NAME)
+                .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
+                .map(query -> {
+                    Cursor cursor = query.run();
+                    List<Tag> tags = new ArrayList<>();
+                    while (cursor.moveToNext())
+                    {
+                        tags.add(Db.TagTable.parseCursor(cursor));
+                    }
+                    return tags;
                 });
     }
 
@@ -98,7 +130,7 @@ public enum DataBaseHelper
     {
         if (!isBookmarked(article.getId()))
         {
-            briteDatabase.insert(Db.BookmarkTable.TABLE_NAME, Db.toContentValues(article));
+            briteDatabase.insert(Db.BookmarkTable.TABLE_NAME, Db.BookmarkTable.toContentValues(article));
         }
     }
 
@@ -119,12 +151,54 @@ public enum DataBaseHelper
     {
         if (!isReadLater(article.getId()))
         {
-            briteDatabase.insert(Db.ReadLaterTable.TABLE_NAME, Db.toContentValues(article));
+            briteDatabase.insert(Db.ReadLaterTable.TABLE_NAME, Db.ReadLaterTable.toContentValues(article));
         }
     }
 
     public void unReadLater(int id)
     {
         briteDatabase.delete(Db.ReadLaterTable.TABLE_NAME, Db.COLUMN_ID + " = ?", id + "");
+    }
+
+    public boolean isFollowed(Category category)
+    {
+        Cursor cursor = briteDatabase.query("SELECT * FROM "
+                                                    + Db.CategoryTable.TABLE_NAME + " WHERE "
+                                                    + Db.COLUMN_SLUG + " = '" + category.getSlug()+"'");
+        return cursor.getCount() > 0;
+    }
+
+    public boolean isFollowed(Tag tag)
+    {
+        Cursor cursor = briteDatabase.query("SELECT * FROM "
+                                                    + Db.TagTable.TABLE_NAME + " WHERE "
+                                                    + Db.COLUMN_SLUG + " = '" + tag.getSlug()+"'");
+        return cursor.getCount() > 0;
+    }
+
+    public void follow(Category category)
+    {
+        if (!isFollowed(category))
+        {
+            briteDatabase.insert(Db.CategoryTable.TABLE_NAME, Db.CategoryTable.toContentValues(category));
+        }
+    }
+
+    public void follow(Tag tag)
+    {
+        if (!isFollowed(tag))
+        {
+            briteDatabase.insert(Db.TagTable.TABLE_NAME, Db.TagTable.toContentValues(tag));
+        }
+    }
+
+    public void unFollow(Category category)
+    {
+        briteDatabase.delete(Db.CategoryTable.TABLE_NAME, Db.COLUMN_SLUG + " = ?", category.getSlug());
+    }
+
+    public void unFollow(Tag tag)
+    {
+        briteDatabase.delete(Db.TagTable.TABLE_NAME, Db.COLUMN_SLUG + " = ?", tag.getSlug());
     }
 }

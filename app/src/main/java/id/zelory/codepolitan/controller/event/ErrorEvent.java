@@ -50,4 +50,6 @@ public interface ErrorEvent
     String LOAD_LIST_TAG = "21";
     String LOAD_POPULAR_TAGS = "22";
     String LOAD_STATE_POPULAR_TAGS = "23";
+    String LOAD_FOLLOWED_CATEGORIES = "24";
+    String LOAD_FOLLOWED_TAGS = "25";
 }

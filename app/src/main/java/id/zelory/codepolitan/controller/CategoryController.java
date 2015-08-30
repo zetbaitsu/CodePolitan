@@ -27,6 +27,7 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
+import id.zelory.codepolitan.data.database.DataBaseHelper;
 import rx.Observable;
 import timber.log.Timber;
 
@@ -58,6 +59,7 @@ public class CategoryController extends BenihController<CategoryController.Prese
                 .filter(category -> !category.getName().equalsIgnoreCase("News"))
                 .filter(category -> !category.getName().equalsIgnoreCase("Comic"))
                 .map(category -> {
+                    category.setFollowed(DataBaseHelper.pluck().isFollowed(category));
                     if (category.getName().equalsIgnoreCase("Tips &amp; Trik"))
                     {
                         category.setName("Tips & Trik");

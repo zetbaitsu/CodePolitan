@@ -23,9 +23,12 @@ import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
+import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
+import id.zelory.codepolitan.data.database.DataBaseHelper;
+import rx.Observable;
 import timber.log.Timber;
 
 /**
@@ -53,15 +56,29 @@ public class TagController extends BenihController<TagController.Presenter>
                 .getApi()
                 .getTags(page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .subscribe(tagListResponse -> {
-                    if (tagListResponse.getCode())
-                    {
-                        this.tags = tagListResponse.getResult();
-                        if (presenter != null)
-                        {
-                            presenter.showTags(tags);
-                        }
-                    }
+                .flatMap(articleListResponse -> Observable.from(articleListResponse.getResult()))
+                .map(tag -> {
+                    tag.setFollowed(DataBaseHelper.pluck().isFollowed(tag));
+                    return tag;
+                })
+                .toList()
+                .subscribe(tags -> {
+                    BenihWorker.pluck()
+                            .doInNewThread(() -> {
+                                if (page == 1)
+                                {
+                                    this.tags = tags;
+                                } else
+                                {
+                                    this.tags.addAll(tags);
+                                }
+                            })
+                            .subscribe(o -> {
+                                if (presenter != null)
+                                {
+                                    presenter.showPopularTags(tags);
+                                }
+                            });
                     if (presenter != null)
                     {
                         presenter.dismissLoading();
@@ -83,15 +100,29 @@ public class TagController extends BenihController<TagController.Presenter>
                 .getApi()
                 .getPopularTags(page)
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
-                .subscribe(tagListResponse -> {
-                    if (tagListResponse.getCode())
-                    {
-                        this.popularTags = tagListResponse.getResult();
-                        if (presenter != null)
-                        {
-                            presenter.showPopularTags(popularTags);
-                        }
-                    }
+                .flatMap(articleListResponse -> Observable.from(articleListResponse.getResult()))
+                .map(tag -> {
+                    tag.setFollowed(DataBaseHelper.pluck().isFollowed(tag));
+                    return tag;
+                })
+                .toList()
+                .subscribe(tags -> {
+                    BenihWorker.pluck()
+                            .doInNewThread(() -> {
+                                if (page == 1)
+                                {
+                                    popularTags = tags;
+                                } else
+                                {
+                                    popularTags.addAll(tags);
+                                }
+                            })
+                            .subscribe(o -> {
+                                if (presenter != null)
+                                {
+                                    presenter.showPopularTags(popularTags);
+                                }
+                            });
                     if (presenter != null)
                     {
                         presenter.dismissLoading();

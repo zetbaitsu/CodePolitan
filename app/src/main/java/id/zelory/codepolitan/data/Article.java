@@ -42,6 +42,7 @@ public class Article implements Parcelable
     private boolean bookmarked;
     private boolean readLater;
     private boolean big;
+    private String postType;
 
     public Article()
     {
@@ -63,6 +64,7 @@ public class Article implements Parcelable
         bookmarked = in.readInt() == 1;
         readLater = in.readInt() == 1;
         big = in.readInt() == 1;
+        postType = in.readString();
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>()
@@ -210,6 +212,16 @@ public class Article implements Parcelable
         this.big = big;
     }
 
+    public String getPostType()
+    {
+        return postType;
+    }
+
+    public void setPostType(String postType)
+    {
+        this.postType = postType;
+    }
+
     @Override
     public int describeContents()
     {
@@ -232,5 +244,6 @@ public class Article implements Parcelable
         dest.writeInt(bookmarked ? 1 : 0);
         dest.writeInt(readLater ? 1 : 0);
         dest.writeInt(big ? 1 : 0);
+        dest.writeString(postType);
     }
 }

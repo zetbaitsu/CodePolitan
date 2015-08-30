@@ -32,6 +32,7 @@ public class Category implements Parcelable
     private String name;
     private String slug;
     private int imageResource;
+    private boolean followed;
 
     public Category()
     {
@@ -43,6 +44,7 @@ public class Category implements Parcelable
         name = in.readString();
         slug = in.readString();
         imageResource = in.readInt();
+        followed = in.readInt() == 1;
     }
 
     public static final Creator<Category> CREATOR = new Creator<Category>()
@@ -90,6 +92,16 @@ public class Category implements Parcelable
         this.imageResource = imageResource;
     }
 
+    public boolean isFollowed()
+    {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed)
+    {
+        this.followed = followed;
+    }
+
     @Override
     public String toString()
     {
@@ -108,5 +120,6 @@ public class Category implements Parcelable
         dest.writeString(name);
         dest.writeString(slug);
         dest.writeInt(imageResource);
+        dest.writeInt(followed ? 1 : 0);
     }
 }

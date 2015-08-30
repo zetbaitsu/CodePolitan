@@ -46,6 +46,8 @@ public class DbOpenHelper extends SQLiteOpenHelper
         {
             db.execSQL(Db.BookmarkTable.CREATE);
             db.execSQL(Db.ReadLaterTable.CREATE);
+            db.execSQL(Db.CategoryTable.CREATE);
+            db.execSQL(Db.TagTable.CREATE);
             db.setTransactionSuccessful();
         } finally
         {

@@ -20,6 +20,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.Tag;
 
 /**
  * Created on : August 18, 2015
@@ -32,6 +34,7 @@ import id.zelory.codepolitan.data.Article;
 public class Db
 {
     public static final String COLUMN_ID = "id";
+    public static final String COLUMN_NAME = "name";
     public static final String COLUMN_SLUG = "slug";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_EXCERPT = "excerpt";
@@ -41,6 +44,7 @@ public class Db
     public static final String COLUMN_LINK = "link";
     public static final String COLUMN_THUMBNAIL_SMALL = "thumbnail_small";
     public static final String COLUMN_THUMBNAIL_MEDIUM = "thumbnail_medium";
+    public static final String COLUMN_POST_TYPE = "post_type";
 
     public static abstract class BookmarkTable
     {
@@ -57,8 +61,43 @@ public class Db
                         COLUMN_DATE_CLEAR + " TEXT NOT NULL," +
                         COLUMN_LINK + " TEXT NOT NULL," +
                         COLUMN_THUMBNAIL_SMALL + " TEXT NOT NULL," +
-                        COLUMN_THUMBNAIL_MEDIUM + " TEXT NOT NULL" +
+                        COLUMN_THUMBNAIL_MEDIUM + " TEXT NOT NULL," +
+                        COLUMN_POST_TYPE + " TEXT" +
                         " ); ";
+
+        public static ContentValues toContentValues(Article article)
+        {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_ID, article.getId());
+            values.put(COLUMN_SLUG, article.getSlug());
+            values.put(COLUMN_TITLE, article.getTitle());
+            values.put(COLUMN_EXCERPT, article.getExcerpt());
+            values.put(COLUMN_CONTENT, article.getContent());
+            values.put(COLUMN_DATE, article.getDate());
+            values.put(COLUMN_DATE_CLEAR, article.getDateClear());
+            values.put(COLUMN_LINK, article.getLink());
+            values.put(COLUMN_THUMBNAIL_SMALL, article.getThumbnailSmall());
+            values.put(COLUMN_THUMBNAIL_MEDIUM, article.getThumbnailMedium());
+            values.put(COLUMN_POST_TYPE, article.getPostType());
+            return values;
+        }
+
+        public static Article parseCursor(Cursor cursor)
+        {
+            Article article = new Article();
+            article.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)));
+            article.setSlug(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SLUG)));
+            article.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)));
+            article.setExcerpt(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXCERPT)));
+            article.setContent(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT)));
+            article.setDate(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE)));
+            article.setDateClear(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE_CLEAR)));
+            article.setLink(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LINK)));
+            article.setThumbnailSmall(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_THUMBNAIL_SMALL)));
+            article.setThumbnailMedium(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_THUMBNAIL_MEDIUM)));
+            article.setPostType(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_POST_TYPE)));
+            return article;
+        }
     }
 
     public static abstract class ReadLaterTable
@@ -76,39 +115,100 @@ public class Db
                         COLUMN_DATE_CLEAR + " TEXT NOT NULL," +
                         COLUMN_LINK + " TEXT NOT NULL," +
                         COLUMN_THUMBNAIL_SMALL + " TEXT NOT NULL," +
-                        COLUMN_THUMBNAIL_MEDIUM + " TEXT NOT NULL" +
+                        COLUMN_THUMBNAIL_MEDIUM + " TEXT NOT NULL," +
+                        COLUMN_POST_TYPE + " TEXT" +
                         " ); ";
+
+        public static ContentValues toContentValues(Article article)
+        {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_ID, article.getId());
+            values.put(COLUMN_SLUG, article.getSlug());
+            values.put(COLUMN_TITLE, article.getTitle());
+            values.put(COLUMN_EXCERPT, article.getExcerpt());
+            values.put(COLUMN_CONTENT, article.getContent());
+            values.put(COLUMN_DATE, article.getDate());
+            values.put(COLUMN_DATE_CLEAR, article.getDateClear());
+            values.put(COLUMN_LINK, article.getLink());
+            values.put(COLUMN_THUMBNAIL_SMALL, article.getThumbnailSmall());
+            values.put(COLUMN_THUMBNAIL_MEDIUM, article.getThumbnailMedium());
+            values.put(COLUMN_POST_TYPE, article.getPostType());
+            return values;
+        }
+
+        public static Article parseCursor(Cursor cursor)
+        {
+            Article article = new Article();
+            article.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)));
+            article.setSlug(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SLUG)));
+            article.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)));
+            article.setExcerpt(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXCERPT)));
+            article.setContent(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT)));
+            article.setDate(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE)));
+            article.setDateClear(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE_CLEAR)));
+            article.setLink(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LINK)));
+            article.setThumbnailSmall(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_THUMBNAIL_SMALL)));
+            article.setThumbnailMedium(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_THUMBNAIL_MEDIUM)));
+            article.setPostType(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_POST_TYPE)));
+            return article;
+        }
     }
 
-    public static ContentValues toContentValues(Article article)
+    public static abstract class CategoryTable
     {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, article.getId());
-        values.put(COLUMN_SLUG, article.getSlug());
-        values.put(COLUMN_TITLE, article.getTitle());
-        values.put(COLUMN_EXCERPT, article.getExcerpt());
-        values.put(COLUMN_CONTENT, article.getContent());
-        values.put(COLUMN_DATE, article.getDate());
-        values.put(COLUMN_DATE_CLEAR, article.getDateClear());
-        values.put(COLUMN_LINK, article.getLink());
-        values.put(COLUMN_THUMBNAIL_SMALL, article.getThumbnailSmall());
-        values.put(COLUMN_THUMBNAIL_MEDIUM, article.getThumbnailMedium());
-        return values;
+        public static final String TABLE_NAME = "category";
+
+        public static final String CREATE =
+                "CREATE TABLE " + TABLE_NAME + " (" +
+                        COLUMN_SLUG + " TEXT PRIMARY KEY," +
+                        COLUMN_NAME + " TEXT NOT NULL" +
+                        " ); ";
+
+        public static ContentValues toContentValues(Category category)
+        {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_SLUG, category.getSlug());
+            values.put(COLUMN_NAME, category.getName());
+            return values;
+        }
+
+        public static Category parseCursor(Cursor cursor)
+        {
+            Category category = new Category();
+            category.setSlug(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SLUG)));
+            category.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)));
+            return category;
+        }
     }
 
-    public static Article parseCursor(Cursor cursor)
+    public static abstract class TagTable
     {
-        Article article = new Article();
-        article.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)));
-        article.setSlug(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SLUG)));
-        article.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)));
-        article.setExcerpt(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXCERPT)));
-        article.setContent(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT)));
-        article.setDate(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE)));
-        article.setDateClear(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE_CLEAR)));
-        article.setLink(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LINK)));
-        article.setThumbnailSmall(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_THUMBNAIL_SMALL)));
-        article.setThumbnailMedium(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_THUMBNAIL_MEDIUM)));
-        return article;
+        public static final String TABLE_NAME = "tag";
+        public static final String COLUMN_COUNT = "count";
+
+        public static final String CREATE =
+                "CREATE TABLE " + TABLE_NAME + " (" +
+                        COLUMN_SLUG + " TEXT PRIMARY KEY," +
+                        COLUMN_NAME + " TEXT NOT NULL," +
+                        COLUMN_COUNT + " INTEGER" +
+                        " ); ";
+
+        public static ContentValues toContentValues(Tag tag)
+        {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_SLUG, tag.getSlug());
+            values.put(COLUMN_NAME, tag.getName());
+            values.put(COLUMN_COUNT, tag.getCount());
+            return values;
+        }
+
+        public static Tag parseCursor(Cursor cursor)
+        {
+            Tag tag = new Tag();
+            tag.setSlug(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SLUG)));
+            tag.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)));
+            tag.setCount(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_COUNT)));
+            return tag;
+        }
     }
 }
