@@ -100,6 +100,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
+            android:background="@color/error"
             android:padding="8dp"
             android:src="@drawable/could_not_load_image"
             android:visibility="gone"/>

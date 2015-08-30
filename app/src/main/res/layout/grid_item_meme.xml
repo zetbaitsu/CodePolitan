@@ -44,6 +44,7 @@
                 android:id="@+id/iv_error"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
+                android:background="@color/error"
                 android:padding="24dp"
                 android:src="@drawable/could_not_load_image"
                 android:visibility="gone"/>
