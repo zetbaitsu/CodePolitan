@@ -95,7 +95,8 @@ public class BenihWebView extends WebView
 
     public void loadData(String title, String tanggal, String thumbnail, String content, String copyright)
     {
-        loadData(generateHtml(title, tanggal, thumbnail, content, copyright), TEXT_HTML, "UTF-8");
+        content = content.replaceAll("(\r\n|\n)", "<br />");
+        loadDataWithBaseURL(null, generateHtml(title, tanggal, thumbnail, content, copyright), TEXT_HTML, "utf-8", null);
     }
 
     private String generateHtml(String title, String tanggal, String thumbnail, String content, String copyright)
