@@ -18,8 +18,6 @@ package id.zelory.codepolitan.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
@@ -30,8 +28,8 @@ import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.controller.TagController;
-import id.zelory.codepolitan.controller.event.ErrorEvent;
+import id.zelory.codepolitan.controller.FollowController;
+import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.adapter.TagAdapter;
@@ -45,10 +43,10 @@ import id.zelory.codepolitan.ui.adapter.TagAdapter;
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnRefreshListener,
-        TagController.Presenter, BenihRecyclerAdapter.OnItemClickListener,
-        BenihRecyclerAdapter.OnLongItemClickListener
+        BenihRecyclerAdapter.OnItemClickListener, BenihRecyclerAdapter.OnLongItemClickListener,
+        FollowController.Presenter
 {
-    private TagController tagController;
+    private FollowController controller;
     private TagAdapter adapter;
     @Bind(R.id.recycler_view) BenihRecyclerView recyclerView;
     @Bind(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
@@ -65,7 +63,7 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
         setUpSwipeLayout();
         setUpAdapter(bundle);
         setUpRecyclerView();
-        setUpController(bundle);
+        setUpController();
     }
 
     private void setUpSwipeLayout()
@@ -87,48 +85,21 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
         recyclerView.setAdapter(adapter);
     }
 
-    private void setUpController(Bundle bundle)
+    private void setUpController()
     {
-        if (tagController == null)
+        if (controller == null)
         {
-            tagController = new TagController(this);
+            controller = new FollowController(this);
         }
 
-        if (bundle != null)
-        {
-            tagController.loadState(bundle);
-        } else
-        {
-            new Handler().postDelayed(this::onRefresh, 800);
-        }
+        onRefresh();
     }
 
     @Override
     public void onRefresh()
     {
         adapter.clear();
-        tagController.loadPopularTags(1);
-    }
-
-    @Override
-    public void showTags(List<Tag> tags)
-    {
-
-    }
-
-    @Override
-    public void showPopularTags(List<Tag> popularTags)
-    {
-        if (adapter != null)
-        {
-            adapter.add(popularTags);
-        }
-    }
-
-    @Override
-    public void showFilteredTag(List<Tag> tags)
-    {
-
+        controller.loadFollowedTags();
     }
 
     @Override
@@ -146,24 +117,7 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
     @Override
     public void showError(Throwable throwable)
     {
-        switch (throwable.getMessage())
-        {
-            case ErrorEvent.LOAD_STATE_POPULAR_TAGS:
-                onRefresh();
-                break;
-            case ErrorEvent.LOAD_POPULAR_TAGS:
-                Snackbar.make(recyclerView, R.string.error_message, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.retry, v -> tagController.loadPopularTags(1))
-                        .show();
-                break;
-        }
-    }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-        tagController.saveState(outState);
-        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -177,6 +131,42 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onLongItemClick(View view, int position)
+    {
+
+    }
+
+    @Override
+    public void showFollowedCategories(List<Category> categories)
+    {
+
+    }
+
+    @Override
+    public void showFollowedTags(List<Tag> tags)
+    {
+        adapter.add(tags);
+    }
+
+    @Override
+    public void onFollow(Category category)
+    {
+
+    }
+
+    @Override
+    public void onFollow(Tag tag)
+    {
+
+    }
+
+    @Override
+    public void onUnFollow(Category category)
+    {
+
+    }
+
+    @Override
+    public void onUnFollow(Tag tag)
     {
 
     }
