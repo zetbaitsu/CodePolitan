@@ -27,4 +27,5 @@
     <color name="background">#f0f0f0</color>
     <color name="error">#eaeaea</color>
     <color name="black">#00000000</color>
+    <color name="semi_transparent_white">#CCFFFFFF</color>
 </resources>

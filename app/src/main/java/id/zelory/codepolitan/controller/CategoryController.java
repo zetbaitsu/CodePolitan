@@ -120,6 +120,22 @@ public class CategoryController extends BenihController<CategoryController.Prese
                 });
     }
 
+    public void filter(String query)
+    {
+        if (categories != null)
+        {
+            Observable.from(categories)
+                    .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.NEW_THREAD))
+                    .filter(category -> category.getName().toLowerCase().contains(query.toLowerCase()))
+                    .map(category -> {
+                        category.setFollowed(DataBaseHelper.pluck().isFollowed(category));
+                        return category;
+                    })
+                    .toList()
+                    .subscribe(presenter::showFilteredCategories, presenter::showError);
+        }
+    }
+
     @Override
     public void saveState(Bundle bundle)
     {
@@ -142,5 +158,7 @@ public class CategoryController extends BenihController<CategoryController.Prese
     public interface Presenter extends BenihController.Presenter
     {
         void showCategories(List<Category> categories);
+
+        void showFilteredCategories(List<Category> categories);
     }
 }

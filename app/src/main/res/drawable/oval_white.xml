@@ -17,22 +17,8 @@
 
 <shape
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
+    android:shape="oval">
 
-    <gradient
-        android:startColor="@color/semi_transparent_white"
-        android:centerColor="@color/semi_transparent_white"
-        android:endColor="@color/semi_transparent_white" />
+    <solid android:color="#FFF"/>
 
-    <padding
-        android:left="5dp"
-        android:right="5dp"
-        android:top="5dp"
-        android:bottom="5dp" />
-
-    <corners
-        android:topLeftRadius="24dp"
-        android:topRightRadius="24dp"
-        android:bottomLeftRadius="24dp"
-        android:bottomRightRadius="24dp" />
 </shape>

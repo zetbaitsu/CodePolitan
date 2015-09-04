@@ -22,6 +22,7 @@ import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
+import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
@@ -50,6 +51,44 @@ public class FollowController extends BenihController<FollowController.Presenter
                 .getFollowedCategories()
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
                 .subscribe(categories -> {
+                    int p = categories.size();
+                    for (int i = 0; i < p; i++)
+                    {
+                        switch (categories.get(i).getName())
+                        {
+                            case "Tokoh":
+                                categories.get(i).setImageResource(R.drawable.category_tokoh);
+                                break;
+                            case "Tools":
+                                categories.get(i).setImageResource(R.drawable.category_tools);
+                                break;
+                            case "Info":
+                                categories.get(i).setImageResource(R.drawable.category_info);
+                                break;
+                            case "Tips & Trik":
+                                categories.get(i).setImageResource(R.drawable.category_tips);
+                                break;
+                            case "Wawancara":
+                                categories.get(i).setImageResource(R.drawable.category_wawancara);
+                                break;
+                            case "Event":
+                                categories.get(i).setImageResource(R.drawable.category_event);
+                                break;
+                            case "Opini":
+                                categories.get(i).setImageResource(R.drawable.category_opini);
+                                break;
+                            case "Komunitas":
+                                categories.get(i).setImageResource(R.drawable.category_komunitas);
+                                break;
+                            case "Review KaryaLokal":
+                                categories.get(i).setImageResource(R.drawable.category_review);
+                                break;
+                            case "Lowongan Kerja":
+                                categories.get(i).setImageResource(R.drawable.category_lowongan);
+                                break;
+                        }
+                    }
+
                     if (presenter != null)
                     {
                         presenter.showFollowedCategories(categories);

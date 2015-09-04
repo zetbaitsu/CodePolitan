@@ -18,8 +18,6 @@ package id.zelory.codepolitan.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
@@ -30,9 +28,9 @@ import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.controller.CategoryController;
-import id.zelory.codepolitan.controller.event.ErrorEvent;
+import id.zelory.codepolitan.controller.FollowController;
 import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.adapter.CategoryAdapter;
 
@@ -44,11 +42,11 @@ import id.zelory.codepolitan.ui.adapter.CategoryAdapter;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class CategoryFragment extends BenihFragment implements CategoryController.Presenter,
-        SwipeRefreshLayout.OnRefreshListener, BenihRecyclerAdapter.OnItemClickListener,
-        BenihRecyclerAdapter.OnLongItemClickListener
+public class CategoryFragment extends BenihFragment implements SwipeRefreshLayout.OnRefreshListener,
+        BenihRecyclerAdapter.OnItemClickListener, BenihRecyclerAdapter.OnLongItemClickListener,
+        FollowController.Presenter
 {
-    private CategoryController categoryController;
+    private FollowController controller;
     private CategoryAdapter adapter;
     @Bind(R.id.recycler_view) BenihRecyclerView recyclerView;
     @Bind(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
@@ -65,7 +63,7 @@ public class CategoryFragment extends BenihFragment implements CategoryControlle
         setUpSwipeLayout();
         setUpAdapter(bundle);
         setUpRecyclerView();
-        setUpController(bundle);
+        setUpController();
     }
 
     private void setUpSwipeLayout()
@@ -74,20 +72,14 @@ public class CategoryFragment extends BenihFragment implements CategoryControlle
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    private void setUpController(Bundle bundle)
+    private void setUpController()
     {
-        if (categoryController == null)
+        if (controller == null)
         {
-            categoryController = new CategoryController(this);
+            controller = new FollowController(this);
         }
 
-        if (bundle != null)
-        {
-            categoryController.loadState(bundle);
-        } else
-        {
-            new Handler().postDelayed(this::onRefresh, 800);
-        }
+        onRefresh();
     }
 
     private void setUpRecyclerView()
@@ -101,15 +93,6 @@ public class CategoryFragment extends BenihFragment implements CategoryControlle
         adapter = new CategoryAdapter(getActivity(), bundle);
         adapter.setOnItemClickListener(this);
         adapter.setOnLongItemClickListener(this);
-    }
-
-    @Override
-    public void showCategories(List<Category> categories)
-    {
-        if (adapter != null)
-        {
-            adapter.add(categories);
-        }
     }
 
     @Override
@@ -127,31 +110,14 @@ public class CategoryFragment extends BenihFragment implements CategoryControlle
     @Override
     public void showError(Throwable throwable)
     {
-        switch (throwable.getMessage())
-        {
-            case ErrorEvent.LOAD_STATE_LIST_CATEGORY:
-                onRefresh();
-                break;
-            case ErrorEvent.LOAD_LIST_CATEGORY:
-                Snackbar.make(recyclerView, R.string.error_message, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.retry, v -> categoryController.loadCategories(1))
-                        .show();
-                break;
-        }
+
     }
 
     @Override
     public void onRefresh()
     {
         adapter.clear();
-        categoryController.loadCategories(1);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-        categoryController.saveState(outState);
-        super.onSaveInstanceState(outState);
+        controller.loadFollowedCategories();
     }
 
     @Override
@@ -165,6 +131,42 @@ public class CategoryFragment extends BenihFragment implements CategoryControlle
 
     @Override
     public void onLongItemClick(View view, int position)
+    {
+
+    }
+
+    @Override
+    public void showFollowedCategories(List<Category> categories)
+    {
+        adapter.add(categories);
+    }
+
+    @Override
+    public void showFollowedTags(List<Tag> tags)
+    {
+
+    }
+
+    @Override
+    public void onFollow(Category category)
+    {
+
+    }
+
+    @Override
+    public void onFollow(Tag tag)
+    {
+
+    }
+
+    @Override
+    public void onUnFollow(Category category)
+    {
+
+    }
+
+    @Override
+    public void onUnFollow(Tag tag)
     {
 
     }

@@ -34,6 +34,7 @@ import butterknife.Bind;
 import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.util.BenihBus;
+import id.zelory.benih.util.BenihPreferenceUtils;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.event.ReloadEvent;
 import id.zelory.codepolitan.ui.adapter.MainPagerAdapter;
@@ -73,6 +74,8 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
     @Override
     protected void onViewReady(Bundle bundle)
     {
+        BenihPreferenceUtils.putBoolean(this, "loaded", true);
+
         BenihBus.pluck().receive()
                 .subscribe(o -> {
                     if (o instanceof ReloadEvent)

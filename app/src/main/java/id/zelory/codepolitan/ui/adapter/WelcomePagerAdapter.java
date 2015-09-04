@@ -14,41 +14,33 @@
  *  limitations under the License.
  */
 
-package id.zelory.codepolitan.ui;
+package id.zelory.codepolitan.ui.adapter;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 
-import id.zelory.benih.BenihActivity;
-import id.zelory.benih.util.BenihPreferenceUtils;
-import id.zelory.codepolitan.R;
+import java.util.List;
+
+import id.zelory.benih.adapter.BenihPagerAdapter;
+import id.zelory.benih.fragment.BenihFragment;
 
 /**
- * Created on : August 24, 2015
+ * Created on : September 01, 2015
  * Author     : zetbaitsu
  * Name       : Zetra
  * Email      : zetra@mail.ugm.ac.id
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class SplashActivity extends BenihActivity
+public class WelcomePagerAdapter extends BenihPagerAdapter<BenihFragment>
 {
-    @Override
-    protected int getActivityView()
+    public WelcomePagerAdapter(FragmentManager fm, List<BenihFragment> benihFragments)
     {
-        return R.layout.activity_splash;
+        super(fm, benihFragments);
     }
 
     @Override
-    protected void onViewReady(Bundle bundle)
+    public BenihFragment getItem(int position)
     {
-        if (BenihPreferenceUtils.getBoolean(this, "loaded"))
-        {
-            new Handler().postDelayed(() -> startActivity(new Intent(this, MainActivity.class)), 1800);
-        } else
-        {
-            new Handler().postDelayed(() -> startActivity(new Intent(this, WelcomeActivity.class)), 1800);
-        }
+        return fragments.get(position);
     }
 }

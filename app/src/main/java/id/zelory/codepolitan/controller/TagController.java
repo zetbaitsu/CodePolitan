@@ -120,7 +120,7 @@ public class TagController extends BenihController<TagController.Presenter>
                             .subscribe(o -> {
                                 if (presenter != null)
                                 {
-                                    presenter.showPopularTags(popularTags);
+                                    presenter.showPopularTags(tags);
                                 }
                             });
                     if (presenter != null)
@@ -135,6 +135,22 @@ public class TagController extends BenihController<TagController.Presenter>
                         presenter.dismissLoading();
                     }
                 });
+    }
+
+    public void filter(String query)
+    {
+        if (popularTags != null)
+        {
+            Observable.from(popularTags)
+                    .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.NEW_THREAD))
+                    .filter(tag -> tag.getName().toLowerCase().contains(query.toLowerCase()))
+                    .map(tag -> {
+                        tag.setFollowed(DataBaseHelper.pluck().isFollowed(tag));
+                        return tag;
+                    })
+                    .toList()
+                    .subscribe(presenter::showFilteredTag, presenter::showError);
+        }
     }
 
     @Override
@@ -171,5 +187,7 @@ public class TagController extends BenihController<TagController.Presenter>
         void showTags(List<Tag> tags);
 
         void showPopularTags(List<Tag> popularTags);
+
+        void showFilteredTag(List<Tag> tags);
     }
 }

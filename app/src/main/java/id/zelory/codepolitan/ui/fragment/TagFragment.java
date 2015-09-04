@@ -126,6 +126,12 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
+    public void showFilteredTag(List<Tag> tags)
+    {
+
+    }
+
+    @Override
     public void showLoading()
     {
         swipeRefreshLayout.setRefreshing(true);
