@@ -28,7 +28,6 @@ public class ObjectResponse<Data> extends Response
 {
     private Data result;
 
-
     public Data getResult()
     {
         return result;
