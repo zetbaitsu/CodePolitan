@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import id.zelory.benih.adapter.viewholder.BenihHeaderViewHolder;
+import id.zelory.benih.util.BenihBus;
+import id.zelory.codepolitan.controller.event.OtherTagsEvent;
 
 /**
  * Created on : August 29, 2015
@@ -40,5 +42,11 @@ public class TagHeaderViewHolder extends BenihHeaderViewHolder
     public void show()
     {
 
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        BenihBus.pluck().send(new OtherTagsEvent());
     }
 }

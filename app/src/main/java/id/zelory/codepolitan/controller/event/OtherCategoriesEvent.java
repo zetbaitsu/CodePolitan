@@ -14,40 +14,16 @@
  *  limitations under the License.
  */
 
-package id.zelory.codepolitan.ui.adapter.viewholder;
-
-import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.view.View;
-
-import id.zelory.benih.adapter.viewholder.BenihHeaderViewHolder;
-import id.zelory.benih.util.BenihBus;
-import id.zelory.codepolitan.controller.event.OtherCategoriesEvent;
+package id.zelory.codepolitan.controller.event;
 
 /**
- * Created on : August 8, 2015
+ * Created on : September 07, 2015
  * Author     : zetbaitsu
  * Name       : Zetra
  * Email      : zetra@mail.ugm.ac.id
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class CategoryHeaderViewHolder extends BenihHeaderViewHolder
+public class OtherCategoriesEvent
 {
-    public CategoryHeaderViewHolder(View itemView, Bundle bundle)
-    {
-        super(itemView, bundle);
-    }
-
-    @Override
-    public void show()
-    {
-
-    }
-
-    @Override
-    public void onClick(View v)
-    {
-        BenihBus.pluck().send(new OtherCategoriesEvent());
-    }
 }

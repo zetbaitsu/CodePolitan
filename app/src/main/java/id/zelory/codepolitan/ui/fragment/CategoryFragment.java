@@ -26,11 +26,14 @@ import java.util.List;
 import butterknife.Bind;
 import id.zelory.benih.adapter.BenihRecyclerAdapter;
 import id.zelory.benih.fragment.BenihFragment;
+import id.zelory.benih.util.BenihBus;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.FollowController;
+import id.zelory.codepolitan.controller.event.OtherCategoriesEvent;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.ui.ChooseActivity;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.adapter.CategoryAdapter;
 
@@ -60,10 +63,23 @@ public class CategoryFragment extends BenihFragment implements SwipeRefreshLayou
     @Override
     protected void onViewReady(Bundle bundle)
     {
+        BenihBus.pluck().receive().subscribe(o -> {
+            if (o instanceof OtherCategoriesEvent)
+            {
+                onOtherCategoriesClick();
+            }
+        });
         setUpSwipeLayout();
         setUpAdapter(bundle);
         setUpRecyclerView();
         setUpController();
+    }
+
+    private void onOtherCategoriesClick()
+    {
+        Intent intent = new Intent(getActivity(), ChooseActivity.class);
+        intent.putExtra(ChooseActivity.KEY_TYPE, ChooseActivity.CATEGORY_TYPE);
+        startActivity(intent);
     }
 
     private void setUpSwipeLayout()
