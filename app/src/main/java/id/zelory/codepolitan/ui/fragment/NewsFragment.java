@@ -81,7 +81,7 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
             public void onLoadMore(int i)
             {
                 currentPage++;
-                articleController.loadArticles(currentPage);
+                articleController.loadFollowedArticles(currentPage);
             }
         });
 
@@ -119,7 +119,7 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
         if (!searching)
         {
             super.onRefresh();
-            articleController.loadArticles(currentPage);
+            articleController.loadFollowedArticles(currentPage);
         } else
         {
             dismissLoading();
@@ -139,6 +139,13 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
             adapter.hideHeader();
         }
         return true;
+    }
+
+    @Override
+    public void showError(Throwable throwable)
+    {
+        Timber.e(throwable.getMessage());
+        super.showError(throwable);
     }
 
     @Override

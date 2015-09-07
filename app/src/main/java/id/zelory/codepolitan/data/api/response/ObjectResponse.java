@@ -26,7 +26,8 @@ package id.zelory.codepolitan.data.api.response;
  */
 public class ObjectResponse<Data> extends Response
 {
-    Data result;
+    private Data result;
+
 
     public Data getResult()
     {

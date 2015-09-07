@@ -19,6 +19,8 @@ package id.zelory.codepolitan.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created on : July 28, 2015
  * Author     : zetbaitsu
@@ -43,6 +45,8 @@ public class Article implements Parcelable
     private boolean readLater;
     private boolean big;
     private String postType;
+    private List<Category> category;
+    private List<Tag> tags;
 
     public Article()
     {
@@ -61,10 +65,12 @@ public class Article implements Parcelable
         link = in.readString();
         thumbnailSmall = in.readString();
         thumbnailMedium = in.readString();
-        bookmarked = in.readInt() == 1;
-        readLater = in.readInt() == 1;
-        big = in.readInt() == 1;
+        bookmarked = in.readByte() != 0;
+        readLater = in.readByte() != 0;
+        big = in.readByte() != 0;
         postType = in.readString();
+        category = in.createTypedArrayList(Category.CREATOR);
+        tags = in.createTypedArrayList(Tag.CREATOR);
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>()
@@ -222,6 +228,26 @@ public class Article implements Parcelable
         this.postType = postType;
     }
 
+    public List<Category> getCategory()
+    {
+        return category;
+    }
+
+    public void setCategory(List<Category> category)
+    {
+        this.category = category;
+    }
+
+    public List<Tag> getTags()
+    {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags)
+    {
+        this.tags = tags;
+    }
+
     @Override
     public int describeContents()
     {
@@ -241,9 +267,11 @@ public class Article implements Parcelable
         dest.writeString(link);
         dest.writeString(thumbnailSmall);
         dest.writeString(thumbnailMedium);
-        dest.writeInt(bookmarked ? 1 : 0);
-        dest.writeInt(readLater ? 1 : 0);
-        dest.writeInt(big ? 1 : 0);
+        dest.writeByte((byte) (bookmarked ? 1 : 0));
+        dest.writeByte((byte) (readLater ? 1 : 0));
+        dest.writeByte((byte) (big ? 1 : 0));
         dest.writeString(postType);
+        dest.writeTypedList(category);
+        dest.writeTypedList(tags);
     }
 }

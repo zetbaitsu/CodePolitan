@@ -49,7 +49,7 @@ public class OthersArticlesFragment extends ListArticleFragment
             public void onLoadMore(int i)
             {
                 currentPage++;
-                articleController.loadArticles(currentPage);
+                articleController.loadUnFollowedArticles(currentPage);
             }
         });
     }
@@ -60,7 +60,7 @@ public class OthersArticlesFragment extends ListArticleFragment
         if (!searching)
         {
             super.onRefresh();
-            articleController.loadArticles(currentPage);
+            articleController.loadUnFollowedArticles(currentPage);
         } else
         {
             dismissLoading();

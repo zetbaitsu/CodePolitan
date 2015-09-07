@@ -76,7 +76,7 @@ public class ArticleController extends BenihController<ArticleController.Present
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        Timber.d(throwable.getMessage());
+                        Timber.e(throwable.getMessage());
                         presenter.showError(new Throwable(ErrorEvent.LOAD_ARTICLE));
                         presenter.dismissLoading();
                     }
@@ -103,7 +103,10 @@ public class ArticleController extends BenihController<ArticleController.Present
                             .doInNewThread(() -> {
                                 if (page == 1)
                                 {
-                                    articles.get(0).setBig(true);
+                                    if (!articles.isEmpty())
+                                    {
+                                        articles.get(0).setBig(true);
+                                    }
                                     this.articles = articles;
                                 } else
                                 {
@@ -122,8 +125,158 @@ public class ArticleController extends BenihController<ArticleController.Present
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        Timber.d(throwable.getMessage());
+                        Timber.e(throwable.getMessage());
                         presenter.showError(new Throwable(ErrorEvent.LOAD_LIST_ARTICLE_BY_PAGE));
+                        presenter.dismissLoading();
+                    }
+                });
+    }
+
+    public void loadFollowedArticles(int page)
+    {
+        presenter.showLoading();
+        CodePolitanApi.pluck()
+                .getApi()
+                .getLatestArticles(page)
+                .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
+                .flatMap(articleListResponse -> Observable.from(articleListResponse.getResult()))
+                .map(article -> CodePolitanApi.pluck()
+                        .getApi()
+                        .getDetailArticle(article.getId())
+                        .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO)))
+                .flatMap(objectResponseObservable -> objectResponseObservable
+                        .flatMap(articleObjectResponse -> Observable.just(articleObjectResponse.getResult())))
+                .filter(article -> {
+                    int size = article.getCategory().size();
+                    for (int i = 0; i < size; i++)
+                    {
+                        if (DataBaseHelper.pluck().isFollowed(article.getCategory().get(i)))
+                        {
+                            return true;
+                        }
+                    }
+                    size = article.getTags().size();
+                    for (int i = 0; i < size; i++)
+                    {
+                        if (DataBaseHelper.pluck().isFollowed(article.getTags().get(i)))
+                        {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                })
+                .map(article -> {
+                    article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                    article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                    article.setBig(BenihUtils.randInt(0, 8) == 5);
+                    return article;
+                })
+                .toList()
+                .subscribe(articles -> {
+                    BenihWorker.pluck()
+                            .doInNewThread(() -> {
+                                if (page == 1)
+                                {
+                                    if (!articles.isEmpty())
+                                    {
+                                        articles.get(0).setBig(true);
+                                    }
+                                    this.articles = articles;
+                                } else
+                                {
+                                    this.articles.addAll(articles);
+                                }
+                            }).subscribe(o -> {
+                        if (presenter != null)
+                        {
+                            presenter.showArticles(articles);
+                        }
+                    });
+                    if (presenter != null)
+                    {
+                        presenter.dismissLoading();
+                    }
+                }, throwable -> {
+                    if (presenter != null)
+                    {
+                        Timber.e(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_FOLLOWED_ARTICLES));
+                        presenter.dismissLoading();
+                    }
+                });
+    }
+
+    public void loadUnFollowedArticles(int page)
+    {
+        presenter.showLoading();
+        CodePolitanApi.pluck()
+                .getApi()
+                .getLatestArticles(page)
+                .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
+                .flatMap(articleListResponse -> Observable.from(articleListResponse.getResult()))
+                .map(article -> CodePolitanApi.pluck()
+                        .getApi()
+                        .getDetailArticle(article.getId())
+                        .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO)))
+                .flatMap(objectResponseObservable -> objectResponseObservable
+                        .flatMap(articleObjectResponse -> Observable.just(articleObjectResponse.getResult())))
+                .filter(article -> {
+                    int size = article.getCategory().size();
+                    for (int i = 0; i < size; i++)
+                    {
+                        if (DataBaseHelper.pluck().isFollowed(article.getCategory().get(i)))
+                        {
+                            return false;
+                        }
+                    }
+                    size = article.getTags().size();
+                    for (int i = 0; i < size; i++)
+                    {
+                        if (DataBaseHelper.pluck().isFollowed(article.getTags().get(i)))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                })
+                .map(article -> {
+                    article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                    article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                    article.setBig(BenihUtils.randInt(0, 8) == 5);
+                    return article;
+                })
+                .toList()
+                .subscribe(articles -> {
+                    BenihWorker.pluck()
+                            .doInNewThread(() -> {
+                                if (page == 1)
+                                {
+                                    if (!articles.isEmpty())
+                                    {
+                                        articles.get(0).setBig(true);
+                                    }
+                                    this.articles = articles;
+                                } else
+                                {
+                                    this.articles.addAll(articles);
+                                }
+                            }).subscribe(o -> {
+                        if (presenter != null)
+                        {
+                            presenter.showArticles(articles);
+                        }
+                    });
+                    if (presenter != null)
+                    {
+                        presenter.dismissLoading();
+                    }
+                }, throwable -> {
+                    if (presenter != null)
+                    {
+                        Timber.e(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.LOAD_UNFOLLOWED_ARTICLES));
                         presenter.dismissLoading();
                     }
                 });
@@ -168,7 +321,7 @@ public class ArticleController extends BenihController<ArticleController.Present
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        Timber.d(throwable.getMessage());
+                        Timber.e(throwable.getMessage());
                         presenter.showError(new Throwable(ErrorEvent.LOAD_LIST_ARTICLE_BY_POST_TYPE));
                         presenter.dismissLoading();
                     }
@@ -214,7 +367,7 @@ public class ArticleController extends BenihController<ArticleController.Present
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        Timber.d(throwable.getMessage());
+                        Timber.e(throwable.getMessage());
                         presenter.showError(new Throwable(ErrorEvent.LOAD_LIST_ARTICLE_BY_CATEGORY));
                         presenter.dismissLoading();
                     }
@@ -260,7 +413,7 @@ public class ArticleController extends BenihController<ArticleController.Present
                 }, throwable -> {
                     if (presenter != null)
                     {
-                        Timber.d(throwable.getMessage());
+                        Timber.e(throwable.getMessage());
                         presenter.showError(new Throwable(ErrorEvent.LOAD_LIST_ARTICLE_BY_TAG));
                         presenter.dismissLoading();
                     }

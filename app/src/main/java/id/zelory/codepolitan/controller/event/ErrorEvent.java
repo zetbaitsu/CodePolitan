@@ -52,4 +52,6 @@ public interface ErrorEvent
     String LOAD_STATE_POPULAR_TAGS = "23";
     String LOAD_FOLLOWED_CATEGORIES = "24";
     String LOAD_FOLLOWED_TAGS = "25";
+    String LOAD_FOLLOWED_ARTICLES = "26";
+    String LOAD_UNFOLLOWED_ARTICLES = "27";
 }
