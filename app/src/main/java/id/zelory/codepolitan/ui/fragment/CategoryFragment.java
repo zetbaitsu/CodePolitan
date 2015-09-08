@@ -47,8 +47,7 @@ import timber.log.Timber;
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class CategoryFragment extends BenihFragment implements SwipeRefreshLayout.OnRefreshListener,
-        BenihRecyclerAdapter.OnItemClickListener, BenihRecyclerAdapter.OnLongItemClickListener,
-        FollowController.Presenter
+        BenihRecyclerAdapter.OnItemClickListener, FollowController.Presenter
 {
     private FollowController controller;
     private CategoryAdapter adapter;
@@ -109,7 +108,6 @@ public class CategoryFragment extends BenihFragment implements SwipeRefreshLayou
     {
         adapter = new CategoryAdapter(getActivity(), bundle);
         adapter.setOnItemClickListener(this);
-        adapter.setOnLongItemClickListener(this);
     }
 
     @Override
@@ -144,12 +142,6 @@ public class CategoryFragment extends BenihFragment implements SwipeRefreshLayou
         intent.putExtra(ListArticleActivity.KEY_TYPE, ListArticleActivity.TYPE_CATEGORY);
         intent.putExtra(ListArticleActivity.KEY_DATA, adapter.getData().get(position));
         startActivity(intent);
-    }
-
-    @Override
-    public void onLongItemClick(View view, int position)
-    {
-
     }
 
     @Override

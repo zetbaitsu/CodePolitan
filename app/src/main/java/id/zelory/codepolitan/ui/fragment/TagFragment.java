@@ -47,8 +47,7 @@ import timber.log.Timber;
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnRefreshListener,
-        BenihRecyclerAdapter.OnItemClickListener, BenihRecyclerAdapter.OnLongItemClickListener,
-        FollowController.Presenter
+        BenihRecyclerAdapter.OnItemClickListener, FollowController.Presenter
 {
     private FollowController controller;
     private TagAdapter adapter;
@@ -93,7 +92,6 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
     {
         adapter = new TagAdapter(getActivity(), bundle);
         adapter.setOnItemClickListener(this);
-        adapter.setOnLongItemClickListener(this);
     }
 
     private void setUpRecyclerView()
@@ -144,12 +142,6 @@ public class TagFragment extends BenihFragment implements SwipeRefreshLayout.OnR
         intent.putExtra(ListArticleActivity.KEY_TYPE, ListArticleActivity.TYPE_TAG);
         intent.putExtra(ListArticleActivity.KEY_DATA, adapter.getData().get(position));
         startActivity(intent);
-    }
-
-    @Override
-    public void onLongItemClick(View view, int position)
-    {
-
     }
 
     @Override
