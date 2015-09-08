@@ -282,6 +282,55 @@ public class ArticleController extends BenihController<ArticleController.Present
                 });
     }
 
+    public void searchArticles(String keyword, int page)
+    {
+        presenter.showLoading();
+        CodePolitanApi.pluck()
+                .getApi()
+                .searchArticles(keyword, page)
+                .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
+                .flatMap(articleListResponse -> Observable.from(articleListResponse.getResult()))
+                .map(article -> {
+                    article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                    article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                    article.setBig(BenihUtils.randInt(0, 8) == 5);
+                    return article;
+                })
+                .toList()
+                .subscribe(articles -> {
+                    BenihWorker.pluck()
+                            .doInNewThread(() -> {
+                                if (page == 1)
+                                {
+                                    if (!articles.isEmpty())
+                                    {
+                                        articles.get(0).setBig(true);
+                                    }
+                                    this.articles = articles;
+                                } else
+                                {
+                                    this.articles.addAll(articles);
+                                }
+                            }).subscribe(o -> {
+                        if (presenter != null)
+                        {
+                            presenter.showArticles(articles);
+                        }
+                    });
+                    if (presenter != null)
+                    {
+                        presenter.dismissLoading();
+                    }
+                }, throwable -> {
+                    if (presenter != null)
+                    {
+                        Timber.e(throwable.getMessage());
+                        presenter.showError(new Throwable(ErrorEvent.SEARCH_ARTICLES));
+                        presenter.dismissLoading();
+                    }
+                });
+    }
+
     public void loadArticles(String postType, int page)
     {
         presenter.showLoading();

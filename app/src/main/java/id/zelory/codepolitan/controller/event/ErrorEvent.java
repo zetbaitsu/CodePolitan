@@ -54,4 +54,5 @@ public interface ErrorEvent
     String LOAD_FOLLOWED_TAGS = "25";
     String LOAD_FOLLOWED_ARTICLES = "26";
     String LOAD_UNFOLLOWED_ARTICLES = "27";
+    String SEARCH_ARTICLES = "28";
 }

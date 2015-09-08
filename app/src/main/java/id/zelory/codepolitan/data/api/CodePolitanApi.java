@@ -16,15 +16,16 @@
 
 package id.zelory.codepolitan.data.api;
 
-import java.util.List;
-
 import id.zelory.benih.network.BenihServiceGenerator;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.data.api.response.ListResponse;
 import id.zelory.codepolitan.data.api.response.ObjectResponse;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 import rx.Observable;
 
@@ -83,5 +84,9 @@ public enum CodePolitanApi
 
         @GET("/tags/popular/{page}")
         Observable<ListResponse<Tag>> getPopularTags(@Path("page") int page);
+
+        @FormUrlEncoded
+        @POST("/posts/search")
+        Observable<ListResponse<Article>> searchArticles(@Field("keyword") String keyword, @Field("page") int page);
     }
 }
