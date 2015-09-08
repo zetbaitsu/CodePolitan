@@ -112,16 +112,13 @@ public class ChooseTagFragment extends BenihFragment implements TagController.Pr
 
     private void submit(View view)
     {
-        if (fromWelcomeActivity)
-        {
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-            getActivity().finish();
-        }
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     private void setUpSwipeLayout()
@@ -144,12 +141,10 @@ public class ChooseTagFragment extends BenihFragment implements TagController.Pr
         {
             new Handler().postDelayed(this::onRefresh, 800);
         }
-        if (fromWelcomeActivity)
-        {
-            FollowController followController = new FollowController(this);
-            followController.loadFollowedCategories();
-            followController.loadFollowedTags();
-        }
+
+        FollowController followController = new FollowController(this);
+        followController.loadFollowedCategories();
+        followController.loadFollowedTags();
     }
 
     private void setUpRecyclerView()

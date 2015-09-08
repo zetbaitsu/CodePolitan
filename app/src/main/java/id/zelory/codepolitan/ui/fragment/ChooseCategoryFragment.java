@@ -16,6 +16,7 @@
 
 package id.zelory.codepolitan.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -37,7 +38,10 @@ import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.CategoryController;
+import id.zelory.codepolitan.controller.FollowController;
 import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.ui.MainActivity;
 import id.zelory.codepolitan.ui.adapter.ChooseCategoryAdapter;
 import timber.log.Timber;
 
@@ -50,7 +54,7 @@ import timber.log.Timber;
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class ChooseCategoryFragment extends BenihFragment implements CategoryController.Presenter,
-        SwipeRefreshLayout.OnRefreshListener
+        SwipeRefreshLayout.OnRefreshListener, FollowController.Presenter
 {
     @Bind(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.recycler_view) BenihRecyclerView recyclerView;
@@ -101,7 +105,13 @@ public class ChooseCategoryFragment extends BenihFragment implements CategoryCon
 
     private void submit(View view)
     {
-
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     private void onTextSearchChanges(String query)
@@ -131,6 +141,12 @@ public class ChooseCategoryFragment extends BenihFragment implements CategoryCon
         } else
         {
             new Handler().postDelayed(this::onRefresh, 800);
+        }
+
+        if (!fromWelcomeActivity)
+        {
+            FollowController followController = new FollowController(this);
+            followController.loadFollowedCategories();
         }
     }
 
@@ -209,5 +225,41 @@ public class ChooseCategoryFragment extends BenihFragment implements CategoryCon
         {
             dismissLoading();
         }
+    }
+
+    @Override
+    public void showFollowedCategories(List<Category> categories)
+    {
+        btnDone.setVisibility(categories.size() >= 5 ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    @Override
+    public void showFollowedTags(List<Tag> tags)
+    {
+
+    }
+
+    @Override
+    public void onFollow(Category category)
+    {
+
+    }
+
+    @Override
+    public void onFollow(Tag tag)
+    {
+
+    }
+
+    @Override
+    public void onUnFollow(Category category)
+    {
+
+    }
+
+    @Override
+    public void onUnFollow(Tag tag)
+    {
+
     }
 }

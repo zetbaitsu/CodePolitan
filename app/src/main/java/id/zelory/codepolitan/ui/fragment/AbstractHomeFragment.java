@@ -36,6 +36,7 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
+import timber.log.Timber;
 
 /**
  * Created on : August 3, 2015
@@ -74,7 +75,7 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
                     {
                         onMenuCreated((Menu) o);
                     }
-                });
+                }, throwable -> Timber.e(throwable.getMessage()));
         currentPage = bundle != null ? bundle.getInt("currentPage") : 1;
         setUpSwipeLayout();
         setUpAdapter(bundle);

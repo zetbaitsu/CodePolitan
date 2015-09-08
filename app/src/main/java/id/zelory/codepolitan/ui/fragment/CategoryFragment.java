@@ -36,6 +36,7 @@ import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.ui.ChooseActivity;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.adapter.CategoryAdapter;
+import timber.log.Timber;
 
 /**
  * Created on : August 4, 2015
@@ -68,7 +69,7 @@ public class CategoryFragment extends BenihFragment implements SwipeRefreshLayou
             {
                 onOtherCategoriesClick();
             }
-        });
+        }, throwable -> Timber.e(throwable.getMessage()));
         setUpSwipeLayout();
         setUpAdapter(bundle);
         setUpRecyclerView();

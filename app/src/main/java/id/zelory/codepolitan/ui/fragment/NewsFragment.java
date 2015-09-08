@@ -31,6 +31,7 @@ import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.NewsAdapter;
+import timber.log.Timber;
 
 /**
  * Created on : July 28, 2015
@@ -58,7 +59,7 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
                     {
                         onMoreNewsHeaderClick();
                     }
-                });
+                }, throwable -> Timber.e(throwable.getMessage()));
         super.onViewReady(bundle);
     }
 
