@@ -28,6 +28,7 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.ui.fragment.ArticlesByCategoryFragment;
 import id.zelory.codepolitan.ui.fragment.ArticlesByTagFragment;
 import id.zelory.codepolitan.ui.fragment.OthersArticlesFragment;
+import id.zelory.codepolitan.ui.fragment.SearchArticlesFragment;
 
 /**
  * Created on : August 30, 2015
@@ -42,8 +43,10 @@ public class ListArticleActivity extends BenihActivity
     public static final int TYPE_CATEGORY = 1;
     public static final int TYPE_TAG = 2;
     public static final int TYPE_OTHER = 3;
+    public static final int TYPE_SEARCH = 4;
     public static final String KEY_TYPE = "type";
     public static final String KEY_DATA = "data";
+    public static final String KEY_KEYWORD = "keyword";
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     private int type;
@@ -85,6 +88,11 @@ public class ListArticleActivity extends BenihActivity
             case TYPE_OTHER:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.list_container, new OthersArticlesFragment())
+                        .commit();
+                break;
+            case TYPE_SEARCH:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.list_container, SearchArticlesFragment.getInstance(getIntent().getStringExtra(KEY_KEYWORD)))
                         .commit();
                 break;
         }

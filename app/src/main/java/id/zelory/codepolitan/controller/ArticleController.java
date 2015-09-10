@@ -471,16 +471,22 @@ public class ArticleController extends BenihController<ArticleController.Present
 
     public void filter(String query)
     {
-        Observable.from(articles)
-                .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.NEW_THREAD))
-                .filter(article -> article.getTitle().toLowerCase().contains(query.toLowerCase()))
-                .map(article -> {
-                    article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
-                    article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
-                    return article;
-                })
-                .toList()
-                .subscribe(presenter::showFilteredArticles, presenter::showError);
+        if (articles != null)
+        {
+            Observable.from(articles)
+                    .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.NEW_THREAD))
+                    .filter(article -> article.getTitle().toLowerCase().contains(query.toLowerCase()))
+                    .map(article -> {
+                        article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                        article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                        return article;
+                    })
+                    .toList()
+                    .subscribe(presenter::showFilteredArticles, presenter::showError);
+        } else
+        {
+            presenter.showFilteredArticles(new ArrayList<>());
+        }
     }
 
 

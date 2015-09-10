@@ -22,11 +22,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import id.zelory.benih.util.BenihBus;
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.event.MoreNewsHeaderEvent;
+import id.zelory.codepolitan.controller.event.SearchFooterEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.ReadActivity;
@@ -58,9 +60,20 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
                     if (o instanceof MoreNewsHeaderEvent)
                     {
                         onMoreNewsHeaderClick();
+                    }else if (o instanceof SearchFooterEvent)
+                    {
+                        onSearchFooterClick();
                     }
                 }, throwable -> Timber.e(throwable.getMessage()));
         super.onViewReady(bundle);
+    }
+
+    private void onSearchFooterClick()
+    {
+        Intent intent = new Intent(getActivity(), ListArticleActivity.class);
+        intent.putExtra(ListArticleActivity.KEY_TYPE, ListArticleActivity.TYPE_SEARCH);
+        intent.putExtra(ListArticleActivity.KEY_KEYWORD, searchView.getQuery().toString());
+        startActivity(intent);
     }
 
     private void onMoreNewsHeaderClick()
@@ -124,6 +137,17 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
         {
             dismissLoading();
         }
+    }
+
+    @Override
+    public void showFilteredArticles(List<Article> articles)
+    {
+        adapter.clear();
+        if (!adapter.isHasHeader())
+        {
+            articles.add(new Article());
+        }
+        adapter.add(articles);
     }
 
     @Override
