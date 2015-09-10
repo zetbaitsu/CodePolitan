@@ -30,9 +30,9 @@ import butterknife.Bind;
 import id.zelory.benih.BenihActivity;
 import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.adapter.ReadPagerAdapter;
 import id.zelory.codepolitan.ui.fragment.ReadFragment;
-import id.zelory.codepolitan.data.Article;
 
 /**
  * Created on : July 28, 2015
@@ -67,6 +67,11 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         readFragments = new ArrayList<>();
         articles = bundle != null ? bundle.getParcelableArrayList("data") : getIntent().getParcelableArrayListExtra("data");
         position = bundle != null ? bundle.getInt("position", 0) : getIntent().getIntExtra("position", 0);
+
+        if (articles.get(articles.size() - 1).getTitle() == null)
+        {
+            articles.remove(articles.size() - 1);
+        }
 
         BenihWorker.pluck()
                 .doInNewThread(this::generateFragments)
