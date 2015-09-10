@@ -89,9 +89,23 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
         thumbnail.setImageUrl(article.isBig() ? article.getThumbnailMedium() : article.getThumbnailSmall(), ivError);
         ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
         ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
+        ivBookmark.setOnLongClickListener(this::onBookmarkLongClick);
         ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);
         ivReadLater.setOnClickListener(v -> readLaterController.readLater(article));
+        ivReadLater.setOnLongClickListener(this::onReadLaterLongClick);
         tvMore.setOnClickListener(v -> BenihBus.pluck().send(new MoreNewsHeaderEvent()));
+    }
+
+    private boolean onReadLaterLongClick(View view)
+    {
+        Snackbar.make(view, CodePolitanApplication.pluck().getString(R.string.read_later_desc), Snackbar.LENGTH_SHORT).show();
+        return true;
+    }
+
+    private boolean onBookmarkLongClick(View view)
+    {
+        Snackbar.make(view, CodePolitanApplication.pluck().getString(R.string.bookmark_desc), Snackbar.LENGTH_SHORT).show();
+        return true;
     }
 
     @Override

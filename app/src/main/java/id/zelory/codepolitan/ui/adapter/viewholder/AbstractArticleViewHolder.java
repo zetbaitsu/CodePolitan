@@ -27,7 +27,6 @@ import java.util.List;
 import butterknife.Bind;
 import id.zelory.benih.adapter.viewholder.BenihItemViewHolder;
 import id.zelory.benih.util.BenihUtils;
-import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
@@ -73,8 +72,22 @@ public abstract class AbstractArticleViewHolder extends BenihItemViewHolder<Arti
         thumbnail.setBackgroundColor(BenihUtils.getRandomColor());
         ivBookmark.setImageResource(article.isBookmarked() ? R.mipmap.ic_bookmark_on : R.mipmap.ic_bookmark);
         ivBookmark.setOnClickListener(v -> bookmarkController.bookmark(article));
+        ivBookmark.setOnLongClickListener(this::onBookmarkLongClick);
         ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);
         ivReadLater.setOnClickListener(v -> readLaterController.readLater(article));
+        ivReadLater.setOnLongClickListener(this::onReadLaterLongClick);
+    }
+
+    private boolean onReadLaterLongClick(View view)
+    {
+        Snackbar.make(view, CodePolitanApplication.pluck().getString(R.string.read_later_desc), Snackbar.LENGTH_SHORT).show();
+        return true;
+    }
+
+    private boolean onBookmarkLongClick(View view)
+    {
+        Snackbar.make(view, CodePolitanApplication.pluck().getString(R.string.bookmark_desc), Snackbar.LENGTH_SHORT).show();
+        return true;
     }
 
     protected abstract void setThumbnail(Article article);

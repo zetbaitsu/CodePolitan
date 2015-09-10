@@ -38,4 +38,6 @@
     <string name="hint_category">Find your category</string>
     <string name="min_choose_tag">Please Choose Min 5 Tags</string>
     <string name="hint_tag">Find your tag</string>
+    <string name="read_later_desc">Click to read later this article.</string>
+    <string name="bookmark_desc">Click to bookmark this article.</string>
 </resources>
