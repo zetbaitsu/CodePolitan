@@ -1,6 +1,4 @@
-{
-  "english": {
-    "wordeight": [
+[
       {
         "-id": "0",
         "-datecreated": "27052015",
@@ -602,5 +600,3 @@
         "thelengtheight": "11"
       }
     ]
-  }
-}
