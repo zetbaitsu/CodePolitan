@@ -24,6 +24,7 @@ package id.zelory.codepolitan.controller.util;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
+@Deprecated
 public class ArticleUtil
 {
     public static String getSmallImage(String url)
