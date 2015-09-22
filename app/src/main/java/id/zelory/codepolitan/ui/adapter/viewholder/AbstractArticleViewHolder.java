@@ -149,4 +149,10 @@ public abstract class AbstractArticleViewHolder extends BenihItemViewHolder<Arti
         ivReadLater.startAnimation(animation);
         ivReadLater.setImageResource(R.mipmap.ic_read_later);
     }
+
+    @Override
+    public void showFilteredArticles(List<Article> articles)
+    {
+
+    }
 }

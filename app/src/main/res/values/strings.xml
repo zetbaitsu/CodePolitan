@@ -40,4 +40,8 @@
     <string name="hint_tag">Find your tag</string>
     <string name="read_later_desc">Click to read later this article.</string>
     <string name="bookmark_desc">Click to bookmark this article.</string>
+    <string name="read_later">Read Later</string>
+    <string name="read_later_slogan">Articles you want read it later</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="bookmark_slogan">Your bookmarked articles</string>
 </resources>

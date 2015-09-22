@@ -148,6 +148,12 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
     }
 
     @Override
+    public void showFilteredArticles(List<Article> articles)
+    {
+
+    }
+
+    @Override
     public void showListReadLaterArticles(List<Article> listArticle)
     {
 

@@ -18,6 +18,7 @@ package id.zelory.codepolitan.controller;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
@@ -25,6 +26,7 @@ import id.zelory.benih.util.BenihScheduler;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
+import rx.Observable;
 import timber.log.Timber;
 
 /**
@@ -37,6 +39,8 @@ import timber.log.Timber;
  */
 public class BookmarkController extends BenihController<BookmarkController.Presenter>
 {
+    private List<Article> articles;
+
     public BookmarkController(Presenter presenter)
     {
         super(presenter);
@@ -49,6 +53,7 @@ public class BookmarkController extends BenihController<BookmarkController.Prese
                 .getBookmarkedArticles()
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
                 .subscribe(articles -> {
+                    this.articles = articles;
                     if (presenter != null)
                     {
                         presenter.showListBookmarkedArticles(articles);
@@ -79,6 +84,26 @@ public class BookmarkController extends BenihController<BookmarkController.Prese
         }
     }
 
+    public void filter(String query)
+    {
+        if (articles != null)
+        {
+            Observable.from(articles)
+                    .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.NEW_THREAD))
+                    .filter(article -> article.getTitle().toLowerCase().contains(query.toLowerCase()))
+                    .map(article -> {
+                        article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                        article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                        return article;
+                    })
+                    .toList()
+                    .subscribe(presenter::showFilteredArticles, presenter::showError);
+        } else
+        {
+            presenter.showFilteredArticles(new ArrayList<>());
+        }
+    }
+
     @Override
     public void saveState(Bundle bundle)
     {
@@ -98,5 +123,7 @@ public class BookmarkController extends BenihController<BookmarkController.Prese
         void onBookmark(Article article);
 
         void onUnBookmark(Article article);
+
+        void showFilteredArticles(List<Article> articles);
     }
 }

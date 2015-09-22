@@ -27,6 +27,8 @@ import id.zelory.benih.BenihActivity;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.ui.fragment.ArticlesByCategoryFragment;
 import id.zelory.codepolitan.ui.fragment.ArticlesByTagFragment;
+import id.zelory.codepolitan.ui.fragment.ListBookmarkFragment;
+import id.zelory.codepolitan.ui.fragment.ListReadLaterFragment;
 import id.zelory.codepolitan.ui.fragment.OthersArticlesFragment;
 import id.zelory.codepolitan.ui.fragment.SearchArticlesFragment;
 
@@ -44,6 +46,8 @@ public class ListArticleActivity extends BenihActivity
     public static final int TYPE_TAG = 2;
     public static final int TYPE_OTHER = 3;
     public static final int TYPE_SEARCH = 4;
+    public static final int TYPE_READ_LATER = 5;
+    public static final int TYPE_BOOKMARK = 6;
     public static final String KEY_TYPE = "type";
     public static final String KEY_DATA = "data";
     public static final String KEY_KEYWORD = "keyword";
@@ -93,6 +97,16 @@ public class ListArticleActivity extends BenihActivity
             case TYPE_SEARCH:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.list_container, SearchArticlesFragment.getInstance(getIntent().getStringExtra(KEY_KEYWORD)))
+                        .commit();
+                break;
+            case TYPE_READ_LATER:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.list_container, new ListReadLaterFragment())
+                        .commit();
+                break;
+            case TYPE_BOOKMARK:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.list_container, new ListBookmarkFragment())
                         .commit();
                 break;
         }

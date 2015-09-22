@@ -18,6 +18,7 @@ package id.zelory.codepolitan.controller;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
@@ -26,6 +27,7 @@ import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
+import rx.Observable;
 import timber.log.Timber;
 
 /**
@@ -38,6 +40,8 @@ import timber.log.Timber;
  */
 public class ReadLaterController extends BenihController<ReadLaterController.Presenter>
 {
+    private List<Article> articles;
+
     public ReadLaterController(Presenter presenter)
     {
         super(presenter);
@@ -50,6 +54,7 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
                 .getReadLaterArticles()
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
                 .subscribe(articles -> {
+                    this.articles = articles;
                     if (presenter != null)
                     {
                         presenter.showListReadLaterArticles(articles);
@@ -99,6 +104,26 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
         }
     }
 
+    public void filter(String query)
+    {
+        if (articles != null)
+        {
+            Observable.from(articles)
+                    .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.NEW_THREAD))
+                    .filter(article -> article.getTitle().toLowerCase().contains(query.toLowerCase()))
+                    .map(article -> {
+                        article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
+                        article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
+                        return article;
+                    })
+                    .toList()
+                    .subscribe(presenter::showFilteredArticles, presenter::showError);
+        } else
+        {
+            presenter.showFilteredArticles(new ArrayList<>());
+        }
+    }
+
     @Override
     public void saveState(Bundle bundle)
     {
@@ -118,5 +143,7 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
         void onReadLater(Article article);
 
         void onUnReadLater(Article article);
+
+        void showFilteredArticles(List<Article> articles);
     }
 }
