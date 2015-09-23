@@ -43,8 +43,8 @@
 
                     <ImageView
                         android:id="@+id/icon"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_margin="8dp"
                         android:src="@drawable/read_later_big"/>
 
@@ -53,7 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/icon"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:layout_toEndOf="@+id/icon"
                         android:layout_toRightOf="@+id/icon"
                         android:text="@string/read_later"
@@ -108,8 +108,8 @@
 
                     <ImageView
                         android:id="@+id/icon2"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_margin="8dp"
                         android:src="@drawable/bookmark_big"/>
 
@@ -118,7 +118,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/icon2"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:layout_toEndOf="@+id/icon2"
                         android:layout_toRightOf="@+id/icon2"
                         android:text="@string/bookmark"
