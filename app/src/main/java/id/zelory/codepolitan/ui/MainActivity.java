@@ -19,6 +19,7 @@ package id.zelory.codepolitan.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -64,6 +65,7 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
     @Bind(R.id.tab_layout) TabLayout tabLayout;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.spinner_nav) Spinner spinner;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected int getActivityView()
@@ -213,5 +215,20 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if (doubleBackToExitPressedOnce)
+        {
+            super.onBackPressed();
+            return;
+        }
+
+        doubleBackToExitPressedOnce = true;
+        Snackbar.make(viewPager, "Please click BACK again to exit.", Snackbar.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
 }
