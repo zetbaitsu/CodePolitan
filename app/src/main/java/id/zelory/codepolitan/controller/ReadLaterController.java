@@ -23,6 +23,7 @@ import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
+import id.zelory.benih.util.BenihUtils;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
@@ -54,6 +55,13 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
                 .getReadLaterArticles()
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
                 .subscribe(articles -> {
+                    int size = articles.size();
+                    for (int i = 0; i < size; i++)
+                    {
+                        articles.get(i).setBookmarked(DataBaseHelper.pluck().isBookmarked(articles.get(i).getId()));
+                        articles.get(i).setReadLater(DataBaseHelper.pluck().isReadLater(articles.get(i).getId()));
+                        articles.get(i).setBig(BenihUtils.randInt(0, 8) == 5);
+                    }
                     this.articles = articles;
                     if (presenter != null)
                     {
