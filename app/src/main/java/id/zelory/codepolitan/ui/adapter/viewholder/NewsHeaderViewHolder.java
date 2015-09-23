@@ -18,6 +18,7 @@ package id.zelory.codepolitan.ui.adapter.viewholder;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -37,6 +38,7 @@ import id.zelory.codepolitan.controller.RandomContentController;
 import id.zelory.codepolitan.controller.ReadLaterController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.controller.event.MoreNewsHeaderEvent;
+import id.zelory.codepolitan.controller.event.NewsHeaderEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
@@ -61,6 +63,7 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
     @Bind(R.id.iv_read_later) ImageView ivReadLater;
     @Bind(R.id.tv_more) TextView tvMore;
     @Bind(R.id.iv_error) ImageView ivError;
+    @Bind(R.id.card_view) CardView cardView;
     private BookmarkController bookmarkController;
     private ReadLaterController readLaterController;
     private RandomContentController randomContentController;
@@ -113,6 +116,7 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
     {
         this.articles = articles;
         bind(articles.get(0));
+        cardView.setOnClickListener(v -> BenihBus.pluck().send(new NewsHeaderEvent(this.articles)));
     }
 
     @Override

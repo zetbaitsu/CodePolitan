@@ -28,6 +28,7 @@ import id.zelory.benih.util.BenihBus;
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.event.MoreNewsHeaderEvent;
+import id.zelory.codepolitan.controller.event.NewsHeaderEvent;
 import id.zelory.codepolitan.controller.event.SearchFooterEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ListArticleActivity;
@@ -60,12 +61,23 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
                     if (o instanceof MoreNewsHeaderEvent)
                     {
                         onMoreNewsHeaderClick();
-                    }else if (o instanceof SearchFooterEvent)
+                    } else if (o instanceof SearchFooterEvent)
                     {
                         onSearchFooterClick();
+                    } else if (o instanceof NewsHeaderEvent)
+                    {
+                        onNewsHeaderClick((NewsHeaderEvent) o);
                     }
                 }, throwable -> Timber.e(throwable.getMessage()));
         super.onViewReady(bundle);
+    }
+
+    private void onNewsHeaderClick(NewsHeaderEvent newsHeaderEvent)
+    {
+        Intent intent = new Intent(getActivity(), ReadActivity.class);
+        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) newsHeaderEvent.getArticles());
+        intent.putExtra("position", 0);
+        startActivity(intent);
     }
 
     private void onSearchFooterClick()
