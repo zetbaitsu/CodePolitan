@@ -18,6 +18,7 @@ package id.zelory.codepolitan.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -188,7 +189,7 @@ public class UserFragment extends BenihFragment implements ReadLaterController.P
 
     private void onNullClick(View view)
     {
-
+        Snackbar.make(view, "You have empty articles in this section!", Snackbar.LENGTH_LONG).show();
     }
 
     private void onMoreClick(int type)
