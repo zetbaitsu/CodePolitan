@@ -28,10 +28,12 @@ import java.util.List;
 
 import butterknife.Bind;
 import id.zelory.benih.BenihActivity;
+import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.adapter.ReadPagerAdapter;
+import id.zelory.codepolitan.ui.fragment.ImageReadFragment;
 import id.zelory.codepolitan.ui.fragment.ReadFragment;
 
 /**
@@ -46,7 +48,7 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
 {
     private ViewPager viewPager;
     private ReadPagerAdapter adapter;
-    private List<ReadFragment> readFragments;
+    private List<BenihFragment> readFragments;
     private List<Article> articles;
     private int position;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -96,11 +98,20 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     private void generateFragments()
     {
         readFragments.clear();
-        for (Article article : articles)
+        int size = articles.size();
+        for (int i = 0; i < size; i++)
         {
-            ReadFragment readFragment = new ReadFragment();
-            readFragment.setData(article);
-            readFragments.add(readFragment);
+            if (Article.TYPE_NEWS.equalsIgnoreCase(articles.get(i).getPostType()))
+            {
+                ReadFragment readFragment = new ReadFragment();
+                readFragment.setData(articles.get(i));
+                readFragments.add(readFragment);
+            } else
+            {
+                ImageReadFragment imageReadFragment = new ImageReadFragment();
+                imageReadFragment.setData(articles.get(i));
+                readFragments.add(imageReadFragment);
+            }
         }
     }
 

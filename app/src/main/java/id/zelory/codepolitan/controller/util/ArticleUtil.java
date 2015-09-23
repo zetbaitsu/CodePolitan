@@ -16,6 +16,8 @@
 
 package id.zelory.codepolitan.controller.util;
 
+import id.zelory.codepolitan.data.Article;
+
 /**
  * Created on : August 5, 2015
  * Author     : zetbaitsu
@@ -24,49 +26,21 @@ package id.zelory.codepolitan.controller.util;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-@Deprecated
 public class ArticleUtil
 {
-    public static String getSmallImage(String url)
+    public static String getFullImage(Article article)
     {
-        if (url.contains("-350x175"))
+        try
         {
-            return url.replace("-350x175", "-150x150");
-        } else if (url.contains("-150x150"))
-        {
-            return url;
-        } else
-        {
-            int x;
-            x = url.endsWith("jpeg") ? 5 : 4;
-            String pre = url.substring(0, url.length() - x);
-            String post = url.substring(pre.length());
-            url = pre + "-150x150" + post;
-            return url;
-        }
-    }
+            String url = article.getContent().substring(article.getContent().indexOf("src=\""));
+            url = url.substring("src=\"".length());
+            url = url.substring(0, url.indexOf("\""));
 
-    public static String getMediumImage(String url)
-    {
-        if (url.contains("-150x150"))
-        {
-            return url.replace("-150x150", "-350x175");
-        } else if (url.contains("-350x175"))
-        {
             return url;
-        } else
+        } catch (Exception e)
         {
-            int x;
-            x = url.endsWith("jpeg") ? 5 : 4;
-            String pre = url.substring(0, url.length() - x);
-            String post = url.substring(pre.length());
-            url = pre + "-350x175" + post;
-            return url;
+            return article.getThumbnailMedium();
         }
-    }
 
-    public static String getBigImage(String url)
-    {
-        return url.contains("-350x175") ? url.replace("-350x175", "") : url.replace("-150x150", "");
     }
 }

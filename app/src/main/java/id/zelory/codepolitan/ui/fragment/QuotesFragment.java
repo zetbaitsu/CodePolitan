@@ -59,7 +59,7 @@ public class QuotesFragment extends AbstractHomeFragment<QuoteAdapter>
             public void onLoadMore(int i)
             {
                 currentPage++;
-                articleController.loadArticles("quotes", currentPage);
+                articleController.loadArticles(Article.TYPE_QUOTE, currentPage);
             }
         });
     }
@@ -85,7 +85,7 @@ public class QuotesFragment extends AbstractHomeFragment<QuoteAdapter>
         if (!searching)
         {
             super.onRefresh();
-            articleController.loadArticles("quotes", currentPage);
+            articleController.loadArticles(Article.TYPE_QUOTE, currentPage);
         } else
         {
             dismissLoading();

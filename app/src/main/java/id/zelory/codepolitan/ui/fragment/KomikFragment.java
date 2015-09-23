@@ -56,7 +56,7 @@ public class KomikFragment extends AbstractHomeFragment<KomikAdapter>
             public void onLoadMore(int i)
             {
                 currentPage++;
-                articleController.loadArticles("nyankomik", currentPage);
+                articleController.loadArticles(Article.TYPE_KOMIK, currentPage);
             }
         });
     }
@@ -97,7 +97,7 @@ public class KomikFragment extends AbstractHomeFragment<KomikAdapter>
         if (!searching)
         {
             super.onRefresh();
-            articleController.loadArticles("nyankomik", currentPage);
+            articleController.loadArticles(Article.TYPE_KOMIK, currentPage);
         } else
         {
             dismissLoading();

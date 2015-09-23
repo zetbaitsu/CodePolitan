@@ -55,7 +55,7 @@ public class MemeFragment extends AbstractHomeFragment<MemeAdapter>
             public void onLoadMore(int i)
             {
                 currentPage++;
-                articleController.loadArticles("meme", currentPage);
+                articleController.loadArticles(Article.TYPE_MEME, currentPage);
             }
         });
     }
@@ -81,7 +81,7 @@ public class MemeFragment extends AbstractHomeFragment<MemeAdapter>
         if (!searching)
         {
             super.onRefresh();
-            articleController.loadArticles("meme", currentPage);
+            articleController.loadArticles(Article.TYPE_MEME, currentPage);
         } else
         {
             dismissLoading();

@@ -53,6 +53,11 @@ public class ArticleController extends BenihController<ArticleController.Present
         super(presenter);
     }
 
+    public void setArticle(Article article)
+    {
+        this.article = article;
+    }
+
     public void loadArticle(int id)
     {
         presenter.showLoading();
@@ -343,6 +348,7 @@ public class ArticleController extends BenihController<ArticleController.Present
                     article.setBookmarked(DataBaseHelper.pluck().isBookmarked(article.getId()));
                     article.setReadLater(DataBaseHelper.pluck().isReadLater(article.getId()));
                     article.setBig(BenihUtils.randInt(0, 8) == 5);
+                    article.setPostType(postType);
                     return article;
                 })
                 .toList()

@@ -21,7 +21,7 @@ import android.support.v4.app.FragmentManager;
 import java.util.List;
 
 import id.zelory.benih.adapter.BenihPagerAdapter;
-import id.zelory.codepolitan.ui.fragment.ReadFragment;
+import id.zelory.benih.fragment.BenihFragment;
 
 /**
  * Created on : July 28, 2015
@@ -31,15 +31,15 @@ import id.zelory.codepolitan.ui.fragment.ReadFragment;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class ReadPagerAdapter extends BenihPagerAdapter<ReadFragment>
+public class ReadPagerAdapter extends BenihPagerAdapter<BenihFragment>
 {
-    public ReadPagerAdapter(FragmentManager fm, List<ReadFragment> readFragments)
+    public ReadPagerAdapter(FragmentManager fm, List<BenihFragment> readFragments)
     {
         super(fm, readFragments);
     }
 
     @Override
-    public ReadFragment getItem(int i)
+    public BenihFragment getItem(int i)
     {
         return fragments.get(i);
     }

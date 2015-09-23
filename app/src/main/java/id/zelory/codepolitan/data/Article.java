@@ -31,6 +31,11 @@ import java.util.List;
  */
 public class Article implements Parcelable
 {
+    public final static String TYPE_NEWS = "news";
+    public final static String TYPE_KOMIK = "nyankomik";
+    public final static String TYPE_MEME = "meme";
+    public final static String TYPE_QUOTE = "quotes";
+
     private int id;
     private String slug;
     private String title;
@@ -50,7 +55,7 @@ public class Article implements Parcelable
 
     public Article()
     {
-
+        postType = TYPE_NEWS;
     }
 
     protected Article(Parcel in)
