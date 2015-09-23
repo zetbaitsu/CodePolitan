@@ -68,6 +68,10 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
         if (bundle != null)
         {
             articleController.loadState(bundle);
+        } else if (data.getContent() != null)
+        {
+            showArticle(data);
+            articleController.setArticle(data);
         } else
         {
             articleController.loadArticle(data.getId());

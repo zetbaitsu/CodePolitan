@@ -118,7 +118,8 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_read, menu);
+        return true;
     }
 
     @Override
