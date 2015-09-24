@@ -93,16 +93,14 @@ public class BenihWebView extends WebView
         super(context, attrs, defStyleAttr);
     }
 
-    public void loadData(String title, String tanggal, String thumbnail, String content, String copyright)
+    public void loadData(String content)
     {
         content = content.replaceAll("(\r\n|\n)", "<br />");
-        loadDataWithBaseURL(null, generateHtml(title, tanggal, thumbnail, content, copyright), TEXT_HTML, "utf-8", null);
+        loadDataWithBaseURL(null, generateHtml(content), TEXT_HTML, "utf-8", null);
     }
 
-    private String generateHtml(String title, String tanggal, String thumbnail, String content, String copyright)
+    private String generateHtml(String content)
     {
-        return CSS + BODY_START + TITLE_START + "" + TITLE_MIDDLE + title + TITLE_END + SUBTITLE_START + tanggal + SUBTITLE_END
-                + IMG_START + thumbnail + IMG_END + CONTENT_START + content + CONTENT_END
-                + SUBTITLE_START + "<center><b>&copy; " + copyright + "</b></center>" + SUBTITLE_END + BODY_END;
+        return CSS + BODY_START + CONTENT_START + content + CONTENT_END + BODY_END;
     }
 }

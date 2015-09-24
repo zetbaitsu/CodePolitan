@@ -17,20 +17,36 @@
 package id.zelory.codepolitan.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import id.zelory.benih.fragment.BenihFragment;
+import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
+import id.zelory.codepolitan.controller.RandomContentController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.ui.ListArticleActivity;
+import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.view.BenihWebView;
+import id.zelory.codepolitan.ui.view.OtherArticleItemView;
 
 /**
  * Created on : July 28, 2015
@@ -40,10 +56,19 @@ import id.zelory.codepolitan.ui.view.BenihWebView;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class ReadFragment extends BenihFragment<Article> implements ArticleController.Presenter
+public class ReadFragment extends BenihFragment<Article> implements ArticleController.Presenter,
+        RandomContentController.Presenter, SwipeRefreshLayout.OnRefreshListener
 {
     private ArticleController articleController;
+    private RandomContentController randomContentController;
+    @Bind(R.id.image) BenihImageView image;
+    @Bind(R.id.title) TextView title;
+    @Bind(R.id.date) TextView date;
+    @Bind(R.id.category) TextView category;
     @Bind(R.id.content) BenihWebView content;
+    @Bind(R.id.ll_tags) LinearLayout llTags;
+    @Bind(R.id.ll_other_articles) LinearLayout llOtherArticles;
+    @Bind(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected int getFragmentView()
@@ -56,6 +81,13 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     {
         setupWebView();
         setupController(bundle);
+        setUpSwipeLayout();
+    }
+
+    protected void setUpSwipeLayout()
+    {
+        swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void setupController(Bundle bundle)
@@ -74,7 +106,20 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
             articleController.setArticle(data);
         } else
         {
-            articleController.loadArticle(data.getId());
+            new Handler().postDelayed(() -> articleController.loadArticle(data.getId()), 800);
+        }
+
+        if (randomContentController == null)
+        {
+            randomContentController = new RandomContentController(this);
+        }
+
+        if (bundle != null)
+        {
+            randomContentController.loadState(bundle);
+        } else
+        {
+            new Handler().postDelayed(randomContentController::loadRandomArticles, 800);
         }
     }
 
@@ -82,17 +127,89 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     public void onSaveInstanceState(Bundle outState)
     {
         articleController.saveState(outState);
+        randomContentController.saveState(outState);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void showArticle(Article article)
     {
-        content.loadData(article.getTitle(), article.getDate(), article.getThumbnailMedium(), article.getContent(), "CodePolitan 2015");
+        image.setImageUrl(article.getThumbnailMedium());
+        title.setText(Html.fromHtml(article.getTitle()));
+        date.setText(article.getDateClear());
+        if (article.getCategory() != null && !article.getCategory().isEmpty())
+        {
+            category.setText(Html.fromHtml(article.getCategory().get(0).getName()));
+            category.setOnClickListener(v -> onCategoryClick(article.getCategory().get(0)));
+        }
+        content.loadData(article.getContent());
+        llTags.removeAllViews();
+        int size = article.getTags().size();
+        for (int i = 0; i < size; i++)
+        {
+            TextView tag = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.item_tag_read, llTags, false);
+            tag.setText(Html.fromHtml(String.format("# %s", article.getTags().get(i).getName())));
+            final int position = i;
+            tag.setOnClickListener(v -> onTagClick(article.getTags().get(position)));
+            llTags.addView(tag);
+        }
+    }
+
+    private void onTagClick(Tag tag)
+    {
+        Intent intent = new Intent(getActivity(), ListArticleActivity.class);
+        intent.putExtra(ListArticleActivity.KEY_TYPE, ListArticleActivity.TYPE_TAG);
+        intent.putExtra(ListArticleActivity.KEY_DATA, tag);
+        startActivity(intent);
+    }
+
+    private void onCategoryClick(Category category)
+    {
+        Intent intent = new Intent(getActivity(), ListArticleActivity.class);
+        intent.putExtra(ListArticleActivity.KEY_TYPE, ListArticleActivity.TYPE_CATEGORY);
+        intent.putExtra(ListArticleActivity.KEY_DATA, category);
+        startActivity(intent);
     }
 
     @Override
     public void showArticles(List<Article> articles)
+    {
+
+    }
+
+    @Override
+    public void showRandomArticles(List<Article> articles)
+    {
+        llOtherArticles.removeAllViews();
+        int size = articles.size();
+        for (int i = 5; i < size; i++)
+        {
+            Article article = articles.get(i);
+            View itemView = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_news_mini, llOtherArticles, false);
+            OtherArticleItemView otherArticleItemView = new OtherArticleItemView(itemView);
+            otherArticleItemView.bind(article);
+            final int position = i;
+            otherArticleItemView.getView().setOnClickListener(v -> onOtherArticleClick(articles, position));
+            llOtherArticles.addView(otherArticleItemView.getView());
+        }
+    }
+
+    private void onOtherArticleClick(List<Article> articles, int position)
+    {
+        Intent intent = new Intent(getActivity(), ReadActivity.class);
+        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) articles);
+        intent.putExtra("position", position);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showRandomCategory(Category category)
+    {
+
+    }
+
+    @Override
+    public void showRandomTag(Tag tag)
     {
 
     }
@@ -106,13 +223,13 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     @Override
     public void showLoading()
     {
-
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void dismissLoading()
     {
-
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -125,7 +242,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
                 break;
             case ErrorEvent.LOAD_ARTICLE:
                 Snackbar.make(content, R.string.error_message, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.retry, v -> articleController.loadArticle(data.getId()))
+                        .setAction(R.string.retry, v -> onRefresh())
                         .show();
                 break;
         }
@@ -139,5 +256,12 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
         content.setHorizontalScrollBarEnabled(false);
         content.setWebChromeClient(new WebChromeClient());
         content.getSettings().setJavaScriptEnabled(true);
+    }
+
+    @Override
+    public void onRefresh()
+    {
+        articleController.loadArticle(data.getId());
+        randomContentController.loadRandomArticles();
     }
 }

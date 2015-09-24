@@ -18,6 +18,7 @@ package id.zelory.codepolitan.ui;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -46,12 +47,13 @@ import id.zelory.codepolitan.ui.fragment.ReadFragment;
  */
 public class ReadActivity extends BenihActivity implements ViewPager.OnPageChangeListener
 {
-    private ViewPager viewPager;
     private ReadPagerAdapter adapter;
     private List<BenihFragment> readFragments;
     private List<Article> articles;
     private int position;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.pager) ViewPager viewPager;
+    @Bind(R.id.app_bar_layout) AppBarLayout appBarLayout;
 
     @Override
     protected int getActivityView()
@@ -65,7 +67,6 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        viewPager = (ViewPager) findViewById(R.id.pager);
         readFragments = new ArrayList<>();
         articles = bundle != null ? bundle.getParcelableArrayList("data") : getIntent().getParcelableArrayListExtra("data");
         position = bundle != null ? bundle.getInt("position", 0) : getIntent().getIntExtra("position", 0);
