@@ -16,12 +16,20 @@
 
 package id.zelory.codepolitan.ui;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.GridHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +37,13 @@ import java.util.List;
 import butterknife.Bind;
 import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
+import id.zelory.benih.util.BenihUtils;
 import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.ReadLaterController;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.ui.adapter.MenuShareAdapter;
 import id.zelory.codepolitan.ui.adapter.ReadPagerAdapter;
 import id.zelory.codepolitan.ui.fragment.ImageReadFragment;
 import id.zelory.codepolitan.ui.fragment.ReadFragment;
@@ -57,6 +67,7 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     private BookmarkController bookmarkController;
     private MenuItem menuReadLater;
     private MenuItem menuBookmark;
+    private DialogPlus dialogPlus;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.pager) ViewPager viewPager;
 
@@ -90,6 +101,8 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
 
         readLaterController = new ReadLaterController(this);
         bookmarkController = new BookmarkController(this);
+
+        setUpShareMenu();
     }
 
     private void setUpViewPager()
@@ -135,6 +148,49 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         return true;
     }
 
+    private void setUpShareMenu()
+    {
+        dialogPlus = DialogPlus.newDialog(this)
+                .setContentHolder(new GridHolder(4))
+                .setHeader(R.layout.menu_header_share)
+                .setFooter(R.layout.menu_footer_share)
+                .setCancelable(true)
+                .setAdapter(new MenuShareAdapter(this))
+                .setOnItemClickListener((dialogPlus, o, view, i) -> {
+                    String packageName = "";
+                    switch (i)
+                    {
+                        case 0:
+                            packageName = "com.google.android.apps.plus";
+                            break;
+                        case 1:
+                            packageName = "email";
+                            break;
+                        case 2:
+                            packageName = "com.facebook.orca";
+                            break;
+                        case 3:
+                            packageName = "com.whatsapp";
+                            break;
+                        case 4:
+                            packageName = "sms";
+                            break;
+                        case 5:
+                            packageName = "com.facebook.katana";
+                            break;
+                        case 6:
+                            packageName = "com.twitter.android";
+                            break;
+                        case 7:
+                            packageName = "more";
+                            break;
+                    }
+                    onShareArticle(packageName);
+                    dialogPlus.dismiss();
+                })
+                .create();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -144,7 +200,13 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
                 onBackPressed();
                 break;
             case R.id.action_share:
-                onShareArticle();
+                if (dialogPlus != null && dialogPlus.isShowing())
+                {
+                    dialogPlus.dismiss();
+                } else if (dialogPlus != null)
+                {
+                    dialogPlus.show();
+                }
                 break;
             case R.id.action_read_later:
                 readLaterController.readLater(articles.get(position));
@@ -156,9 +218,63 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         return true;
     }
 
-    private void onShareArticle()
+    private void onShareArticle(String packageName)
     {
         Article article = articles.get(position);
+
+        if ("more".equals(packageName))
+        {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, Html.fromHtml(article.getTitle()));
+            intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(article.getTitle()) + "\n" + article.getLink());
+            startActivity(Intent.createChooser(intent, "Share"));
+        } else if ("email".equals(packageName))
+        {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto:"));
+            intent.putExtra(Intent.EXTRA_SUBJECT, Html.fromHtml(article.getTitle()));
+            intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(article.getTitle()) + "\n" + article.getLink());
+            startActivity(intent);
+        } else if ("sms".equals(packageName))
+        {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("smsto:"));
+            intent.putExtra(Intent.EXTRA_SUBJECT, Html.fromHtml(article.getTitle()));
+            intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(article.getTitle()) + "\n" + article.getLink());
+            startActivity(intent);
+        } else
+        {
+            boolean shared = false;
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, Html.fromHtml(article.getTitle()));
+            intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(article.getTitle()) + "\n" + article.getLink());
+
+            for (ResolveInfo resolveInfo : getPackageManager().queryIntentActivities(intent, 0))
+            {
+                if (packageName.equals(resolveInfo.activityInfo.packageName))
+                {
+                    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setComponent(new ComponentName(packageName, resolveInfo.activityInfo.name));
+                    startActivity(intent);
+                    shared = true;
+                    break;
+                }
+            }
+
+            if (!shared)
+            {
+                openPlayStore(packageName);
+            }
+        }
+    }
+
+    private void openPlayStore(String packageName)
+    {
+        startActivity(new Intent(Intent.ACTION_VIEW,
+                                 Uri.parse("http://play.google.com/store/apps/details?id=" + packageName)));
     }
 
     @Override

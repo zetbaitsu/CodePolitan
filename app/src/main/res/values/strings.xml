@@ -47,4 +47,6 @@
     <string name="tag">Tag :</string>
     <string name="share">Share</string>
     <string name="other_articles">Other Articles</string>
+    <string name="share_desc">Share this article to your friends.</string>
+    <string name="codepolitan_com">Codepolitan.com</string>
 </resources>

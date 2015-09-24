@@ -61,4 +61,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.0.5'
     compile project(':benih')
+    compile 'com.orhanobut:dialogplus:1.10@aar'
 }

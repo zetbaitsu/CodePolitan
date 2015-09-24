@@ -20,16 +20,16 @@
     android:id="@+id/swipe_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/ll_root"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
             android:visibility="gone"
             android:orientation="vertical">
@@ -107,9 +107,8 @@
 
                     <id.zelory.codepolitan.ui.view.BenihWebView
                         android:id="@+id/content"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:minHeight="800dp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
