@@ -211,4 +211,9 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
         outState.putInt("currentPage", currentPage);
         super.onSaveInstanceState(outState);
     }
+
+    public boolean isRefreshing()
+    {
+        return swipeRefreshLayout.isRefreshing();
+    }
 }

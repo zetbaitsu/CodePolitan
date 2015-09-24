@@ -40,6 +40,7 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.event.ReloadEvent;
 import id.zelory.codepolitan.ui.adapter.MainPagerAdapter;
 import id.zelory.codepolitan.ui.adapter.MenuSpinnerAdapter;
+import id.zelory.codepolitan.ui.fragment.AbstractHomeFragment;
 import id.zelory.codepolitan.ui.fragment.CategoryFragment;
 import id.zelory.codepolitan.ui.fragment.HomeFragment;
 import id.zelory.codepolitan.ui.fragment.KomikFragment;
@@ -49,6 +50,7 @@ import id.zelory.codepolitan.ui.fragment.QuotesFragment;
 import id.zelory.codepolitan.ui.fragment.SettingFragment;
 import id.zelory.codepolitan.ui.fragment.TagFragment;
 import id.zelory.codepolitan.ui.fragment.UserFragment;
+import timber.log.Timber;
 
 /**
  * Created on : July 28, 2015
@@ -183,6 +185,33 @@ public class MainActivity extends BenihActivity implements TabLayout.OnTabSelect
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
         HomeFragment homeFragment = (HomeFragment) ((MainPagerAdapter) viewPager.getAdapter()).getItem(0);
+
+        try
+        {
+            AbstractHomeFragment fragment = (AbstractHomeFragment) homeFragment.getChildFragmentManager()
+                    .getFragments()
+                    .get(0);
+
+            if (fragment.isRefreshing())
+            {
+                fragment.dismissLoading();
+                fragment.onDestroyView();
+                fragment.onDestroy();
+                fragment.onDetach();
+                new Handler().postDelayed(() -> switchFragment(homeFragment, position), 500);
+            } else
+            {
+                switchFragment(homeFragment, position);
+            }
+        } catch (Exception e)
+        {
+            Timber.e(e.getMessage());
+            switchFragment(homeFragment, position);
+        }
+    }
+
+    private void switchFragment(HomeFragment homeFragment, int position)
+    {
         switch (position)
         {
             case 0:
