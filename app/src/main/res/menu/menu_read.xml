@@ -24,4 +24,16 @@
         android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
         android:title="@string/share"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_read_later"
+        android:checkable="true"
+        android:title="@string/read_later"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_bookmark"
+        android:checkable="true"
+        android:title="@string/bookmark"
+        app:showAsAction="never"/>
 </menu>

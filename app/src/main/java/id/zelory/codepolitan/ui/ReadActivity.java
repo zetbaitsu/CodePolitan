@@ -18,7 +18,6 @@ package id.zelory.codepolitan.ui;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -32,6 +31,8 @@ import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.controller.BookmarkController;
+import id.zelory.codepolitan.controller.ReadLaterController;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.adapter.ReadPagerAdapter;
 import id.zelory.codepolitan.ui.fragment.ImageReadFragment;
@@ -45,15 +46,19 @@ import id.zelory.codepolitan.ui.fragment.ReadFragment;
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class ReadActivity extends BenihActivity implements ViewPager.OnPageChangeListener
+public class ReadActivity extends BenihActivity implements ViewPager.OnPageChangeListener,
+        ReadLaterController.Presenter, BookmarkController.Presenter
 {
     private ReadPagerAdapter adapter;
     private List<BenihFragment> readFragments;
     private List<Article> articles;
-    private int position;
+    private int position = 0;
+    private ReadLaterController readLaterController;
+    private BookmarkController bookmarkController;
+    private MenuItem menuReadLater;
+    private MenuItem menuBookmark;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.pager) ViewPager viewPager;
-    @Bind(R.id.app_bar_layout) AppBarLayout appBarLayout;
 
     @Override
     protected int getActivityView()
@@ -82,6 +87,9 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
                     setUpAdapter();
                     setUpViewPager();
                 });
+
+        readLaterController = new ReadLaterController(this);
+        bookmarkController = new BookmarkController(this);
     }
 
     private void setUpViewPager()
@@ -120,6 +128,10 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.menu_read, menu);
+        menuReadLater = menu.getItem(1);
+        menuBookmark = menu.getItem(2);
+        menuReadLater.setChecked(articles.get(position).isReadLater());
+        menuBookmark.setChecked(articles.get(position).isBookmarked());
         return true;
     }
 
@@ -131,8 +143,22 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
             case android.R.id.home:
                 onBackPressed();
                 break;
+            case R.id.action_share:
+                onShareArticle();
+                break;
+            case R.id.action_read_later:
+                readLaterController.readLater(articles.get(position));
+                break;
+            case R.id.action_bookmark:
+                bookmarkController.bookmark(articles.get(position));
+                break;
         }
         return true;
+    }
+
+    private void onShareArticle()
+    {
+        Article article = articles.get(position);
     }
 
     @Override
@@ -164,17 +190,81 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
     {
-
+        if (this.position != position)
+        {
+            this.position = position;
+            menuReadLater.setChecked(articles.get(position).isReadLater());
+            menuBookmark.setChecked(articles.get(position).isBookmarked());
+        }
     }
 
     @Override
     public void onPageSelected(int position)
     {
-        this.position = position;
     }
 
     @Override
     public void onPageScrollStateChanged(int state)
+    {
+
+    }
+
+    @Override
+    public void showListReadLaterArticles(List<Article> listArticle)
+    {
+
+    }
+
+    @Override
+    public void onReadLater(Article article)
+    {
+        menuReadLater.setChecked(true);
+    }
+
+    @Override
+    public void onUnReadLater(Article article)
+    {
+        menuReadLater.setChecked(false);
+    }
+
+    @Override
+    public void showListBookmarkedArticles(List<Article> listArticle)
+    {
+
+    }
+
+    @Override
+    public void onBookmark(Article article)
+    {
+        menuBookmark.setChecked(true);
+    }
+
+    @Override
+    public void onUnBookmark(Article article)
+    {
+        menuBookmark.setChecked(false);
+    }
+
+    @Override
+    public void showFilteredArticles(List<Article> articles)
+    {
+
+    }
+
+    @Override
+    public void showError(Throwable throwable)
+    {
+
+    }
+
+    @Override
+    public void showLoading()
+    {
+
+    }
+
+    @Override
+    public void dismissLoading()
     {
 
     }

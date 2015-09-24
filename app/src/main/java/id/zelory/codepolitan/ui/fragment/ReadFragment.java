@@ -25,6 +25,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.widget.LinearLayout;
@@ -61,6 +63,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
 {
     private ArticleController articleController;
     private RandomContentController randomContentController;
+    private Animation animation;
     @Bind(R.id.image) BenihImageView image;
     @Bind(R.id.title) TextView title;
     @Bind(R.id.date) TextView date;
@@ -68,6 +71,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     @Bind(R.id.content) BenihWebView content;
     @Bind(R.id.ll_tags) LinearLayout llTags;
     @Bind(R.id.ll_other_articles) LinearLayout llOtherArticles;
+    @Bind(R.id.ll_root) LinearLayout llRoot;
     @Bind(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -79,6 +83,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     @Override
     protected void onViewReady(Bundle bundle)
     {
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.simple_grow);
         setupWebView();
         setupController(bundle);
         setUpSwipeLayout();
@@ -153,6 +158,8 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
             tag.setOnClickListener(v -> onTagClick(article.getTags().get(position)));
             llTags.addView(tag);
         }
+        llRoot.setVisibility(View.VISIBLE);
+        llRoot.startAnimation(animation);
     }
 
     private void onTagClick(Tag tag)
