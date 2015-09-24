@@ -14,86 +14,81 @@
   ~  See the License for the specific language governing permissions and
   ~  limitations under the License.
   -->
-
-<android.support.v4.widget.NestedScrollView
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#000"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="50dp">
+        android:background="#000"
+        android:fillViewport="true">
 
-        <id.zelory.codepolitan.ui.view.TouchImageView
-            android:id="@+id/image"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:paddingBottom="50dp">
 
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="gone"
-            android:indeterminate="true"/>
-
-        <LinearLayout
-            android:id="@+id/ll_footer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="#9000"
-            android:orientation="vertical"
-            android:padding="8dp"
-            android:paddingBottom="12dp">
-
-            <TextView
-                android:id="@+id/title"
+            <id.zelory.codepolitan.ui.view.TouchImageView
+                android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="#FFF"
-                android:textSize="16sp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="4dp"
-                android:background="#FFF"/>
+                android:layout_height="match_parent"/>
 
             <LinearLayout
+                android:id="@+id/ll_footer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_alignParentBottom="true"
+                android:background="#9000"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:paddingBottom="12dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tag"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textColor="#FFF"
                     android:textSize="16sp"/>
 
-                <HorizontalScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:background="#FFF"/>
 
-                    <LinearLayout
-                        android:id="@+id/ll_tags"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:text="@string/tag"
+                        android:textColor="#FFF"
+                        android:textSize="16sp"/>
 
-                    </LinearLayout>
-                </HorizontalScrollView>
+                    <HorizontalScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/ll_tags"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
-</android.support.v4.widget.NestedScrollView>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>
