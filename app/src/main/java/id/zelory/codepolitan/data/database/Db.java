@@ -56,7 +56,6 @@ public class Db
                         COLUMN_SLUG + " TEXT," +
                         COLUMN_TITLE + " TEXT NOT NULL," +
                         COLUMN_EXCERPT + " TEXT," +
-                        COLUMN_CONTENT + " TEXT, " +
                         COLUMN_DATE + " TEXT NOT NULL," +
                         COLUMN_DATE_CLEAR + " TEXT NOT NULL," +
                         COLUMN_LINK + " TEXT NOT NULL," +
@@ -72,7 +71,6 @@ public class Db
             values.put(COLUMN_SLUG, article.getSlug());
             values.put(COLUMN_TITLE, article.getTitle());
             values.put(COLUMN_EXCERPT, article.getExcerpt());
-            values.put(COLUMN_CONTENT, article.getContent());
             values.put(COLUMN_DATE, article.getDate());
             values.put(COLUMN_DATE_CLEAR, article.getDateClear());
             values.put(COLUMN_LINK, article.getLink());
@@ -89,7 +87,6 @@ public class Db
             article.setSlug(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SLUG)));
             article.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)));
             article.setExcerpt(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXCERPT)));
-            article.setContent(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT)));
             article.setDate(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE)));
             article.setDateClear(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE_CLEAR)));
             article.setLink(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LINK)));
