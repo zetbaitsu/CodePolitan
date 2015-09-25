@@ -160,6 +160,8 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
         }
         llRoot.setVisibility(View.VISIBLE);
         llRoot.startAnimation(animation);
+
+        new Handler().postDelayed(() -> content.loadData(article.getContent()), 800);
     }
 
     private void onTagClick(Tag tag)
