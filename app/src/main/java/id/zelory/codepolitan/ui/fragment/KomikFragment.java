@@ -20,10 +20,9 @@ import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
-import java.util.ArrayList;
-
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.KomikAdapter;
@@ -85,10 +84,9 @@ public class KomikFragment extends AbstractHomeFragment<KomikAdapter>
     @Override
     protected void onItemClick(View view, int position)
     {
-        Intent intent = new Intent(getActivity(), ReadActivity.class);
-        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) adapter.getData());
-        intent.putExtra("position", position);
-        startActivity(intent);
+        ArticleUtil.saveArticles(adapter.getData());
+        ArticleUtil.savePosition(position);
+        startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 
     @Override

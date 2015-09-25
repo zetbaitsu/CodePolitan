@@ -78,4 +78,32 @@ public class BenihPreferenceUtils
 
         return sharedPreferences.getBoolean(key, false);
     }
+
+    public static void putInt(Context context, String key, int isi)
+    {
+        SharedPreferences.Editor editor = context.getSharedPreferences("Zelory", Context.MODE_PRIVATE).edit();
+        editor.putInt(key, isi);
+        editor.apply();
+    }
+
+    public static int getInt(Context context, String key)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Zelory", Context.MODE_PRIVATE);
+
+        return sharedPreferences.getInt(key, 0);
+    }
+
+    public static void putLong(Context context, String key, int isi)
+    {
+        SharedPreferences.Editor editor = context.getSharedPreferences("Zelory", Context.MODE_PRIVATE).edit();
+        editor.putLong(key, isi);
+        editor.apply();
+    }
+
+    public static long getLong(Context context, String key)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Zelory", Context.MODE_PRIVATE);
+
+        return sharedPreferences.getLong(key, 0);
+    }
 }

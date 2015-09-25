@@ -32,7 +32,6 @@ import android.webkit.WebSettings;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -42,6 +41,7 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.controller.RandomContentController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
+import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
 import id.zelory.codepolitan.data.Tag;
@@ -203,10 +203,9 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
 
     private void onOtherArticleClick(List<Article> articles, int position)
     {
-        Intent intent = new Intent(getActivity(), ReadActivity.class);
-        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) articles);
-        intent.putExtra("position", position);
-        startActivity(intent);
+        ArticleUtil.saveArticles(articles);
+        ArticleUtil.savePosition(position);
+        startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 
     @Override

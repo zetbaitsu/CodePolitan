@@ -21,18 +21,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import id.zelory.benih.util.BenihBus;
-import id.zelory.benih.util.BenihPreferenceUtils;
-import id.zelory.benih.util.BenihUtils;
-import id.zelory.benih.util.Bson;
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.event.MoreNewsHeaderEvent;
 import id.zelory.codepolitan.controller.event.NewsHeaderEvent;
 import id.zelory.codepolitan.controller.event.SearchFooterEvent;
+import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.ReadActivity;
@@ -77,10 +74,9 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
 
     private void onNewsHeaderClick(NewsHeaderEvent newsHeaderEvent)
     {
-        Intent intent = new Intent(getActivity(), ReadActivity.class);
-        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) newsHeaderEvent.getArticles());
-        intent.putExtra("position", 0);
-        startActivity(intent);
+        ArticleUtil.saveArticles(newsHeaderEvent.getArticles());
+        ArticleUtil.savePosition(0);
+        startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 
     private void onSearchFooterClick()
@@ -135,11 +131,9 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
     @Override
     protected void onItemClick(View view, int position)
     {
-        BenihPreferenceUtils.putString(getActivity(), "articles", Bson.pluck().getParser().toJson(adapter.getData()));
-        Intent intent = new Intent(getActivity(), ReadActivity.class);
-        intent.putExtra("type", ReadActivity.TYPE_NEWS_FRAGMENT);
-        intent.putExtra("position", position);
-        startActivity(intent);
+        ArticleUtil.saveArticles(adapter.getData());
+        ArticleUtil.savePosition(position);
+        startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 
     @Override

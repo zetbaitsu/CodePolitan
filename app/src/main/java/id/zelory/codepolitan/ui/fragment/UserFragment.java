@@ -25,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -34,6 +33,7 @@ import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.ReadLaterController;
+import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.ReadActivity;
@@ -90,10 +90,9 @@ public class UserFragment extends BenihFragment implements ReadLaterController.P
 
     private void onItemClick(List<Article> listArticle, int position)
     {
-        Intent intent = new Intent(getActivity(), ReadActivity.class);
-        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) listArticle);
-        intent.putExtra("position", position);
-        startActivity(intent);
+        ArticleUtil.saveArticles(listArticle);
+        ArticleUtil.savePosition(position);
+        startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 
     @Override

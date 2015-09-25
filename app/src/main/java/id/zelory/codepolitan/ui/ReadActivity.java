@@ -21,14 +21,12 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.gson.reflect.TypeToken;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
 
@@ -38,12 +36,11 @@ import java.util.List;
 import butterknife.Bind;
 import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
-import id.zelory.benih.util.BenihPreferenceUtils;
 import id.zelory.benih.util.BenihWorker;
-import id.zelory.benih.util.Bson;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.ReadLaterController;
+import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.ui.adapter.MenuShareAdapter;
 import id.zelory.codepolitan.ui.adapter.ReadPagerAdapter;
@@ -61,8 +58,6 @@ import id.zelory.codepolitan.ui.fragment.ReadFragment;
 public class ReadActivity extends BenihActivity implements ViewPager.OnPageChangeListener,
         ReadLaterController.Presenter, BookmarkController.Presenter
 {
-    public static final int TYPE_NEWS_FRAGMENT = 1;
-
     private ReadPagerAdapter adapter;
     private List<BenihFragment> readFragments;
     private List<Article> articles;
@@ -88,17 +83,9 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         readFragments = new ArrayList<>();
-        if (getIntent().getIntExtra("type", 1) == 1)
-        {
-            articles = Bson.pluck()
-                    .getParser()
-                    .fromJson(BenihPreferenceUtils.getString(this, "articles"),
-                              new TypeToken<List<Article>>() {}.getType());
-        } else
-        {
-            articles = bundle != null ? bundle.getParcelableArrayList("data") : getIntent().getParcelableArrayListExtra("data");
-        }
-        position = bundle != null ? bundle.getInt("position", 0) : getIntent().getIntExtra("position", 0);
+
+        articles = ArticleUtil.getArticles();
+        position = ArticleUtil.getPosition();
 
         if (articles.get(articles.size() - 1).getTitle() == null)
         {
@@ -288,14 +275,6 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     {
         startActivity(new Intent(Intent.ACTION_VIEW,
                                  Uri.parse("http://play.google.com/store/apps/details?id=" + packageName)));
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState)
-    {
-        outState.putParcelableArrayList("data", (ArrayList<Article>) articles);
-        outState.putInt("position", position);
-        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     @Override

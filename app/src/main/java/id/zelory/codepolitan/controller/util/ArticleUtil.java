@@ -16,6 +16,13 @@
 
 package id.zelory.codepolitan.controller.util;
 
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
+
+import id.zelory.benih.util.BenihPreferenceUtils;
+import id.zelory.benih.util.Bson;
+import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.data.Article;
 
 /**
@@ -42,5 +49,29 @@ public class ArticleUtil
             return article.getThumbnailMedium();
         }
 
+    }
+
+    public static void saveArticles(List<Article> articles)
+    {
+        BenihPreferenceUtils.putString(CodePolitanApplication.pluck().getApplicationContext(), "articles",
+                                       Bson.pluck().getParser().toJson(articles));
+    }
+
+    public static void savePosition(int position)
+    {
+        BenihPreferenceUtils.putInt(CodePolitanApplication.pluck().getApplicationContext(), "position", position);
+    }
+
+    public static List<Article> getArticles()
+    {
+        return Bson.pluck()
+                .getParser()
+                .fromJson(BenihPreferenceUtils.getString(CodePolitanApplication.pluck().getApplicationContext(), "articles"),
+                          new TypeToken<List<Article>>() {}.getType());
+    }
+
+    public static int getPosition()
+    {
+        return BenihPreferenceUtils.getInt(CodePolitanApplication.pluck().getApplicationContext(), "position");
     }
 }
