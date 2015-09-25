@@ -257,11 +257,9 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     @SuppressLint("SetJavaScriptEnabled")
     private void setupWebView()
     {
-        content.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        content.setVerticalScrollBarEnabled(false);
-        content.setHorizontalScrollBarEnabled(false);
         content.setWebChromeClient(new WebChromeClient());
         content.getSettings().setJavaScriptEnabled(true);
+        content.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
     }
 
     @Override
@@ -269,5 +267,12 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     {
         articleController.loadArticle(data.getId());
         randomContentController.loadRandomArticles();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        content.clearCache(true);
     }
 }
