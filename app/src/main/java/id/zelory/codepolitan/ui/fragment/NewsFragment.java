@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.zelory.benih.util.BenihBus;
+import id.zelory.benih.util.BenihPreferenceUtils;
+import id.zelory.benih.util.BenihUtils;
+import id.zelory.benih.util.Bson;
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.event.MoreNewsHeaderEvent;
@@ -132,8 +135,9 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
     @Override
     protected void onItemClick(View view, int position)
     {
+        BenihPreferenceUtils.putString(getActivity(), "articles", Bson.pluck().getParser().toJson(adapter.getData()));
         Intent intent = new Intent(getActivity(), ReadActivity.class);
-        intent.putParcelableArrayListExtra("data", (ArrayList<Article>) adapter.getData());
+        intent.putExtra("type", ReadActivity.TYPE_NEWS_FRAGMENT);
         intent.putExtra("position", position);
         startActivity(intent);
     }

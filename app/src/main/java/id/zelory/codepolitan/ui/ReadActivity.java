@@ -28,6 +28,7 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.gson.reflect.TypeToken;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
 
@@ -37,8 +38,9 @@ import java.util.List;
 import butterknife.Bind;
 import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
-import id.zelory.benih.util.BenihUtils;
+import id.zelory.benih.util.BenihPreferenceUtils;
 import id.zelory.benih.util.BenihWorker;
+import id.zelory.benih.util.Bson;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.ReadLaterController;
@@ -59,6 +61,8 @@ import id.zelory.codepolitan.ui.fragment.ReadFragment;
 public class ReadActivity extends BenihActivity implements ViewPager.OnPageChangeListener,
         ReadLaterController.Presenter, BookmarkController.Presenter
 {
+    public static final int TYPE_NEWS_FRAGMENT = 1;
+
     private ReadPagerAdapter adapter;
     private List<BenihFragment> readFragments;
     private List<Article> articles;
@@ -84,7 +88,16 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         readFragments = new ArrayList<>();
-        articles = bundle != null ? bundle.getParcelableArrayList("data") : getIntent().getParcelableArrayListExtra("data");
+        if (getIntent().getIntExtra("type", 1) == 1)
+        {
+            articles = Bson.pluck()
+                    .getParser()
+                    .fromJson(BenihPreferenceUtils.getString(this, "articles"),
+                              new TypeToken<List<Article>>() {}.getType());
+        } else
+        {
+            articles = bundle != null ? bundle.getParcelableArrayList("data") : getIntent().getParcelableArrayListExtra("data");
+        }
         position = bundle != null ? bundle.getInt("position", 0) : getIntent().getIntExtra("position", 0);
 
         if (articles.get(articles.size() - 1).getTitle() == null)
