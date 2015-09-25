@@ -82,7 +82,29 @@ public enum DataBaseHelper
                     List<Article> articles = new ArrayList<>();
                     while (cursor.moveToNext())
                     {
-                        articles.add(Db.ReadLaterTable.parseCursor(cursor));
+                        Article article = Db.ReadLaterTable.parseCursor(cursor);
+
+                        Cursor csr = briteDatabase.query("SELECT * FROM "
+                                                                 + Db.ArticleCategoriesTable.TABLE_NAME
+                                                                 + " WHERE " + Db.COLUMN_ID + " = " + article.getId());
+                        List<Category> categories = new ArrayList<>();
+                        while (csr.moveToNext())
+                        {
+                            categories.add(Db.ArticleCategoriesTable.parseCursor(csr));
+                        }
+                        article.setCategory(categories);
+
+                        csr = briteDatabase.query("SELECT * FROM "
+                                                          + Db.ArticleTagsTable.TABLE_NAME
+                                                          + " WHERE " + Db.COLUMN_ID + " = " + article.getId());
+                        List<Tag> tags = new ArrayList<>();
+                        while (csr.moveToNext())
+                        {
+                            tags.add(Db.ArticleTagsTable.parseCursor(csr));
+                        }
+                        article.setTags(tags);
+
+                        articles.add(article);
                     }
                     return articles;
                 });
@@ -152,19 +174,35 @@ public enum DataBaseHelper
         if (!isReadLater(article.getId()))
         {
             briteDatabase.insert(Db.ReadLaterTable.TABLE_NAME, Db.ReadLaterTable.toContentValues(article));
+
+            int size = article.getCategory().size();
+            for (int i = 0; i < size; i++)
+            {
+                briteDatabase.insert(Db.ArticleCategoriesTable.TABLE_NAME,
+                                     Db.ArticleCategoriesTable.toContentValues(article, article.getCategory().get(i)));
+            }
+
+            size = article.getTags().size();
+            for (int i = 0; i < size; i++)
+            {
+                briteDatabase.insert(Db.ArticleTagsTable.TABLE_NAME,
+                                     Db.ArticleTagsTable.toContentValues(article, article.getTags().get(i)));
+            }
         }
     }
 
     public void unReadLater(int id)
     {
         briteDatabase.delete(Db.ReadLaterTable.TABLE_NAME, Db.COLUMN_ID + " = ?", id + "");
+        briteDatabase.delete(Db.ArticleCategoriesTable.TABLE_NAME, Db.COLUMN_ID + " = ?", id + "");
+        briteDatabase.delete(Db.ArticleTagsTable.TABLE_NAME, Db.COLUMN_ID + " = ?", id + "");
     }
 
     public boolean isFollowed(Category category)
     {
         Cursor cursor = briteDatabase.query("SELECT * FROM "
                                                     + Db.CategoryTable.TABLE_NAME + " WHERE "
-                                                    + Db.COLUMN_SLUG + " = '" + category.getSlug()+"'");
+                                                    + Db.COLUMN_SLUG + " = '" + category.getSlug() + "'");
         return cursor.getCount() > 0;
     }
 
@@ -172,7 +210,7 @@ public enum DataBaseHelper
     {
         Cursor cursor = briteDatabase.query("SELECT * FROM "
                                                     + Db.TagTable.TABLE_NAME + " WHERE "
-                                                    + Db.COLUMN_SLUG + " = '" + tag.getSlug()+"'");
+                                                    + Db.COLUMN_SLUG + " = '" + tag.getSlug() + "'");
         return cursor.getCount() > 0;
     }
 

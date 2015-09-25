@@ -208,4 +208,62 @@ public class Db
             return tag;
         }
     }
+
+    public static abstract class ArticleCategoriesTable
+    {
+        public static final String TABLE_NAME = "article_categories";
+
+        public static final String CREATE =
+                "CREATE TABLE " + TABLE_NAME + " (" +
+                        COLUMN_ID + " INTEGER NOT NULL," +
+                        COLUMN_SLUG + " TEXT NOT NULL," +
+                        COLUMN_NAME + " TEXT NOT NULL" +
+                        " ); ";
+
+        public static ContentValues toContentValues(Article article, Category category)
+        {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_ID, article.getId());
+            values.put(COLUMN_SLUG, category.getSlug());
+            values.put(COLUMN_NAME, category.getName());
+            return values;
+        }
+
+        public static Category parseCursor(Cursor cursor)
+        {
+            Category category = new Category();
+            category.setSlug(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SLUG)));
+            category.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)));
+            return category;
+        }
+    }
+
+    public static abstract class ArticleTagsTable
+    {
+        public static final String TABLE_NAME = "article_tags";
+
+        public static final String CREATE =
+                "CREATE TABLE " + TABLE_NAME + " (" +
+                        COLUMN_ID + " INTEGER NOT NULL," +
+                        COLUMN_SLUG + " TEXT NOT NULL," +
+                        COLUMN_NAME + " TEXT NOT NULL" +
+                        " ); ";
+
+        public static ContentValues toContentValues(Article article, Tag tag)
+        {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_ID, article.getId());
+            values.put(COLUMN_SLUG, tag.getSlug());
+            values.put(COLUMN_NAME, tag.getName());
+            return values;
+        }
+
+        public static Tag parseCursor(Cursor cursor)
+        {
+            Tag tag = new Tag();
+            tag.setSlug(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SLUG)));
+            tag.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)));
+            return tag;
+        }
+    }
 }
