@@ -40,8 +40,8 @@ import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.ReadLaterController;
-import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.adapter.MenuShareAdapter;
 import id.zelory.codepolitan.ui.adapter.ReadPagerAdapter;
 import id.zelory.codepolitan.ui.fragment.ImageReadFragment;
@@ -84,8 +84,8 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         readFragments = new ArrayList<>();
 
-        articles = ArticleUtil.getArticles();
-        position = ArticleUtil.getPosition();
+        articles = LocalDataManager.getArticles();
+        position = LocalDataManager.getPosition();
 
         if (articles.get(articles.size() - 1).getTitle() == null)
         {

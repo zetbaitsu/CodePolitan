@@ -41,9 +41,9 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.controller.RandomContentController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
-import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.ReadActivity;
@@ -205,8 +205,8 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
 
     private void onOtherArticleClick(List<Article> articles, int position)
     {
-        ArticleUtil.saveArticles(articles);
-        ArticleUtil.savePosition(position);
+        LocalDataManager.saveArticles(articles);
+        LocalDataManager.savePosition(position);
         startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 

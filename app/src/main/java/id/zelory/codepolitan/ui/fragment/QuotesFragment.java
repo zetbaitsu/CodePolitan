@@ -23,8 +23,8 @@ import android.view.View;
 
 import id.zelory.benih.view.BenihRecyclerListener;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.QuoteAdapter;
 
@@ -72,8 +72,8 @@ public class QuotesFragment extends AbstractHomeFragment<QuoteAdapter>
     @Override
     protected void onItemClick(View view, int position)
     {
-        ArticleUtil.saveArticles(adapter.getData());
-        ArticleUtil.savePosition(position);
+        LocalDataManager.saveArticles(adapter.getData());
+        LocalDataManager.savePosition(position);
         startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 
