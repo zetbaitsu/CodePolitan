@@ -30,6 +30,7 @@ import com.orhanobut.dialogplus.ViewHolder;
 import butterknife.OnClick;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.ui.HelpActivity;
 import id.zelory.codepolitan.ui.SingleFragmentActivity;
 import id.zelory.codepolitan.ui.adapter.MenuFollowAdapter;
 
@@ -135,7 +136,7 @@ public class SettingFragment extends BenihFragment
     @OnClick(R.id.rl_help)
     public void onHelpClick()
     {
-
+        startActivity(new Intent(getActivity(), HelpActivity.class));
     }
 
     @OnClick(R.id.rl_rate)

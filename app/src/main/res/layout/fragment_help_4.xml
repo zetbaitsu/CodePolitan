@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015 Zelory.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/secondary_text">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/right"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/swipe"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/swipe"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="-16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="-16dp"
+                android:src="@drawable/arrow_right"/>
+
+            <ImageView
+                android:id="@+id/swipe"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_toLeftOf="@+id/right"
+                android:layout_toStartOf="@+id/right"
+                android:adjustViewBounds="true"
+                android:src="@drawable/category_swipe"/>
+
+            <ImageView
+                android:id="@+id/left"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/swipe"
+                android:layout_alignTop="@+id/swipe"
+                android:layout_marginEnd="-25dp"
+                android:layout_marginRight="-25dp"
+                android:layout_toLeftOf="@+id/swipe"
+                android:layout_toStartOf="@+id/swipe"
+                android:src="@drawable/arrow_left"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/left"
+                android:layout_marginTop="-64dp"
+                android:layout_toLeftOf="@+id/swipe"
+                android:layout_toStartOf="@+id/swipe"
+                android:text="Swipe"
+                android:textColor="#FFF"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/title"
+                android:layout_alignRight="@+id/title"
+                android:layout_below="@+id/title"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:gravity="end"
+                android:text="Swipe this to read another article."
+                android:textColor="#FFF"
+                android:textSize="18sp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="32dp"
+            android:background="#FFF"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/item_category"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="32dp"
+                android:src="@drawable/category_click"/>
+
+            <ImageView
+                android:id="@+id/hand1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignEnd="@+id/item_category"
+                android:layout_alignRight="@+id/item_category"
+                android:layout_below="@+id/item_category"
+                android:layout_marginEnd="-32dp"
+                android:layout_marginRight="-32dp"
+                android:layout_marginTop="-32dp"
+                android:src="@drawable/hand_right"/>
+
+            <TextView
+                android:id="@+id/title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_category"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="-72dp"
+                android:text="Category"
+                android:textColor="#FFF"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/title1"
+                android:layout_alignStart="@+id/title1"
+                android:layout_below="@+id/title1"
+                android:layout_toLeftOf="@+id/item_category"
+                android:layout_toStartOf="@+id/item_category"
+                android:text="Click to see more articles in this category."
+                android:textColor="#FFF"
+                android:textSize="18sp"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

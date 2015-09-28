@@ -77,4 +77,5 @@
     <string name="designer">Designer</string>
     <string name="rya_desc">Dalam pembuatan CodePolitan Android apps, Zetra berperan sebagai UX Designer tunggal.</string>
     <string name="feedback_hint">Share your experience</string>
+    <string name="skip">Skip</string>
 </resources>
