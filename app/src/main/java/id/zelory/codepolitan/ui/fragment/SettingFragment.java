@@ -16,10 +16,13 @@
 
 package id.zelory.codepolitan.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -27,9 +30,11 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.GridHolder;
 import com.orhanobut.dialogplus.ViewHolder;
 
+import butterknife.Bind;
 import butterknife.OnClick;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.HelpActivity;
 import id.zelory.codepolitan.ui.SingleFragmentActivity;
 import id.zelory.codepolitan.ui.adapter.MenuFollowAdapter;
@@ -44,6 +49,9 @@ import id.zelory.codepolitan.ui.adapter.MenuFollowAdapter;
  */
 public class SettingFragment extends BenihFragment
 {
+    @Bind(R.id.cb_notification) CheckBox cbNotification;
+    @Bind(R.id.cb_vibrate) CheckBox cbVibrate;
+
     @Override
     protected int getFragmentView()
     {
@@ -53,7 +61,27 @@ public class SettingFragment extends BenihFragment
     @Override
     protected void onViewReady(Bundle bundle)
     {
+        cbVibrate.setChecked(LocalDataManager.isNotificationActive());
+        cbNotification.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            LocalDataManager.setNotificationActive(isChecked);
+            cbVibrate.setEnabled(isChecked);
+        });
+        cbVibrate.setOnCheckedChangeListener((buttonView, isChecked) -> LocalDataManager.setVibrate(isChecked));
+        cbVibrate.setEnabled(LocalDataManager.isNotificationActive());
+    }
 
+    @OnClick(R.id.ll_ringtone)
+    public void chooseRingtone()
+    {
+        if (LocalDataManager.isNotificationActive())
+        {
+            Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Ringtone");
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, LocalDataManager.getRingtone() == null ? null :
+                    Uri.parse(LocalDataManager.getRingtone()));
+            startActivityForResult(intent, 5);
+        }
     }
 
     @OnClick(R.id.rl_about)
@@ -144,5 +172,19 @@ public class SettingFragment extends BenihFragment
     {
         startActivity(new Intent(Intent.ACTION_VIEW,
                                  Uri.parse("http://play.google.com/store/apps/details?id=id.zelory.codepolitan")));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == Activity.RESULT_OK && requestCode == 5)
+        {
+            Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+
+            if (uri != null)
+            {
+                LocalDataManager.setRingtone(uri.toString());
+            }
+        }
     }
 }

@@ -27,6 +27,7 @@ import butterknife.Bind;
 import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.adapter.WelcomePagerAdapter;
 import id.zelory.codepolitan.ui.fragment.ChooseCategoryFragment;
 import id.zelory.codepolitan.ui.fragment.ChooseTagFragment;
@@ -59,6 +60,8 @@ public class WelcomeActivity extends BenihActivity implements ViewPager.OnPageCh
     @Override
     protected void onViewReady(Bundle savedInstanceState)
     {
+        LocalDataManager.setNotificationActive(true);
+        LocalDataManager.setVibrate(true);
         generateFragments();
         WelcomePagerAdapter adapter = new WelcomePagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);

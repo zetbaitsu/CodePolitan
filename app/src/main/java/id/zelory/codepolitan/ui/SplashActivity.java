@@ -43,6 +43,8 @@ public class SplashActivity extends BenihActivity
     @Override
     protected void onViewReady(Bundle bundle)
     {
+        sendBroadcast(new Intent("id.zelory.codepolitan.ACTION_START"));
+
         if (BenihPreferenceUtils.getBoolean(this, "loaded"))
         {
             new Handler().postDelayed(() -> startActivity(new Intent(this, MainActivity.class)), 1800);

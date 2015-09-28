@@ -69,4 +69,40 @@ public class LocalDataManager
         return BenihPreferenceUtils.getBoolean(CodePolitanApplication.pluck().getApplicationContext(),
                                                "follow_all_categories");
     }
+
+    public static void setNotificationActive(boolean isNotificationActive)
+    {
+        BenihPreferenceUtils.putBoolean(CodePolitanApplication.pluck().getApplicationContext(),
+                                        "notification", isNotificationActive);
+    }
+
+    public static boolean isNotificationActive()
+    {
+        return BenihPreferenceUtils.getBoolean(CodePolitanApplication.pluck().getApplicationContext(),
+                                               "notification");
+    }
+
+    public static void setRingtone(String path)
+    {
+        BenihPreferenceUtils.putString(CodePolitanApplication.pluck().getApplicationContext(),
+                                       "ringtone", path);
+    }
+
+    public static String getRingtone()
+    {
+        return BenihPreferenceUtils.getString(CodePolitanApplication.pluck().getApplicationContext(),
+                                              "ringtone");
+    }
+
+    public static void setVibrate(boolean isVibrate)
+    {
+        BenihPreferenceUtils.putBoolean(CodePolitanApplication.pluck().getApplicationContext(),
+                                        "vibrate", isVibrate);
+    }
+
+    public static boolean isVibrate()
+    {
+        return BenihPreferenceUtils.getBoolean(CodePolitanApplication.pluck().getApplicationContext(),
+                                               "vibrate");
+    }
 }
