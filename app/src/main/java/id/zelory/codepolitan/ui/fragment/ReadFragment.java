@@ -20,7 +20,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -32,6 +31,7 @@ import android.webkit.WebSettings;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -253,9 +253,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
                 articleController.loadArticle(data.getId());
                 break;
             case ErrorEvent.LOAD_ARTICLE:
-                Snackbar.make(content, R.string.error_message, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.retry, v -> onRefresh())
-                        .show();
+                Toast.makeText(getActivity(), getString(R.string.error_message), Toast.LENGTH_LONG).show();
                 break;
         }
     }
