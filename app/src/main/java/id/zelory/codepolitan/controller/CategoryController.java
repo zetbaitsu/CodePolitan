@@ -99,6 +99,9 @@ public class CategoryController extends BenihController<CategoryController.Prese
                         case "Lowongan Kerja":
                             category.setImageResource(R.drawable.category_lowongan);
                             break;
+                        default:
+                            category.setImageResource(R.drawable.category_lowongan);
+                            break;
                     }
                     return category;
                 })

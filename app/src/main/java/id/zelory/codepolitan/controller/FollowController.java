@@ -88,6 +88,9 @@ public class FollowController extends BenihController<FollowController.Presenter
                             case "Lowongan Kerja":
                                 categories.get(i).setImageResource(R.drawable.category_lowongan);
                                 break;
+                            default:
+                                categories.get(i).setImageResource(R.drawable.category_lowongan);
+                                break;
                         }
                     }
 
