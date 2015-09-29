@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -58,6 +59,9 @@ import id.zelory.codepolitan.ui.fragment.ReadFragment;
 public class ReadActivity extends BenihActivity implements ViewPager.OnPageChangeListener,
         ReadLaterController.Presenter, BookmarkController.Presenter
 {
+    public static final String KEY_TYPE = "type";
+    public static final int TYPE_FROM_NOTIF = 1;
+
     private ReadPagerAdapter adapter;
     private List<BenihFragment> readFragments;
     private List<Article> articles;
@@ -67,6 +71,7 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     private MenuItem menuReadLater;
     private MenuItem menuBookmark;
     private DialogPlus dialogPlus;
+    private int type;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.pager) ViewPager viewPager;
 
@@ -79,6 +84,11 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     @Override
     protected void onViewReady(Bundle bundle)
     {
+        type = getIntent().getIntExtra(KEY_TYPE, 0);
+        if (type == 0 && bundle != null)
+        {
+            type = bundle.getInt(KEY_TYPE, 0);
+        }
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -389,6 +399,26 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         {
             readLaterController.readLater(articles.get(position));
         }
-        super.onBackPressed();
+
+        if (type == TYPE_FROM_NOTIF)
+        {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+            finish();
+        } else
+        {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState)
+    {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putInt(KEY_TYPE, type);
     }
 }

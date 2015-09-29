@@ -78,6 +78,7 @@ public class NotificationService extends Service implements RandomContentControl
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        intent.putExtra(ReadActivity.KEY_TYPE, ReadActivity.TYPE_FROM_NOTIF);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
                                                                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
