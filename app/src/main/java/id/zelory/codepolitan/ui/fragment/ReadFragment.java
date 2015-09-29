@@ -115,7 +115,12 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
             articleController.setArticle(data);
         } else
         {
-            new Handler().postDelayed(() -> articleController.loadArticle(data.getId()), 800);
+            new Handler().postDelayed(() -> {
+                if (data != null)
+                {
+                    articleController.loadArticle(data.getId());
+                }
+            }, 800);
         }
 
         if (randomContentController == null)

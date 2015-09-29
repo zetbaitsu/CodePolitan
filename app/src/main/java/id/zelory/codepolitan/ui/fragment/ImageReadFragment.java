@@ -20,22 +20,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
+import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.Tag;
@@ -51,8 +57,7 @@ import id.zelory.codepolitan.ui.view.TouchImageView;
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
 public class ImageReadFragment extends BenihFragment<Article> implements
-        ArticleController.Presenter,
-        Animation.AnimationListener, SwipeRefreshLayout.OnRefreshListener
+        ArticleController.Presenter, Animation.AnimationListener
 {
     private ArticleController controller;
     private Animation fadein, fadeout;
@@ -60,7 +65,7 @@ public class ImageReadFragment extends BenihFragment<Article> implements
     @Bind(R.id.title) TextView title;
     @Bind(R.id.ll_tags) LinearLayout llTags;
     @Bind(R.id.ll_footer) LinearLayout footer;
-    @Bind(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
 
     @Override
     protected int getFragmentView()
@@ -76,14 +81,7 @@ public class ImageReadFragment extends BenihFragment<Article> implements
         fadeout = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
         fadeout.setAnimationListener(this);
         hideTitle();
-        setUpSwipeLayout();
         setUpController(savedInstanceState);
-    }
-
-    protected void setUpSwipeLayout()
-    {
-        swipeRefreshLayout.setColorSchemeResources(R.color.primary, R.color.accent);
-        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void setUpController(Bundle savedInstanceState)
@@ -102,7 +100,12 @@ public class ImageReadFragment extends BenihFragment<Article> implements
             controller.setArticle(data);
         } else
         {
-            new Handler().postDelayed(() -> controller.loadArticle(data.getId()), 800);
+            new Handler().postDelayed(() -> {
+                if (data != null)
+                {
+                    controller.loadArticle(data.getId());
+                }
+            }, 800);
         }
     }
 
@@ -110,7 +113,28 @@ public class ImageReadFragment extends BenihFragment<Article> implements
     public void showArticle(Article article)
     {
         title.setText(article.getTitle());
-        Glide.with(this).load(ArticleUtil.getFullImage(article)).error(R.drawable.could_not_load_image_big).into(image);
+
+        Glide.with(this)
+                .load(ArticleUtil.getFullImage(article))
+                .listener(new RequestListener<String, GlideDrawable>()
+                {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource)
+                    {
+                        image.setImageResource(R.drawable.could_not_load_image_big);
+                        progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource)
+                    {
+                        progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .into(image);
+
         image.setOnClickListener(v -> showTitle());
         llTags.removeAllViews();
         int size = article.getTags().size();
@@ -158,19 +182,26 @@ public class ImageReadFragment extends BenihFragment<Article> implements
     @Override
     public void showError(Throwable throwable)
     {
-
+        switch (throwable.getMessage())
+        {
+            case ErrorEvent.LOAD_STATE_ARTICLE:
+                controller.loadArticle(data.getId());
+                break;
+            case ErrorEvent.LOAD_ARTICLE:
+                Toast.makeText(getActivity(), getString(R.string.error_message), Toast.LENGTH_LONG).show();
+                break;
+        }
     }
 
     @Override
     public void showLoading()
     {
-        swipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void dismissLoading()
     {
-        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -198,7 +229,7 @@ public class ImageReadFragment extends BenihFragment<Article> implements
 
     }
 
-    @Override
+    @OnClick(R.id.iv_refresh)
     public void onRefresh()
     {
         controller.loadArticle(data.getId());
