@@ -36,6 +36,7 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.LocalDataManager;
 import timber.log.Timber;
 
 /**
@@ -182,7 +183,15 @@ public abstract class AbstractHomeFragment<Adapter extends BenihRecyclerAdapter>
                 break;
             case ErrorEvent.LOAD_LIST_ARTICLE_BY_PAGE:
                 Snackbar.make(recyclerView, R.string.error_message, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.retry, v -> articleController.loadFollowedArticles(currentPage))
+                        .setAction(R.string.retry, v -> {
+                            if (LocalDataManager.isFollowAll())
+                            {
+                                articleController.loadArticles(currentPage);
+                            } else
+                            {
+                                articleController.loadFollowedArticles(currentPage);
+                            }
+                        })
                         .show();
                 break;
         }

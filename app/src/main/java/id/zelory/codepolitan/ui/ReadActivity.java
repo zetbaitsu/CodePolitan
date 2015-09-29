@@ -40,8 +40,8 @@ import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.ReadLaterController;
-import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.adapter.MenuShareAdapter;
 import id.zelory.codepolitan.ui.adapter.ReadPagerAdapter;
 import id.zelory.codepolitan.ui.fragment.ImageReadFragment;
@@ -84,8 +84,8 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         readFragments = new ArrayList<>();
 
-        articles = ArticleUtil.getArticles();
-        position = ArticleUtil.getPosition();
+        articles = LocalDataManager.getArticles();
+        position = LocalDataManager.getPosition();
 
         if (articles.get(articles.size() - 1).getTitle() == null)
         {
@@ -300,6 +300,11 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     {
         if (this.position != position)
         {
+            if (articles.get(this.position).isReadLater())
+            {
+                readLaterController.readLater(articles.get(this.position));
+            }
+
             this.position = position;
             menuReadLater.setChecked(articles.get(position).isReadLater());
             menuBookmark.setChecked(articles.get(position).isBookmarked());
@@ -375,5 +380,15 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     public void dismissLoading()
     {
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if (articles.get(position).isReadLater())
+        {
+            readLaterController.readLater(articles.get(position));
+        }
+        super.onBackPressed();
     }
 }

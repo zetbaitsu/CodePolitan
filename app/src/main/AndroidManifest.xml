@@ -20,6 +20,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".CodePolitanApplication"
@@ -38,7 +39,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.WelcomeActivity"
+        <activity
+            android:name=".ui.WelcomeActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.MainActivity"
@@ -51,8 +53,22 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.ReadActivity"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true"/>
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.SingleFragmentActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.HelpActivity"
+            android:screenOrientation="portrait"/>
+
+        <receiver android:name=".service.NotificationReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="id.zelory.codepolitan.ACTION_START"/>
+            </intent-filter>
+        </receiver>
+        <service android:name=".service.NotificationService"/>
     </application>
 
 </manifest>

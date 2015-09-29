@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015 Zelory.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/secondary_text">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_read_later"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:src="@drawable/eye_white"/>
+
+            <ImageView
+                android:id="@+id/hand"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/iv_read_later"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="-12dp"
+                android:src="@drawable/hand_left"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/iv_read_later"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@+id/iv_read_later"
+                android:layout_toRightOf="@+id/iv_read_later"
+                android:text="Read Later"
+                android:textColor="#FFF"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:id="@+id/read_later_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/title"
+                android:layout_alignStart="@+id/title"
+                android:layout_below="@+id/title"
+                android:text="Click to save article and read it later offline."
+                android:textColor="#FFF"
+                android:textSize="18sp"/>
+
+            <ImageView
+                android:id="@+id/iv_bookmark"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/read_later_desc"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="64dp"
+                android:src="@drawable/star_white"/>
+
+            <TextView
+                android:id="@+id/title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/iv_bookmark"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_toLeftOf="@+id/iv_bookmark"
+                android:layout_toStartOf="@+id/iv_bookmark"
+                android:text="Bookmark"
+                android:textColor="#FFF"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/title2"
+                android:layout_alignRight="@+id/title2"
+                android:layout_below="@+id/title2"
+                android:gravity="end"
+                android:text="Click to bookmark article link and read it later (online)."
+                android:textColor="#FFF"
+                android:textSize="18sp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="32dp"
+            android:background="#FFF"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/item_tag"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/help_user"/>
+
+            <ImageView
+                android:id="@+id/hand1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/item_tag"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-42dp"
+                android:src="@drawable/hand_right"/>
+
+            <TextView
+                android:id="@+id/title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/item_tag"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="24dp"
+                android:text="Swipe"
+                android:textColor="#FFF"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/title1"
+                android:layout_alignRight="@+id/title1"
+                android:layout_below="@+id/title1"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
+                android:gravity="end"
+                android:text="Swipe to see saved articles and click more to load it all."
+                android:textColor="#FFF"
+                android:textSize="18sp"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

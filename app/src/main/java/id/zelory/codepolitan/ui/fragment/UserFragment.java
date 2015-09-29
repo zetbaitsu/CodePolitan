@@ -33,8 +33,8 @@ import id.zelory.benih.view.BenihImageView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.ReadLaterController;
-import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.ReadActivity;
 
@@ -90,8 +90,8 @@ public class UserFragment extends BenihFragment implements ReadLaterController.P
 
     private void onItemClick(List<Article> listArticle, int position)
     {
-        ArticleUtil.saveArticles(listArticle);
-        ArticleUtil.savePosition(position);
+        LocalDataManager.saveArticles(listArticle);
+        LocalDataManager.savePosition(position);
         startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 
@@ -152,6 +152,7 @@ public class UserFragment extends BenihFragment implements ReadLaterController.P
     private void bind(List<Article> listArticle, LinearLayout parent)
     {
         int size = listArticle.size() > 4 ? 4 : listArticle.size();
+        parent.removeAllViews();
         if (size > 0)
         {
             for (int i = 0; i < size; i++)

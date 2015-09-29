@@ -34,8 +34,8 @@ import id.zelory.benih.util.KeyboardUtil;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
-import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.GeneralArticleAdapter;
 
@@ -178,8 +178,8 @@ public class ListBookmarkFragment extends BenihFragment implements
     @Override
     public void onItemClick(View view, int position)
     {
-        ArticleUtil.saveArticles(adapter.getData());
-        ArticleUtil.savePosition(position);
+        LocalDataManager.saveArticles(adapter.getData());
+        LocalDataManager.savePosition(position);
         startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 
@@ -188,6 +188,7 @@ public class ListBookmarkFragment extends BenihFragment implements
     {
         if (!searching && adapter != null)
         {
+            adapter.clear();
             adapter.add(listArticle);
         }
     }

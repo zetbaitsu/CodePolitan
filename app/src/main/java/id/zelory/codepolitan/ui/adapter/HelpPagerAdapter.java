@@ -14,32 +14,34 @@
  *  limitations under the License.
  */
 
-package id.zelory.codepolitan.controller.util;
+package id.zelory.codepolitan.ui.adapter;
 
-import id.zelory.codepolitan.data.Article;
+import android.support.v4.app.FragmentManager;
+
+import java.util.List;
+
+import id.zelory.benih.adapter.BenihPagerAdapter;
+import id.zelory.benih.fragment.BenihFragment;
+import id.zelory.codepolitan.ui.fragment.HelpFragment;
 
 /**
- * Created on : August 5, 2015
+ * Created on : September 28, 2015
  * Author     : zetbaitsu
  * Name       : Zetra
  * Email      : zetra@mail.ugm.ac.id
  * GitHub     : https://github.com/zetbaitsu
  * LinkedIn   : https://id.linkedin.com/in/zetbaitsu
  */
-public class ArticleUtil
+public class HelpPagerAdapter extends BenihPagerAdapter<HelpFragment>
 {
-    public static String getFullImage(Article article)
+    public HelpPagerAdapter(FragmentManager fm, List<HelpFragment> helpFragments)
     {
-        try
-        {
-            String url = article.getContent().substring(article.getContent().indexOf("src=\""));
-            url = url.substring("src=\"".length());
-            url = url.substring(0, url.indexOf("\""));
+        super(fm, helpFragments);
+    }
 
-            return url;
-        } catch (Exception e)
-        {
-            return article.getThumbnailMedium();
-        }
+    @Override
+    public HelpFragment getItem(int position)
+    {
+        return fragments.get(position);
     }
 }

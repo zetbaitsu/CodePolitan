@@ -27,6 +27,7 @@ import butterknife.Bind;
 import id.zelory.benih.BenihActivity;
 import id.zelory.benih.fragment.BenihFragment;
 import id.zelory.codepolitan.R;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.adapter.WelcomePagerAdapter;
 import id.zelory.codepolitan.ui.fragment.ChooseCategoryFragment;
 import id.zelory.codepolitan.ui.fragment.ChooseTagFragment;
@@ -43,12 +44,10 @@ import id.zelory.codepolitan.ui.fragment.ImageWelcomeFragment;
 public class WelcomeActivity extends BenihActivity implements ViewPager.OnPageChangeListener
 {
     @Bind(R.id.pager) ViewPager viewPager;
-    @Bind(R.id.iv_oval_1) ImageView ivOval1;
     @Bind(R.id.iv_oval_2) ImageView ivOval2;
     @Bind(R.id.iv_oval_3) ImageView ivOval3;
     @Bind(R.id.iv_oval_4) ImageView ivOval4;
     @Bind(R.id.iv_oval_5) ImageView ivOval5;
-    private WelcomePagerAdapter adapter;
     private List<BenihFragment> fragments;
     private int pos = 0;
 
@@ -61,8 +60,10 @@ public class WelcomeActivity extends BenihActivity implements ViewPager.OnPageCh
     @Override
     protected void onViewReady(Bundle savedInstanceState)
     {
+        LocalDataManager.setNotificationActive(true);
+        LocalDataManager.setVibrate(true);
         generateFragments();
-        adapter = new WelcomePagerAdapter(getSupportFragmentManager(), fragments);
+        WelcomePagerAdapter adapter = new WelcomePagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);
     }

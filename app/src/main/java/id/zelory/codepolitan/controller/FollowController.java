@@ -25,6 +25,7 @@ import id.zelory.benih.util.BenihScheduler;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
 import timber.log.Timber;
@@ -52,6 +53,7 @@ public class FollowController extends BenihController<FollowController.Presenter
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
                 .subscribe(categories -> {
                     int p = categories.size();
+                    LocalDataManager.setFollowAll(p >= 10);
                     for (int i = 0; i < p; i++)
                     {
                         switch (categories.get(i).getName())

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015 Zelory.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/secondary_text">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/swipe"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="16dp"
+                android:src="@drawable/tag_swipe"/>
+
+            <ImageView
+                android:id="@+id/hand"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/swipe"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-82dp"
+                android:src="@drawable/hand_right"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/swipe"
+                android:layout_alignRight="@+id/swipe"
+                android:layout_below="@+id/swipe"
+                android:text="Swipe"
+                android:textColor="#FFF"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/title"
+                android:layout_alignRight="@+id/title"
+                android:layout_below="@+id/title"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
+                android:gravity="end"
+                android:text="Swipe to see all tags in this article."
+                android:textColor="#FFF"
+                android:textSize="18sp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="32dp"
+            android:background="#FFF"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/item_tag"
+                android:layout_width="320dp"
+                android:layout_height="70dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="16dp"
+                android:scaleType="fitEnd"
+                android:src="@drawable/tag_click"/>
+
+            <ImageView
+                android:id="@+id/hand1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignLeft="@+id/item_tag"
+                android:layout_alignStart="@+id/item_tag"
+                android:layout_below="@+id/item_tag"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="-50dp"
+                android:src="@drawable/hand_left"/>
+
+            <TextView
+                android:id="@+id/title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/hand1"
+                android:layout_toEndOf="@+id/hand1"
+                android:layout_toRightOf="@+id/hand1"
+                android:text="Tag"
+                android:textColor="#FFF"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/title1"
+                android:layout_alignStart="@+id/title1"
+                android:layout_below="@+id/title1"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:text="Click to see more articles in this tag."
+                android:textColor="#FFF"
+                android:textSize="18sp"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

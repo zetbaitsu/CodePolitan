@@ -37,8 +37,8 @@ import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
-import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.GeneralArticleAdapter;
 
@@ -52,7 +52,8 @@ import id.zelory.codepolitan.ui.adapter.GeneralArticleAdapter;
  */
 public abstract class ListArticleFragment<Data extends Parcelable> extends
         BenihFragment<Data> implements SwipeRefreshLayout.OnRefreshListener,
-        SearchView.OnQueryTextListener, ArticleController.Presenter, BenihRecyclerAdapter.OnItemClickListener
+        SearchView.OnQueryTextListener, ArticleController.Presenter,
+        BenihRecyclerAdapter.OnItemClickListener
 {
     protected ArticleController articleController;
     @Bind(R.id.swipe_layout) SwipeRefreshLayout swipeRefreshLayout;
@@ -216,8 +217,8 @@ public abstract class ListArticleFragment<Data extends Parcelable> extends
     @Override
     public void onItemClick(View view, int position)
     {
-        ArticleUtil.saveArticles(adapter.getData());
-        ArticleUtil.savePosition(position);
+        LocalDataManager.saveArticles(adapter.getData());
+        LocalDataManager.savePosition(position);
         startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 }

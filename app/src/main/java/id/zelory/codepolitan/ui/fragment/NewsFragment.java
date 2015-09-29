@@ -29,8 +29,8 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.event.MoreNewsHeaderEvent;
 import id.zelory.codepolitan.controller.event.NewsHeaderEvent;
 import id.zelory.codepolitan.controller.event.SearchFooterEvent;
-import id.zelory.codepolitan.controller.util.ArticleUtil;
 import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.NewsAdapter;
@@ -74,8 +74,8 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
 
     private void onNewsHeaderClick(NewsHeaderEvent newsHeaderEvent)
     {
-        ArticleUtil.saveArticles(newsHeaderEvent.getArticles());
-        ArticleUtil.savePosition(0);
+        LocalDataManager.saveArticles(newsHeaderEvent.getArticles());
+        LocalDataManager.savePosition(0);
         startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 
@@ -105,7 +105,13 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
             public void onLoadMore(int i)
             {
                 currentPage++;
-                articleController.loadFollowedArticles(currentPage);
+                if (LocalDataManager.isFollowAll())
+                {
+                    articleController.loadArticles(currentPage);
+                } else
+                {
+                    articleController.loadFollowedArticles(currentPage);
+                }
             }
         });
 
@@ -131,8 +137,8 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
     @Override
     protected void onItemClick(View view, int position)
     {
-        ArticleUtil.saveArticles(adapter.getData());
-        ArticleUtil.savePosition(position);
+        LocalDataManager.saveArticles(adapter.getData());
+        LocalDataManager.savePosition(position);
         startActivity(new Intent(getActivity(), ReadActivity.class));
     }
 
@@ -142,7 +148,13 @@ public class NewsFragment extends AbstractHomeFragment<NewsAdapter>
         if (!searching)
         {
             super.onRefresh();
-            articleController.loadFollowedArticles(currentPage);
+            if (LocalDataManager.isFollowAll())
+            {
+                articleController.loadArticles(currentPage);
+            } else
+            {
+                articleController.loadFollowedArticles(currentPage);
+            }
         } else
         {
             dismissLoading();
