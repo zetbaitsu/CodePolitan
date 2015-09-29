@@ -127,7 +127,8 @@ public enum DataBaseHelper
 
     public Observable<List<Tag>> getFollowedTags()
     {
-        return briteDatabase.createQuery(Db.TagTable.TABLE_NAME, "SELECT * FROM " + Db.TagTable.TABLE_NAME)
+        return briteDatabase.createQuery(Db.TagTable.TABLE_NAME, "SELECT * FROM " + Db.TagTable.TABLE_NAME
+                + " ORDER BY " + Db.TagTable.COLUMN_COUNT + " DESC")
                 .compose(BenihScheduler.pluck().applySchedulers(BenihScheduler.Type.IO))
                 .map(query -> {
                     Cursor cursor = query.run();
