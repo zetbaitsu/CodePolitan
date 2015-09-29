@@ -29,6 +29,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,7 +37,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import id.zelory.benih.fragment.BenihFragment;
-import id.zelory.benih.view.BenihImageView;
+import id.zelory.benih.util.BenihUtils;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.controller.RandomContentController;
@@ -48,6 +49,7 @@ import id.zelory.codepolitan.data.Tag;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.view.BenihWebView;
+import id.zelory.codepolitan.ui.view.CodePolitanImageView;
 import id.zelory.codepolitan.ui.view.OtherArticleItemView;
 
 /**
@@ -64,7 +66,8 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     private ArticleController articleController;
     private RandomContentController randomContentController;
     private Animation animation;
-    @Bind(R.id.image) BenihImageView image;
+    @Bind(R.id.image) CodePolitanImageView image;
+    @Bind(R.id.iv_error) ImageView ivError;
     @Bind(R.id.title) TextView title;
     @Bind(R.id.date) TextView date;
     @Bind(R.id.category) TextView category;
@@ -84,6 +87,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     protected void onViewReady(Bundle bundle)
     {
         animation = AnimationUtils.loadAnimation(getActivity(), R.anim.simple_grow);
+        image.setBackgroundColor(BenihUtils.getRandomColor());
         setupWebView();
         setupController(bundle);
         setUpSwipeLayout();
@@ -139,7 +143,7 @@ public class ReadFragment extends BenihFragment<Article> implements ArticleContr
     @Override
     public void showArticle(Article article)
     {
-        image.setImageUrl(article.getThumbnailMedium());
+        image.setImageUrl(article.getThumbnailMedium(), ivError);
         title.setText(Html.fromHtml(article.getTitle()));
         date.setText(article.getDateClear());
         if (article.getCategory() != null && !article.getCategory().isEmpty())
