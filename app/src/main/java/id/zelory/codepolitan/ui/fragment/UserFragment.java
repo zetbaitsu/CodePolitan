@@ -152,6 +152,7 @@ public class UserFragment extends BenihFragment implements ReadLaterController.P
     private void bind(List<Article> listArticle, LinearLayout parent)
     {
         int size = listArticle.size() > 4 ? 4 : listArticle.size();
+        parent.removeAllViews();
         if (size > 0)
         {
             for (int i = 0; i < size; i++)

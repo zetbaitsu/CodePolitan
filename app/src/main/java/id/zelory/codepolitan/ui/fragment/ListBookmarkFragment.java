@@ -188,6 +188,7 @@ public class ListBookmarkFragment extends BenihFragment implements
     {
         if (!searching && adapter != null)
         {
+            adapter.clear();
             adapter.add(listArticle);
         }
     }
