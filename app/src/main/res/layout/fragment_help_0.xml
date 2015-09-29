@@ -117,8 +117,11 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginRight="8dp"
-                android:src="@drawable/abc_ic_search_api_mtrl_alpha"/>
+                android:layout_marginStart="12dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_search"/>
 
             <TextView
                 android:id="@+id/title1"
