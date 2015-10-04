@@ -105,4 +105,16 @@ public class LocalDataManager
         return BenihPreferenceUtils.getBoolean(CodePolitanApplication.pluck().getApplicationContext(),
                                                "vibrate");
     }
+
+    public static void setAutoRemoveReadLater(boolean isAutoRemove)
+    {
+        BenihPreferenceUtils.putBoolean(CodePolitanApplication.pluck().getApplicationContext(),
+                                        "remove_read_later", isAutoRemove);
+    }
+
+    public static boolean isAutoRemoveReadLater()
+    {
+        return BenihPreferenceUtils.getBoolean(CodePolitanApplication.pluck().getApplicationContext(),
+                                               "remove_read_later");
+    }
 }
