@@ -22,8 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
+import id.zelory.benih.util.BenihBus;
 import id.zelory.benih.util.BenihScheduler;
 import id.zelory.benih.util.BenihUtils;
+import id.zelory.codepolitan.controller.event.BookmarkEvent;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
@@ -41,10 +43,40 @@ import timber.log.Timber;
 public class BookmarkController extends BenihController<BookmarkController.Presenter>
 {
     private List<Article> articles;
+    private Article article;
 
     public BookmarkController(Presenter presenter)
     {
         super(presenter);
+        BenihBus.pluck()
+                .receive()
+                .subscribe(o -> {
+                    if (o instanceof BookmarkEvent)
+                    {
+                        onBookmarkEvent((BookmarkEvent) o);
+                    }
+                }, throwable -> Timber.e(throwable.getMessage()));
+    }
+
+    public void setArticle(Article article)
+    {
+        this.article = article;
+    }
+
+    private void onBookmarkEvent(BookmarkEvent bookmarkEvent)
+    {
+        if (article != null && article.getId() == bookmarkEvent.getArticle().getId())
+        {
+            if (bookmarkEvent.getArticle().isBookmarked() && !article.isBookmarked())
+            {
+                article.setBookmarked(true);
+                presenter.onBookmark(article);
+            } else if (!bookmarkEvent.getArticle().isBookmarked() && article.isBookmarked())
+            {
+                article.setBookmarked(false);
+                presenter.onUnBookmark(article);
+            }
+        }
     }
 
     public void loadBookmarkedArticles()
@@ -90,6 +122,8 @@ public class BookmarkController extends BenihController<BookmarkController.Prese
             DataBaseHelper.pluck().unBookmark(article.getId());
             presenter.onUnBookmark(article);
         }
+
+        BenihBus.pluck().send(new BookmarkEvent(article));
     }
 
     public void filter(String query)

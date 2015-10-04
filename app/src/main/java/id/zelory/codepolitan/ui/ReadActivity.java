@@ -155,6 +155,8 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
         menuBookmark = menu.getItem(2);
         menuReadLater.setChecked(articles.get(position).isReadLater());
         menuBookmark.setChecked(articles.get(position).isBookmarked());
+        bookmarkController.setArticle(articles.get(position));
+        readLaterController.setArticle(articles.get(position));
         return true;
     }
 

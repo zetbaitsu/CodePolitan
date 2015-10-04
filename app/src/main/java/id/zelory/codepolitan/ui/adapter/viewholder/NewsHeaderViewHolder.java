@@ -97,6 +97,8 @@ public class NewsHeaderViewHolder extends BenihHeaderViewHolder implements
         ivReadLater.setOnClickListener(v -> readLaterController.readLater(article));
         ivReadLater.setOnLongClickListener(this::onReadLaterLongClick);
         tvMore.setOnClickListener(v -> BenihBus.pluck().send(new MoreNewsHeaderEvent()));
+        bookmarkController.setArticle(article);
+        readLaterController.setArticle(article);
     }
 
     private boolean onReadLaterLongClick(View view)

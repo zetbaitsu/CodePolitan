@@ -81,6 +81,8 @@ public class OtherArticleItemView implements BookmarkController.Presenter,
         ivReadLater.setImageResource(article.isReadLater() ? R.mipmap.ic_read_later_on : R.mipmap.ic_read_later);
         ivReadLater.setOnClickListener(v -> readLaterController.readLater(article));
         ivReadLater.setOnLongClickListener(this::onReadLaterLongClick);
+        bookmarkController.setArticle(article);
+        readLaterController.setArticle(article);
     }
 
     private boolean onReadLaterLongClick(View view)

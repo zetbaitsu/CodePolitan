@@ -22,9 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.zelory.benih.controller.BenihController;
+import id.zelory.benih.util.BenihBus;
 import id.zelory.benih.util.BenihScheduler;
 import id.zelory.benih.util.BenihUtils;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
+import id.zelory.codepolitan.controller.event.ReadLaterEvent;
 import id.zelory.codepolitan.data.Article;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
@@ -42,10 +44,40 @@ import timber.log.Timber;
 public class ReadLaterController extends BenihController<ReadLaterController.Presenter>
 {
     private List<Article> articles;
+    private Article article;
 
     public ReadLaterController(Presenter presenter)
     {
         super(presenter);
+        BenihBus.pluck()
+                .receive()
+                .subscribe(o -> {
+                    if (o instanceof ReadLaterEvent)
+                    {
+                        onReadLaterEvent((ReadLaterEvent) o);
+                    }
+                }, throwable -> Timber.e(throwable.getMessage()));
+    }
+
+    public void setArticle(Article article)
+    {
+        this.article = article;
+    }
+
+    private void onReadLaterEvent(ReadLaterEvent readLaterEvent)
+    {
+        if (article != null && article.getId() == readLaterEvent.getArticle().getId())
+        {
+            if (readLaterEvent.getArticle().isReadLater() && !article.isReadLater())
+            {
+                article.setReadLater(true);
+                presenter.onReadLater(article);
+            } else if (!readLaterEvent.getArticle().isReadLater() && article.isReadLater())
+            {
+                article.setReadLater(false);
+                presenter.onUnReadLater(article);
+            }
+        }
     }
 
     public void loadReadLaterArticles()
@@ -96,6 +128,7 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
                                            Timber.d(throwable.getMessage());
                                            presenter.showError(new Throwable(ErrorEvent.ON_READ_LATER));
                                            presenter.onUnReadLater(article);
+                                           BenihBus.pluck().send(new ReadLaterEvent(article));
                                        }
                                    });
             } else
@@ -110,6 +143,8 @@ public class ReadLaterController extends BenihController<ReadLaterController.Pre
             DataBaseHelper.pluck().unReadLater(article.getId());
             presenter.onUnReadLater(article);
         }
+
+        BenihBus.pluck().send(new ReadLaterEvent(article));
     }
 
     public void filter(String query)
