@@ -60,6 +60,7 @@ public class WelcomeActivity extends BenihActivity implements ViewPager.OnPageCh
     @Override
     protected void onViewReady(Bundle savedInstanceState)
     {
+        LocalDataManager.setAutoRemoveReadLater(true);
         LocalDataManager.setNotificationActive(true);
         LocalDataManager.setVibrate(true);
         generateFragments();

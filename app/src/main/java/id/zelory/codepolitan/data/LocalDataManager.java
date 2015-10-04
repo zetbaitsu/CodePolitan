@@ -16,6 +16,9 @@
 
 package id.zelory.codepolitan.data;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
@@ -114,7 +117,8 @@ public class LocalDataManager
 
     public static boolean isAutoRemoveReadLater()
     {
-        return BenihPreferenceUtils.getBoolean(CodePolitanApplication.pluck().getApplicationContext(),
-                                               "remove_read_later");
+        Context context = CodePolitanApplication.pluck().getApplicationContext();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Zelory", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("remove_read_later", true);
     }
 }

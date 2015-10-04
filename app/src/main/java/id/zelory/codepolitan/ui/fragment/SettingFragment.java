@@ -49,6 +49,7 @@ import id.zelory.codepolitan.ui.adapter.MenuFollowAdapter;
  */
 public class SettingFragment extends BenihFragment
 {
+    @Bind(R.id.cb_auto_read_later) CheckBox cbAutoRemoveReadLater;
     @Bind(R.id.cb_notification) CheckBox cbNotification;
     @Bind(R.id.cb_vibrate) CheckBox cbVibrate;
 
@@ -61,6 +62,9 @@ public class SettingFragment extends BenihFragment
     @Override
     protected void onViewReady(Bundle bundle)
     {
+        cbAutoRemoveReadLater.setChecked(LocalDataManager.isAutoRemoveReadLater());
+        cbAutoRemoveReadLater.setOnCheckedChangeListener((buttonView, isChecked) ->
+                                                                 LocalDataManager.setAutoRemoveReadLater(isChecked));
         cbVibrate.setChecked(LocalDataManager.isNotificationActive());
         cbNotification.setOnCheckedChangeListener((buttonView, isChecked) -> {
             LocalDataManager.setNotificationActive(isChecked);

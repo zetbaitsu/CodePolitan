@@ -310,11 +310,7 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     {
         if (this.position != position)
         {
-            if (articles.get(this.position).isReadLater())
-            {
-                readLaterController.readLater(articles.get(this.position));
-            }
-
+            removeReadArticle();
             this.position = position;
             menuReadLater.setChecked(articles.get(position).isReadLater());
             menuBookmark.setChecked(articles.get(position).isBookmarked());
@@ -395,10 +391,7 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     @Override
     public void onBackPressed()
     {
-        if (articles.get(position).isReadLater())
-        {
-            readLaterController.readLater(articles.get(position));
-        }
+        removeReadArticle();
 
         if (type == TYPE_FROM_NOTIF)
         {
@@ -420,5 +413,13 @@ public class ReadActivity extends BenihActivity implements ViewPager.OnPageChang
     {
         super.onSaveInstanceState(outState, outPersistentState);
         outState.putInt(KEY_TYPE, type);
+    }
+
+    private void removeReadArticle()
+    {
+        if (LocalDataManager.isAutoRemoveReadLater() && articles.get(position).isReadLater())
+        {
+            readLaterController.readLater(articles.get(position));
+        }
     }
 }
