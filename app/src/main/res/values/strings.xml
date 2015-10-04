@@ -16,8 +16,6 @@
 
 <resources>
     <string name="app_name">CodePolitan</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="search">Search</string>
     <string name="news">News</string>
@@ -29,7 +27,7 @@
     <string name="retry">Retry</string>
     <string name="set_articles">Your Articles</string>
     <string name="set_articles_desc">We just provide articles is you want to see by follow specific category and tag.</string>
-    <string name="not_just_news">Look with Different Perspective</string>
+    <string name="not_just_news">Different Perspective</string>
     <string name="not_just_news_desc">different type will be displayed with different way.</string>
     <string name="read_offline">Anywhere, Anytime</string>
     <string name="read_offline_desc">not just save the link, you can read article in offline without internet connection.</string>
@@ -75,7 +73,7 @@
     <string name="zetra_desc">Dalam pembuatan CodePolitan Android apps, Zetra berperan sebagai programmer tunggal.</string>
     <string name="rya">Rya Meyvriska</string>
     <string name="designer">Designer</string>
-    <string name="rya_desc">Dalam pembuatan CodePolitan Android apps, Zetra berperan sebagai UX Designer tunggal.</string>
+    <string name="rya_desc">Dalam pembuatan CodePolitan Android apps, Rya Meyvrsika berperan sebagai UX Designer tunggal.</string>
     <string name="feedback_hint">Share your experience</string>
     <string name="skip">Skip</string>
 </resources>
