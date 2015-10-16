@@ -24,7 +24,7 @@ import butterknife.Bind;
 import id.zelory.benih.adapter.viewholder.BenihItemViewHolder;
 import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.model.Category;
 
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;

@@ -31,7 +31,7 @@ import id.zelory.codepolitan.CodePolitanApplication;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
 import id.zelory.codepolitan.controller.ReadLaterController;
-import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.model.Article;
 import id.zelory.codepolitan.ui.view.CodePolitanImageView;
 
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;

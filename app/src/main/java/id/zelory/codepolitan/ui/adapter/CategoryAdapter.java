@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 
 import id.zelory.benih.adapter.BenihHeaderAdapter;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.model.Category;
 import id.zelory.codepolitan.ui.adapter.viewholder.CategoryHeaderViewHolder;
 import id.zelory.codepolitan.ui.adapter.viewholder.CategoryItemViewHolder;
 

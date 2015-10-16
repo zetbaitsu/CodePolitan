@@ -19,9 +19,9 @@ package id.zelory.codepolitan.data.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import id.zelory.codepolitan.data.Article;
-import id.zelory.codepolitan.data.Category;
-import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.data.model.Article;
+import id.zelory.codepolitan.data.model.Category;
+import id.zelory.codepolitan.data.model.Tag;
 
 /**
  * Created on : August 18, 2015

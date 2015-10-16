@@ -25,7 +25,7 @@ import id.zelory.benih.controller.BenihController;
 import id.zelory.benih.util.BenihScheduler;
 import id.zelory.benih.util.BenihWorker;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
-import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.data.model.Tag;
 import id.zelory.codepolitan.data.api.CodePolitanApi;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
 import rx.Observable;

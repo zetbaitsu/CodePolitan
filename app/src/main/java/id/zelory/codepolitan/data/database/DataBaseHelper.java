@@ -27,9 +27,9 @@ import java.util.List;
 import id.zelory.benih.util.BenihScheduler;
 import id.zelory.codepolitan.BuildConfig;
 import id.zelory.codepolitan.CodePolitanApplication;
-import id.zelory.codepolitan.data.Article;
-import id.zelory.codepolitan.data.Category;
-import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.data.model.Article;
+import id.zelory.codepolitan.data.model.Category;
+import id.zelory.codepolitan.data.model.Tag;
 import rx.Observable;
 
 /**

@@ -29,7 +29,7 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.event.MoreNewsHeaderEvent;
 import id.zelory.codepolitan.controller.event.NewsHeaderEvent;
 import id.zelory.codepolitan.controller.event.SearchFooterEvent;
-import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.model.Article;
 import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.ReadActivity;

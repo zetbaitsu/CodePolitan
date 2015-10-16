@@ -26,6 +26,7 @@ import java.util.List;
 import id.zelory.benih.util.BenihPreferenceUtils;
 import id.zelory.benih.util.Bson;
 import id.zelory.codepolitan.CodePolitanApplication;
+import id.zelory.codepolitan.data.model.Article;
 
 /**
  * Created on : September 28, 2015

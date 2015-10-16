@@ -34,7 +34,7 @@ import id.zelory.benih.util.KeyboardUtil;
 import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.BookmarkController;
-import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.model.Article;
 import id.zelory.codepolitan.data.LocalDataManager;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.GeneralArticleAdapter;

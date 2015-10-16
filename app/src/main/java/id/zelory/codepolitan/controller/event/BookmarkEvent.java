@@ -16,7 +16,7 @@
 
 package id.zelory.codepolitan.controller.event;
 
-import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.model.Article;
 
 /**
  * Created on : October 04, 2015

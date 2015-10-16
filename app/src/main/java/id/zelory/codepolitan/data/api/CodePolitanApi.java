@@ -17,9 +17,9 @@
 package id.zelory.codepolitan.data.api;
 
 import id.zelory.benih.network.BenihServiceGenerator;
-import id.zelory.codepolitan.data.Article;
-import id.zelory.codepolitan.data.Category;
-import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.data.model.Article;
+import id.zelory.codepolitan.data.model.Category;
+import id.zelory.codepolitan.data.model.Tag;
 import id.zelory.codepolitan.data.api.response.ListResponse;
 import id.zelory.codepolitan.data.api.response.ObjectResponse;
 import retrofit.http.Field;

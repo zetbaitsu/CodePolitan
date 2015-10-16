@@ -35,7 +35,7 @@ import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
-import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.model.Article;
 import id.zelory.codepolitan.data.LocalDataManager;
 import timber.log.Timber;
 

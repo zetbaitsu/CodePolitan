@@ -27,7 +27,7 @@ import id.zelory.benih.util.BenihScheduler;
 import id.zelory.benih.util.BenihUtils;
 import id.zelory.codepolitan.controller.event.BookmarkEvent;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
-import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.model.Article;
 import id.zelory.codepolitan.data.database.DataBaseHelper;
 import rx.Observable;
 import timber.log.Timber;

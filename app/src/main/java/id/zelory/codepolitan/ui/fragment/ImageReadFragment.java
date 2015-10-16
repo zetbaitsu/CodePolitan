@@ -43,8 +43,8 @@ import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.ArticleController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
 import id.zelory.codepolitan.controller.util.ArticleUtil;
-import id.zelory.codepolitan.data.Article;
-import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.data.model.Article;
+import id.zelory.codepolitan.data.model.Tag;
 import id.zelory.codepolitan.ui.ListArticleActivity;
 import id.zelory.codepolitan.ui.view.TouchImageView;
 

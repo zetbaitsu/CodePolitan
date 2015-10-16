@@ -39,8 +39,8 @@ import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.FollowController;
 import id.zelory.codepolitan.controller.TagController;
-import id.zelory.codepolitan.data.Category;
-import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.data.model.Category;
+import id.zelory.codepolitan.data.model.Tag;
 import id.zelory.codepolitan.ui.MainActivity;
 import id.zelory.codepolitan.ui.adapter.ChooseTagAdapter;
 

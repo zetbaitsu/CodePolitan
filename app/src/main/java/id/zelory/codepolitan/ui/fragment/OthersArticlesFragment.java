@@ -38,10 +38,10 @@ import id.zelory.benih.view.BenihRecyclerView;
 import id.zelory.codepolitan.R;
 import id.zelory.codepolitan.controller.RandomContentController;
 import id.zelory.codepolitan.controller.event.ErrorEvent;
-import id.zelory.codepolitan.data.Article;
-import id.zelory.codepolitan.data.Category;
+import id.zelory.codepolitan.data.model.Article;
+import id.zelory.codepolitan.data.model.Category;
 import id.zelory.codepolitan.data.LocalDataManager;
-import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.data.model.Tag;
 import id.zelory.codepolitan.ui.ReadActivity;
 import id.zelory.codepolitan.ui.adapter.GeneralArticleAdapter;
 

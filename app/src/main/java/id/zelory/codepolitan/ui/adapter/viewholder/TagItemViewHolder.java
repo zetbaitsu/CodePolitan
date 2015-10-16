@@ -22,7 +22,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import id.zelory.benih.adapter.viewholder.BenihItemViewHolder;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.data.model.Tag;
 
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;

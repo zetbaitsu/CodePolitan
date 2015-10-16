@@ -19,7 +19,7 @@ package id.zelory.codepolitan.ui.adapter.viewholder;
 import android.view.View;
 
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.model.Article;
 
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
 import static id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;

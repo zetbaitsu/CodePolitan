@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package id.zelory.codepolitan.data;
+package id.zelory.codepolitan.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -20,7 +20,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 
 import id.zelory.benih.view.BenihRecyclerListener;
-import id.zelory.codepolitan.data.Tag;
+import id.zelory.codepolitan.data.model.Tag;
 
 /**
  * Created on : August 30, 2015

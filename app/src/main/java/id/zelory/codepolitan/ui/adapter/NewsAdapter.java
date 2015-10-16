@@ -24,7 +24,7 @@ import android.view.ViewGroup;
 import id.zelory.benih.adapter.BenihHeaderAdapter;
 import id.zelory.benih.adapter.viewholder.BenihItemViewHolder;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.model.Article;
 import id.zelory.codepolitan.ui.adapter.viewholder.NewsHeaderViewHolder;
 import id.zelory.codepolitan.ui.adapter.viewholder.NewsItemViewHolder;
 import id.zelory.codepolitan.ui.adapter.viewholder.SearchFooterViewHolder;

@@ -23,7 +23,7 @@ import butterknife.Bind;
 import id.zelory.benih.adapter.BenihRecyclerAdapter.OnItemClickListener;
 import id.zelory.benih.adapter.BenihRecyclerAdapter.OnLongItemClickListener;
 import id.zelory.codepolitan.R;
-import id.zelory.codepolitan.data.Article;
+import id.zelory.codepolitan.data.model.Article;
 
 /**
  * Created on : July 28, 2015
